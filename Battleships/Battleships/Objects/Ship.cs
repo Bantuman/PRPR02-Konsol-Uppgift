@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Battleships
+namespace Battleships.Objects
 {
-    class Ship : IObject, ICollidable
+    abstract class Ship : IObject
     {
+        private Turret[] turrets;
+        private float energy;
+        private float shootingDelay;
+        private float health;
+
+        public abstract void Act();
     }
 }

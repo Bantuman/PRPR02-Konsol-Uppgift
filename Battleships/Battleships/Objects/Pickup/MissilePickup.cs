@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Battleships
+namespace Battleships.Objects.Pickup
 {
-    class HealthPickup : Pickup
+    class MissilePickup : Pickup
     {
     }
 }

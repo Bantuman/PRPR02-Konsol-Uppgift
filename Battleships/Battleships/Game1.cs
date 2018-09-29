@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Battleships.Objects;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,9 +10,13 @@ namespace Battleships
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+
+        private IObject[] ships;
+        private const float actionInterval = 1;
+        private int elapsedActionTime;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);

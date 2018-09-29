@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Battleships
+namespace Battleships.Objects
 {
     internal interface ICollidable
     {
-        event EventHandler OnCollisionEnter;
-        event EventHandler OnCollisionExit;
-        event EventHandler OnCollisionStay;
-
-        int ColliderType { get; set; }
+        Collider Collider { get; set; }
     }
 }
