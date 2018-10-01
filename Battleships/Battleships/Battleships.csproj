@@ -49,6 +49,7 @@
     <Compile Include="Libraries\MathLibrary.cs" />
     <Compile Include="Objects\ICollidable.cs" />
     <Compile Include="Objects\AIPlayer.cs" />
+    <Compile Include="Objects\ILayerComparable.cs" />
     <Compile Include="Objects\Projectile\Bolt.cs" />
     <Compile Include="Objects\Collider.cs" />
     <Compile Include="Objects\Projectile\Missile.cs" />
