@@ -7,5 +7,19 @@ namespace Battleships.Objects
 {
     class Turret
     {
+        private float rpm;
+
+        public int FireInterval
+        {
+            get => default(int);
+            set
+            {
+            }
+        }
+
+        public void Fire()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

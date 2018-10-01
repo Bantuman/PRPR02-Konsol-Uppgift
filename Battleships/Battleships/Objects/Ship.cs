@@ -9,7 +9,6 @@ namespace Battleships.Objects
     {
         private Turret[] turrets;
         private float energy;
-        private float shootingDelay;
         private float health;
 
         public abstract void Act();

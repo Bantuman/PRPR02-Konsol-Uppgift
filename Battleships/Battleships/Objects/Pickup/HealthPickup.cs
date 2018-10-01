@@ -7,5 +7,9 @@ namespace Battleships.Objects.Pickup
 {
     class HealthPickup : Pickup
     {
+        public override void PickUp(ref IObject obj)
+        {
+
+        }
     }
 }

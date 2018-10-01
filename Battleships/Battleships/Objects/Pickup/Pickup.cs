@@ -7,6 +7,6 @@ namespace Battleships.Objects.Pickup
 {
     abstract class Pickup : IObject
     {
-        public event EventHandler OnPickedUp;
+        public abstract void PickUp(ref IObject obj);
     }
 }

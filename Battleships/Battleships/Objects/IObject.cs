@@ -11,5 +11,8 @@ namespace Battleships.Objects
         event EventHandler OnDestroy;
 
         Rectangle Rectangle { get; set; }
+
+        void Update();
+        void Draw();
     }
 }
