@@ -2,6 +2,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 
 namespace Battleships
 {
@@ -12,15 +16,23 @@ namespace Battleships
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-
-        private IObject[] ships;
+        private ObservableCollection<IObject> objects;
+        // private ObservableCollection<IObject> objects;
+        
         private const float actionInterval = 1;
-        private int elapsedActionTime;
+        private float elapsedActionTime;
 
         public Game1()
         {
+           
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            objects = new ObservableCollection<IObject>
+            {
+                // add walls maybe L0l
+            };
+            objects.CollectionChanged += OnObjectsChanged;
         }
 
         /// <summary>
@@ -58,6 +70,15 @@ namespace Battleships
         }
 
         /// <summary>
+        /// Listens for when objects are added, removed or changed.
+        /// </summary>
+        /// <param name="sender">List of active objects</param>
+        private void OnObjectsChanged(object sender, NotifyCollectionChangedEventArgs a)
+        {
+            objects = new ObservableCollection<IObject>(objects.OrderBy(i => new LayerComparer()));
+        }
+
+        /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
@@ -67,8 +88,25 @@ namespace Battleships
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
+            
+            // Calculates when to run the ships' action.
+            elapsedActionTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            bool runAction = elapsedActionTime >= actionInterval;
+            if (runAction)
+            {
+                elapsedActionTime -= actionInterval;
+            }
+            // Updates all active objects.
+            for (int i = objects.Count - 1; i >= 0; --i)
+            {
+                IObject obj = objects[i];
+                obj.Update(gameTime);
+                if (runAction && obj is Ship)
+                {
+                    (obj as Ship).Act();
+                }
+            }
+           
             base.Update(gameTime);
         }
 
@@ -79,9 +117,15 @@ namespace Battleships
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
+            // Draws all active objects.
+            for (int i = objects.Count - 1; i >= 0; --i)
+            {
+                objects[i].Draw(spriteBatch);
+            }
 
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
