@@ -8,9 +8,10 @@ namespace Battleships.Objects
 {
     interface IObject
     {
-        event EventHandler OnDestroy;
+        Vector2 Position { get; set; }
+        Rectangle Rectangle { get; }
 
-        Rectangle Rectangle { get; set; }
+        event EventHandler OnDestroy;
 
         void Update();
         void Draw();
