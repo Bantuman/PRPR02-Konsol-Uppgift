@@ -10,26 +10,28 @@ namespace Battleships.Libraries
 {
     static class TextureLibrary
     {
-        private static string TexturePath => Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\Textures\\";
-
-        private static Dictionary<string, Texture> textures;
+        private static Dictionary<string, Texture2D> textures;
 
         // Format: { Location, Key }
         private static string[,] texturesToLoad = new string[,]
         {
-            { "Ship.png", "Ship" }
+            { "Ship", "Ship" }
         };
 
-        public static Texture GetTexture(string key)
+        public static Texture2D GetTexture(string key)
         {
             return textures[key];
         }
 
         public static void LoadTextures(ContentManager contentManager)
         {
-            for(int i = 0; i < texturesToLoad.GetLength(1); ++i)
+            if (textures == null)
             {
-                textures[texturesToLoad[1, i]] = contentManager.Load<Texture2D>(TexturePath + texturesToLoad[0, i]);
+                textures = new Dictionary<string, Texture2D>();
+            }
+            for(int i = 0; i < texturesToLoad.GetLength(0); ++i)
+            {
+                textures[texturesToLoad[i, 1]] = contentManager.Load<Texture2D>(texturesToLoad[i, 0]);
             }
         }
     }
