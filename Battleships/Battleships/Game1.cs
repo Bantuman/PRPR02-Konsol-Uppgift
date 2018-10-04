@@ -19,6 +19,7 @@ namespace Battleships
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private ObservableCollection<IObject> objects;
+        private Camera camera;
 
         private const float actionInterval = 1;
         private float elapsedActionTime;
@@ -29,6 +30,7 @@ namespace Battleships
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+            camera = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
             objects = new ObservableCollection<IObject>
             {
                 new AIPlayer(new Vector2(100, 5))
