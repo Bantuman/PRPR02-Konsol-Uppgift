@@ -21,6 +21,7 @@ namespace Battleships
         private List<IObject>         objects;
         private Camera                camera;
         private Vector2               baseDimension;
+        private Texture2D             backgroundTexture;
 
         private const float actionInterval = 2;
         private float elapsedActionTime;
@@ -72,6 +73,8 @@ namespace Battleships
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             TextureLibrary.LoadTextures(Content);
+            TextureLibrary.BuildTextures(GraphicsDevice, Window.ClientBounds.Size);
+            backgroundTexture = TextureLibrary.GetTexture("background");
         }
 
         /// <summary>
@@ -100,7 +103,10 @@ namespace Battleships
                     ship.Act();
                 }
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.F))
+                camera.ShakeIntensity = 1;
 
+            camera.ShakeIntensity = MathHelper.Lerp(camera.ShakeIntensity, 0, 0.1f);
             base.Update(gameTime);
         }
 
@@ -111,7 +117,13 @@ namespace Battleships
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Magenta);
-            spriteBatch.Begin(transformMatrix: camera.TranslationMatrix);
+
+            spriteBatch.Begin(transformMatrix: camera.TranslationMatrix, blendState: BlendState.AlphaBlend);
+
+            
+            #pragma warning disable CS0618 // Type or member is obsolete
+            spriteBatch.Draw(backgroundTexture, position: -camera.ShakeOffset, origin: backgroundTexture.Bounds.Size.ToVector2() / 2);
+            #pragma warning restore CS0618 // Type or member is obsolete
 
             // Draws all active objects.
             for (int i = objects.Count - 1; i >= 0; --i)

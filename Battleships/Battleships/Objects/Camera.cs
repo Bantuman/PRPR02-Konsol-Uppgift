@@ -12,13 +12,13 @@ namespace Battleships.Objects
         public Vector2 Zoom { get => zoom; set => zoom = new Vector2(MathHelper.Clamp(value.X, 0.1f, 2), MathHelper.Clamp(value.Y, 0.1f, 2)); }
         public float Rotation { get; private set; }    = 0;
         public float ShakeIntensity { get; set; }      = 0;
+        public Vector2 ShakeOffset { get; set; }       = new Vector2(0, 0);
 
         public Vector2 Position { get; private set; }
         public int ViewportWidth { get; set; }
         public int ViewportHeight { get; set; }
 
         private Random randomNumberGenerator = new Random();
-        private Vector2 shakeOffset          = new Vector2(0, 0);
         private Vector2 zoom                 = new Vector2(1, 1);
         
         public Camera(int viewportWidth, int viewportHeight)
@@ -44,7 +44,7 @@ namespace Battleships.Objects
                    Matrix.CreateRotationZ(Rotation) *
                    Matrix.CreateScale(new Vector3(Zoom, 1)) *
                    Matrix.CreateTranslation(new Vector3(ViewportCenter, 0)) *
-                   Matrix.CreateTranslation(new Vector3(shakeOffset.X, shakeOffset.Y, 0));
+                   Matrix.CreateTranslation(new Vector3(ShakeOffset.X, ShakeOffset.Y, 0));
         }
 
         // Translates the camera by delta vector
@@ -62,7 +62,7 @@ namespace Battleships.Objects
         {
             float randomX = (float)(randomNumberGenerator.NextDouble() * 2 - 1);
             float randomY = (float)(randomNumberGenerator.NextDouble() * 2 - 1);
-            shakeOffset = new Vector2(randomX * ShakeMagnitude, randomY * ShakeMagnitude) * ShakeIntensity;
+            ShakeOffset = new Vector2(randomX * ShakeMagnitude, randomY * ShakeMagnitude) * ShakeIntensity;
         }
     }
 }
