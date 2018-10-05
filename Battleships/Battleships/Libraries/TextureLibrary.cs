@@ -1,13 +1,20 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Battleships.Libraries
 {
     static class TextureLibrary
     {
         private static Dictionary<string, Texture2D> textures;
-
+        
+        private static Color ColorFromFloat(float value)
+        {
+            return new Color(value, value, value);
+        }
         // Format: { Location, Key }
         private static string[,] texturesToLoad = new string[,]
         {
@@ -17,6 +24,14 @@ namespace Battleships.Libraries
         public static Texture2D GetTexture(string key)
         {
             return textures[key];
+        }
+
+        public static void BuildTextures(GraphicsDevice graphicsDevice, Point viewport)
+        {
+            Random randomNumberGenerator = new Random();
+            // Generates galaxy texture;
+            textures["background"] = new Texture2D(graphicsDevice, viewport.X * 2, viewport.Y * 2);
+            textures["background"].SetData(Enumerable.Range(0, (viewport.X * 2) * (viewport.Y * 2)).Select(i => randomNumberGenerator.NextDouble() < 0.01f ? ColorFromFloat((float)randomNumberGenerator.NextDouble()) : Color.Black).ToArray());
         }
 
         public static void LoadTextures(ContentManager contentManager)
