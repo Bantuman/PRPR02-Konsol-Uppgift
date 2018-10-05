@@ -23,7 +23,7 @@ namespace Battleships
         private Vector2               baseDimension;
         private Texture2D             backgroundTexture;
 
-        private const float actionInterval = 2;
+        private const float actionInterval = 0.01f;
         private float elapsedActionTime;
 
         public Game1()

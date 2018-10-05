@@ -19,19 +19,13 @@ namespace Battleships.Objects
             Position = position;
             Point size = new Point(70, 70);
 
-            Rectangle    = new Rectangle(position.ToPoint(), size);
-            Acceleration = new Vector2(100, 0);
+            Rectangle = new Rectangle(position.ToPoint(), size);
         }
 
         public abstract void Act();
 
         public sealed override void Update(GameTime gameTime) 
         {
-            if(Math.Abs(Velocity.X) > 100)
-            {
-                Acceleration = -Acceleration;
-            }
-
             base.Update(gameTime);
         }
     }

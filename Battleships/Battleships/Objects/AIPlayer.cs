@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,11 @@ namespace Battleships.Objects
     {
         public AIPlayer(Vector2 position) : base(position)
         {
-            
         }
 
         public override void Act()
         {
-            // Act.
+            Acceleration = Vector2.Normalize(Mouse.GetState().Position.ToVector2() - Position) * 100f;
         }
     }
 }
