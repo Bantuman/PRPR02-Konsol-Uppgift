@@ -9,6 +9,10 @@ namespace Battleships.Objects.Pickup
 {
     abstract class Pickup : Object
     {
+        public Pickup(Texture2D texture) : base(texture)
+        {
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Battleships.Libraries;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,6 +10,11 @@ namespace Battleships.Objects
 {
     abstract class Object : IObject
     {
+        public Object(Texture2D texture)
+        {
+            this.texture = texture;
+        }
+
         public Vector2 Position
         {
             get => position;
@@ -21,32 +27,34 @@ namespace Battleships.Objects
         public Rectangle Rectangle { get => rectangle; protected set => rectangle = value; }
         public float Layer         { get; set; }
         public event EventHandler OnDestroy;
-        
+
+        protected Vector2 Velocity     { get; private set; }
+        protected Vector2 Acceleration { get; set; }
+
+        private float Rotation => MathLibrary.Direction(Acceleration);
         private Vector2 position;
         private Rectangle rectangle;
-        private Vector2 acceleration;
-        private Vector2 velocity;
+        private Texture2D texture;
 
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, Rectangle, null, Color.White, Rotation, texture.Bounds.Size.ToVector2() / 2, SpriteEffects.None, Layer);
+        }
+
         public virtual void Update(GameTime gameTime)
         {
             ApplyAcceleration(gameTime);
             ApplyVelocity(gameTime);
         }
 
-        protected virtual void SetAcceleration(Vector2 value)
-        {
-            acceleration = value;
-        }
-
         protected void ApplyAcceleration(GameTime gameTime)
         {
-            velocity += acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Velocity += Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         protected void ApplyVelocity(GameTime gameTime)
         {
-            Position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
     }
 }

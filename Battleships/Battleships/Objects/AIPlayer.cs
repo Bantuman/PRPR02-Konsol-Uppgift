@@ -10,7 +10,7 @@ namespace Battleships.Objects
     {
         public AIPlayer(Vector2 position) : base(position)
         {
-
+            
         }
 
         public override void Act()

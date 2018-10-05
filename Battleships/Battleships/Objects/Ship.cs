@@ -13,33 +13,26 @@ namespace Battleships.Objects
         private Turret[] turrets;
         private float energy;
         private float health;
-        private Texture2D texture;
 
-        public Ship(Vector2 position)
+        public Ship(Vector2 position) : base(TextureLibrary.GetTexture("Ship"))
         {
             Position = position;
             Point size = new Point(70, 70);
 
-            Rectangle = new Rectangle(position.ToPoint(), size);
-            texture   = TextureLibrary.GetTexture("Ship");
-        }
-
-        protected sealed override void SetAcceleration(Vector2 value)
-        {
-            base.SetAcceleration(value);
+            Rectangle    = new Rectangle(position.ToPoint(), size);
+            Acceleration = new Vector2(100, 0);
         }
 
         public abstract void Act();
 
         public sealed override void Update(GameTime gameTime) 
         {
-            base.Update(gameTime);
-        }
+            if(Math.Abs(Velocity.X) > 100)
+            {
+                Acceleration = -Acceleration;
+            }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, Rectangle, null, Color.White, 0, texture.Bounds.Size.ToVector2() / 2, SpriteEffects.None, Layer);
-            //throw new NotImplementedException();
+            base.Update(gameTime);
         }
     }
 }

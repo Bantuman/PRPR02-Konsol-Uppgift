@@ -11,6 +11,10 @@ namespace Battleships.Objects.Projectile
     {
         private float damage;
 
+        public Projectile(Texture2D texture) : base(texture)
+        {
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
