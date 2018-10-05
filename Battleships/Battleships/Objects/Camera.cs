@@ -9,23 +9,27 @@ namespace Battleships.Objects
     class Camera
     {
         public Vector2 Position { get; private set; }
-        public float ShakeMagnitude { get; private set; } = 4;
-        public float Zoom { get => zoom; set => zoom = MathHelper.Clamp(value, 0.1f, 2); }
+        public float ShakeMagnitude { get; set; } = 4;
+        public Vector2 Zoom { get => zoom; set => zoom = new Vector2(MathHelper.Clamp(value.X, 0.1f, 2), MathHelper.Clamp(value.Y, 0.1f, 2)); }
         public float Rotation { get; private set; } = 0;
-        public float ShakeIntensity { get; private set; } = 0;
+        public float ShakeIntensity { get; set; } = 0;
         public int ViewportWidth { get; set; }
         public int ViewportHeight { get; set; }
 
-        private float zoom = 1;
+        private Vector2 zoom = new Vector2(1, 1);
         private Vector2 shakeOffset = new Vector2(0, 0);
         private Random randomNumberGenerator = new Random();
 
         public Camera(int viewportWidth, int viewportHeight)
         {
+            UpdateViewport(viewportWidth, viewportHeight);
+        }
+
+        public void UpdateViewport(int viewportWidth, int viewportHeight)
+        {
             ViewportHeight = viewportHeight;
             ViewportWidth = viewportWidth;
         }
-
         // Calculates the center of the screen
         public Vector2 ViewportCenter
         {
@@ -37,15 +41,16 @@ namespace Battleships.Objects
         {
             get => Matrix.CreateTranslation(-(int)Position.X, -(int)Position.Y, 0) *
                    Matrix.CreateRotationZ(Rotation) *
-                   Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
-                   Matrix.CreateTranslation(new Vector3(ViewportCenter, 0));
+                   Matrix.CreateScale(new Vector3(Zoom, 1)) *
+                   Matrix.CreateTranslation(new Vector3(ViewportCenter, 0)) *
+                   Matrix.CreateTranslation(new Vector3(shakeOffset.X, shakeOffset.Y, 0));
         }
 
         // Translates the camera by delta vector
         public void TranslateCamera(Vector2 delta) => Position += delta;
 
         // Increases or decreases zoom
-        public void AdjustZoom(float amount) => Zoom += amount;
+        public void AdjustZoom(Vector2 amount) => Zoom += amount;
 
         // Converts from Word Coords to Screen Coord and vice versa
         public Vector2 WorldToScreen(Vector2 worldPosition) => Vector2.Transform(worldPosition, TranslationMatrix);
