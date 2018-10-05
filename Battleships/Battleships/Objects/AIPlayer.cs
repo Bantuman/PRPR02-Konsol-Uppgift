@@ -15,7 +15,7 @@ namespace Battleships.Objects
 
         public override void Act()
         {
-            //throw new System.NotImplementedException();
+            // Act.
         }
     }
 }

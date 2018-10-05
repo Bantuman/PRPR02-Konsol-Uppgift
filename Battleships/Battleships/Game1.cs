@@ -17,24 +17,20 @@ namespace Battleships
     public class Game1 : Game
     {
         private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private ObservableCollection<IObject> objects;
+        private SpriteBatch           spriteBatch;
+        private List<IObject>         objects;
 
         private const float actionInterval = 1;
         private float elapsedActionTime;
 
         public Game1()
         {
-            IsMouseVisible = true;
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Window.AllowUserResizing = true;
+            IsMouseVisible           = true;
+            graphics                 = new GraphicsDeviceManager(this);
+            Content.RootDirectory    = "Content";
 
-            objects = new ObservableCollection<IObject>
-            {
-                new AIPlayer(new Vector2(100, 5))
-                // add walls maybe L0l
-            };
-            objects.CollectionChanged += OnObjectsChanged;
+            objects = new List<IObject>();
         }
 
         /// <summary>
@@ -45,9 +41,13 @@ namespace Battleships
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
+
+            Vector2 playerOneStartPosition = new Vector2(100, 100),
+                    playerTwoStartPosition = new Vector2(700, 400);
+
+            objects.Add(new AIPlayer(playerOneStartPosition));
+            objects.Add(new AIPlayer(playerTwoStartPosition));
         }
 
         /// <summary>
@@ -63,34 +63,12 @@ namespace Battleships
         }
 
         /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
-
-        /// <summary>
-        /// Listens for when objects are added, removed or changed.
-        /// </summary>
-        /// <param name="sender">List of active objects.</param>
-        private void OnObjectsChanged(object sender, NotifyCollectionChangedEventArgs a)
-        {
-            objects = new ObservableCollection<IObject>(objects.OrderBy(i => i.Layer));
-        }
-
-        /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-
             // Calculates when to run the ships' action.
             elapsedActionTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             bool runAction = elapsedActionTime >= actionInterval;
@@ -103,9 +81,9 @@ namespace Battleships
             {
                 IObject obj = objects[i];
                 obj.Update(gameTime);
-                if (runAction && obj is Ship)
+                if (runAction && obj is Ship ship)
                 {
-                    (obj as Ship).Act();
+                    ship.Act();
                 }
             }
 
@@ -118,7 +96,7 @@ namespace Battleships
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Magenta);
             spriteBatch.Begin();
 
             // Draws all active objects.
