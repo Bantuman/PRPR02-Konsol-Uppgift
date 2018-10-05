@@ -19,6 +19,7 @@ namespace Battleships
         private GraphicsDeviceManager graphics;
         private SpriteBatch           spriteBatch;
         private List<IObject>         objects;
+        private Camera                camera;
 
         private const float actionInterval = 1;
         private float elapsedActionTime;
@@ -31,6 +32,7 @@ namespace Battleships
             Content.RootDirectory    = "Content";
 
             objects = new List<IObject>();
+            camera = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
         }
 
         /// <summary>
