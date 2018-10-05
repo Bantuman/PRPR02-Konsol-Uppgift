@@ -32,8 +32,8 @@ namespace Battleships
             graphics                 = new GraphicsDeviceManager(this);
             Content.RootDirectory    = "Content";
 
-            objects = new List<IObject>();
-            camera = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            objects       = new List<IObject>();
+            camera        = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
             baseDimension = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
             Window.ClientSizeChanged += Window_ClientSizeChanged;

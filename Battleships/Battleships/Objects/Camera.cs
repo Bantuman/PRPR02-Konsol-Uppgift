@@ -8,18 +8,19 @@ namespace Battleships.Objects
 {
     class Camera
     {
-        public Vector2 Position { get; private set; }
-        public float ShakeMagnitude { get; set; } = 4;
+        public float ShakeMagnitude { get; set; }      = 4;
         public Vector2 Zoom { get => zoom; set => zoom = new Vector2(MathHelper.Clamp(value.X, 0.1f, 2), MathHelper.Clamp(value.Y, 0.1f, 2)); }
-        public float Rotation { get; private set; } = 0;
-        public float ShakeIntensity { get; set; } = 0;
+        public float Rotation { get; private set; }    = 0;
+        public float ShakeIntensity { get; set; }      = 0;
+
+        public Vector2 Position { get; private set; }
         public int ViewportWidth { get; set; }
         public int ViewportHeight { get; set; }
 
-        private Vector2 zoom = new Vector2(1, 1);
-        private Vector2 shakeOffset = new Vector2(0, 0);
         private Random randomNumberGenerator = new Random();
-
+        private Vector2 shakeOffset          = new Vector2(0, 0);
+        private Vector2 zoom                 = new Vector2(1, 1);
+        
         public Camera(int viewportWidth, int viewportHeight)
         {
             UpdateViewport(viewportWidth, viewportHeight);
@@ -28,7 +29,7 @@ namespace Battleships.Objects
         public void UpdateViewport(int viewportWidth, int viewportHeight)
         {
             ViewportHeight = viewportHeight;
-            ViewportWidth = viewportWidth;
+            ViewportWidth  = viewportWidth;
         }
         // Calculates the center of the screen
         public Vector2 ViewportCenter
@@ -53,7 +54,7 @@ namespace Battleships.Objects
         public void AdjustZoom(Vector2 amount) => Zoom += amount;
 
         // Converts from Word Coords to Screen Coord and vice versa
-        public Vector2 WorldToScreen(Vector2 worldPosition) => Vector2.Transform(worldPosition, TranslationMatrix);
+        public Vector2 WorldToScreen(Vector2 worldPosition)  => Vector2.Transform(worldPosition, TranslationMatrix);
         public Vector2 ScreenToWorld(Vector2 screenPosition) => Vector2.Transform(screenPosition, Matrix.Invert(TranslationMatrix));
 
         // Updates camera shake
