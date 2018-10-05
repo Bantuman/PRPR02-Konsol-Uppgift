@@ -30,8 +30,8 @@ namespace Battleships.Libraries
         {
             // Generates galaxy texture
             Random randomNumberGenerator = new Random();
-            textures["background"] = new Texture2D(graphicsDevice, viewport.X * 2, viewport.Y * 2);
-            textures["background"].SetData(Enumerable.Range(0, (viewport.X * 2) * (viewport.Y * 2)).Select(i => randomNumberGenerator.NextDouble() < 0.01f ? ColorFromFloat((float)randomNumberGenerator.NextDouble()) : Color.Black).ToArray());
+            textures["background"] = new Texture2D(graphicsDevice, viewport.X * 3, viewport.Y * 3);
+            textures["background"].SetData(Enumerable.Range(0, (viewport.X * 3) * (viewport.Y * 3)).Select(i => randomNumberGenerator.NextDouble() < 0.01f ? ColorFromFloat((float)randomNumberGenerator.NextDouble()) : Color.Black).ToArray());
         }
 
         public static void LoadTextures(ContentManager contentManager)

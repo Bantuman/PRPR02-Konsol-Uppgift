@@ -118,19 +118,18 @@ namespace Battleships
         {
             GraphicsDevice.Clear(Color.Magenta);
 
-            spriteBatch.Begin(transformMatrix: camera.TranslationMatrix, blendState: BlendState.AlphaBlend);
-
-            
+            spriteBatch.Begin();
             #pragma warning disable CS0618 // Type or member is obsolete
-            spriteBatch.Draw(backgroundTexture, position: -camera.ShakeOffset, origin: backgroundTexture.Bounds.Size.ToVector2() / 2);
+            spriteBatch.Draw(backgroundTexture, position: Vector2.Zero, sourceRectangle: new Rectangle(Point.Zero, Window.ClientBounds.Size));
             #pragma warning restore CS0618 // Type or member is obsolete
+            spriteBatch.End();
 
+            spriteBatch.Begin(transformMatrix: camera.TranslationMatrix, blendState: BlendState.AlphaBlend);
             // Draws all active objects.
             for (int i = objects.Count - 1; i >= 0; --i)
             {
                 objects[i].Draw(spriteBatch);
             }
-
             spriteBatch.End();
             base.Draw(gameTime);
         }
