@@ -8,15 +8,15 @@ namespace Battleships.Objects
 {
     class Camera
     {
-        public float ShakeMagnitude { get; set; }      = 4;
-        public Vector2 Zoom { get => zoom; set => zoom = new Vector2(MathHelper.Clamp(value.X, 0.1f, 2), MathHelper.Clamp(value.Y, 0.1f, 2)); }
-        public float Rotation { get; private set; }    = 0;
-        public float ShakeIntensity { get; set; }      = 0;
-        public Vector2 ShakeOffset { get; set; }       = new Vector2(0, 0);
+        public float ShakeMagnitude  { get; set; }              = 4;
+        public Vector2 Zoom          { get => zoom; set => zoom = new Vector2(MathHelper.Clamp(value.X, 0.1f, 2), MathHelper.Clamp(value.Y, 0.1f, 2)); }
+        public float Rotation        { get; private set; }      = 0;
+        public float ShakeIntensity  { get; set; }              = 0;
+        public Vector2 ShakeOffset   { get; set; }              = new Vector2(0, 0);
 
-        public Vector2 Position { get; private set; }
-        public int ViewportWidth { get; set; }
-        public int ViewportHeight { get; set; }
+        public Vector2 Position     { get; private set; }
+        public int ViewportWidth    { get; set; }
+        public int ViewportHeight   { get; set; }
 
         private Random randomNumberGenerator = new Random();
         private Vector2 zoom                 = new Vector2(1, 1);
