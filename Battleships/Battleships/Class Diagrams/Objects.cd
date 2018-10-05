@@ -1,66 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="Battleships.Objects.Ship">
-    <Position X="0.75" Y="0.75" Width="1.5" />
+    <Position X="4.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAQBAAAAAAAAAgQgAAAAAAAAAAAgAAAEAAAAAAAAAEg=</HashCode>
+      <HashCode>gAQBAAAAAAAAAgQgAAAAAAAAAAAgAgAEAAAAAAAAAEg=</HashCode>
       <FileName>Objects\Ship.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Battleships.Objects.Pickup.Pickup">
-    <Position X="6.75" Y="0.75" Width="1.5" />
+    <Position X="6.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQBACAAAAAAAgAgAAAAAAAAAAAgAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Objects\Pickup\Pickup.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Battleships.Objects.Pickup.HealthPickup">
-    <Position X="6.75" Y="4.75" Width="1.5" />
+    <Position X="6.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Objects\Pickup\HealthPickup.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleships.Objects.Pickup.EnergyPickup">
-    <Position X="10.75" Y="4.75" Width="1.5" />
+    <Position X="10.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Objects\Pickup\EnergyPickup.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleships.Objects.Pickup.MissilePickup">
-    <Position X="8.75" Y="4.75" Width="1.5" />
+    <Position X="8.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Objects\Pickup\MissilePickup.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleships.Objects.Turret">
-    <Position X="2.75" Y="0.75" Width="1.5" />
+    <Position X="6.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Objects\Turret.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleships.Objects.Projectile.Projectile">
-    <Position X="4.75" Y="0.75" Width="1.5" />
+    <Position X="2.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQBAAAAAAAAggAgAAAAAAAAAAAgAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Objects\Projectile\Projectile.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Battleships.Objects.Projectile.Bolt">
-    <Position X="2.75" Y="4.75" Width="1.5" />
+    <Position X="0.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Objects\Projectile\Bolt.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleships.Objects.Projectile.Missile">
-    <Position X="4.75" Y="4.75" Width="1.5" />
+    <Position X="2.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Objects\Projectile\Missile.cs</FileName>
@@ -74,7 +71,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Battleships.Objects.AIPlayer">
-    <Position X="0.75" Y="4.75" Width="1.5" />
+    <Position X="4.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Objects\AIPlayer.cs</FileName>
@@ -97,14 +94,22 @@
   <Class Name="Battleships.Objects.Camera">
     <Position X="18.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAQAAAAAAAAIAgECAACBACCAIQAABAAQIAAkABAAA=</HashCode>
       <FileName>Objects\Camera.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.Object">
+    <Position X="4.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\Object.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Interface Name="Battleships.Objects.IObject">
     <Position X="8.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQBAAAAAAAAAgAgAAAAAAAAAAAgAAAEAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQBAAAAAACAAgAgEAAAAAAAAAAgAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Objects\IObject.cs</FileName>
     </TypeIdentifier>
   </Interface>

@@ -8,40 +8,37 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Battleships.Objects
 {
-    abstract class Ship : IObject
+    abstract class Ship : Object
     {
         private Turret[] turrets;
         private float energy;
         private float health;
         private Texture2D texture;
 
-        public Rectangle Rectangle { get; private set; }
-        public Vector2 Position { get; set; }
-        public float Layer { get => 1; set => throw new NotImplementedException(); }
-
-        public event EventHandler OnDestroy;
-
         public Ship(Vector2 position)
         {
             Position = position;
-            Point size = new Point(100, 100); // Arbitrary.
+            Point size = new Point(70, 70);
+
             Rectangle = new Rectangle(position.ToPoint(), size);
-            texture = TextureLibrary.GetTexture("Ship");
+            texture   = TextureLibrary.GetTexture("Ship");
+        }
+
+        protected sealed override void SetAcceleration(Vector2 value)
+        {
+            base.SetAcceleration(value);
         }
 
         public abstract void Act();
 
-        public void Update(GameTime gameTime)
+        public sealed override void Update(GameTime gameTime) 
         {
-            rotation += 0.1f;
-            //throw new NotImplementedException();
+            base.Update(gameTime);
         }
 
-        float rotation = 0;
-
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Rectangle, null, Color.White, rotation, texture.Bounds.Size.ToVector2() / 2, SpriteEffects.None, Layer);
+            spriteBatch.Draw(texture, Rectangle, null, Color.White, 0, texture.Bounds.Size.ToVector2() / 2, SpriteEffects.None, Layer);
             //throw new NotImplementedException();
         }
     }

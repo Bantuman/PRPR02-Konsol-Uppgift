@@ -9,9 +9,9 @@ namespace Battleships.Objects
 {
     interface IObject
     {
-        Vector2 Position { get; set; }
-        Rectangle Rectangle { get; }
-        float Layer { get; set; }
+        Vector2 Position     { get; set; }
+        Rectangle Rectangle  { get; }
+        float Layer          { get; set; }
 
         event EventHandler OnDestroy;
 
