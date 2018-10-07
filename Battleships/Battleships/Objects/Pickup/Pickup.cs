@@ -13,11 +13,6 @@ namespace Battleships.Objects.Pickup
         {
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            throw new NotImplementedException();
-        }
-
         public abstract void PickUp(ref IObject obj);
 
         public override void Update(GameTime gameTime)

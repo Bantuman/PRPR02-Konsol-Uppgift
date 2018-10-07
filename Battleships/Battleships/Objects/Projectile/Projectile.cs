@@ -15,11 +15,6 @@ namespace Battleships.Objects.Projectile
         {
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Update(GameTime gameTime)
         {
             throw new NotImplementedException();

@@ -42,6 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Objects\Animation\IAnimated.cs" />
     <Compile Include="Objects\Animation\Animation.cs" />
     <Compile Include="Objects\Animation\Animator.cs" />
     <Compile Include="Objects\Camera.cs" />

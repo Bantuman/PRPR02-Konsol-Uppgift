@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Battleships.Libraries;
+using Battleships.Objects.Animation;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Battleships.Objects
 {
-    abstract class Object : IObject
+    abstract partial class Object : IObject
     {
         public Object(Texture2D texture)
         {
-            this.texture = texture;
+            Texture = texture;
         }
 
         public Vector2 Position
@@ -30,19 +32,25 @@ namespace Battleships.Objects
 
         protected Vector2 Velocity     { get; private set; }
         protected Vector2 Acceleration { get; set; }
+        protected Texture2D Texture { get; private set; }
+        protected float Rotation => MathLibrary.Direction(Acceleration);
 
-        private float Rotation => MathLibrary.Direction(Acceleration);
         private Vector2 position;
         private Rectangle rectangle;
-        private Texture2D texture;
-
-        public virtual void Draw(SpriteBatch spriteBatch)
+        
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Rectangle, null, Color.White, Rotation, texture.Bounds.Size.ToVector2() / 2, SpriteEffects.None, Layer);
+            if (this is IAnimated animated)
+            {
+                Texture = animated.Animator.Texture;
+            }
+            spriteBatch.Draw(Texture, Rectangle, (this as IAnimated)?.Animator.SourceRectangle, Color.White, Rotation, Texture.Bounds.Size.ToVector2() / 2, SpriteEffects.None, Layer);
         }
 
         public virtual void Update(GameTime gameTime)
         {
+            (this as ICollidable)?.Collider.Update();
+            (this as IAnimated)?.Animator.Update(gameTime);
             ApplyAcceleration(gameTime);
             ApplyVelocity(gameTime);
         }
