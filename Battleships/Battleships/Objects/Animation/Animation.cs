@@ -11,6 +11,7 @@ namespace Battleships.Objects.Animation
     {
         public Texture2D SpriteSheet     { get; }
         public Rectangle SourceRectangle { get; set; }
+        public Point     SpriteCount     { get => spriteCount; }
 
         private Point spriteSize;
         private Point spriteCount;

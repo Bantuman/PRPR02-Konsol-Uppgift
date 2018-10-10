@@ -42,9 +42,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Objects\Animation\IAnimated.cs" />
     <Compile Include="Objects\Animation\Animation.cs" />
     <Compile Include="Objects\Animation\Animator.cs" />
+    <Compile Include="Objects\Animation\IAnimated.cs" />
     <Compile Include="Objects\Camera.cs" />
     <Compile Include="Libraries\FontLibrary.cs" />
     <Compile Include="Libraries\MathLibrary.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="Objects\Pickup\MissilePickup.cs" />
     <Compile Include="Objects\IObject.cs" />
     <Compile Include="Objects\Pickup\Pickup.cs" />
+    <Compile Include="Objects\RotatedRectangle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Objects\Projectile\Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,7 +18,7 @@ namespace Battleships.Libraries
         // Format: { Location, Key }
         private static string[,] texturesToLoad = new string[,]
         {
-            { "Ship", "Ship" }
+            { "ShipBody", "Ship" }
         };
 
         public static Texture2D GetTexture(string key)
@@ -31,7 +31,7 @@ namespace Battleships.Libraries
             // Generates galaxy texture
             Random randomNumberGenerator = new Random();
             textures["background"] = new Texture2D(graphicsDevice, viewport.X * 3, viewport.Y * 3);
-            textures["background"].SetData(Enumerable.Range(0, (viewport.X * 3) * (viewport.Y * 3)).Select(i => randomNumberGenerator.NextDouble() < 0.01f ? ColorFromFloat((float)randomNumberGenerator.NextDouble()) : Color.Black).ToArray());
+            textures["background"].SetData(Enumerable.Range(0, (viewport.X * 3) * (viewport.Y * 3)).Select(i => randomNumberGenerator.NextDouble() < 0.005f ? ColorFromFloat((float)randomNumberGenerator.NextDouble()) : Color.Black).ToArray());
         }
 
         public static void LoadTextures(ContentManager contentManager)

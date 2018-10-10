@@ -21,11 +21,11 @@ namespace Battleships.Objects
 
         public Ship(Vector2 position) : base(TextureLibrary.GetTexture("Ship"))
         {
+            Point size = new Point(64, 32);
+            Rectangle = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
             Collider = new Collider(this);
             Position = position;
-            Point size = new Point(70, 70);
-
-            Rectangle = new Rectangle(position.ToPoint(), size);
+            Animator = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5));
         }
 
         public abstract void Act();

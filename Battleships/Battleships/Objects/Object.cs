@@ -23,10 +23,10 @@ namespace Battleships.Objects
             set
             {
                 position = value;
-                rectangle.Location = position.ToPoint();
+                rectangle.CollisionRectangle.Location = position.ToPoint();
             }
         }
-        public Rectangle Rectangle { get => rectangle; protected set => rectangle = value; }
+        public RotatedRectangle Rectangle { get => rectangle; protected set => rectangle = value; }
         public float Layer         { get; set; }
         public event EventHandler OnDestroy;
 
@@ -36,7 +36,7 @@ namespace Battleships.Objects
         protected float Rotation => MathLibrary.Direction(Acceleration);
 
         private Vector2 position;
-        private Rectangle rectangle;
+        private RotatedRectangle rectangle;
         
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -44,15 +44,21 @@ namespace Battleships.Objects
             {
                 Texture = animated.Animator.Texture;
             }
-            spriteBatch.Draw(Texture, Rectangle, (this as IAnimated)?.Animator.SourceRectangle, Color.White, Rotation, Texture.Bounds.Size.ToVector2() / 2, SpriteEffects.None, Layer);
+            Vector2 Offset = Texture.Bounds.Size.ToVector2() / 2;
+            if (this is IAnimated)
+            {
+                Offset = (Texture.Bounds.Size.ToVector2() / (this as IAnimated)?.Animator.Animation.SpriteCount.ToVector2() ?? Vector2.One) / 2;
+            }
+            spriteBatch.Draw(Texture, Rectangle.CollisionRectangle, (this as IAnimated)?.Animator.SourceRectangle, Color.White, Rotation, Offset, SpriteEffects.None, Layer);
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            (this as ICollidable)?.Collider.Update();
-            (this as IAnimated)?.Animator.Update(gameTime);
             ApplyAcceleration(gameTime);
             ApplyVelocity(gameTime);
+            rectangle.Rotation = Rotation;
+            (this as ICollidable)?.Collider.Update();
+            (this as IAnimated)?.Animator.Update(gameTime);
         }
 
         protected void ApplyAcceleration(GameTime gameTime)
