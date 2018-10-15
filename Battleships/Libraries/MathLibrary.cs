@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Battleships.Libraries
 {
-    static class MathLibrary
+    public static class MathLibrary
     {
         public static float Direction(Vector2 vector)
         {

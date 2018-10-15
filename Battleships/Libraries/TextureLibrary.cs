@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Battleships.Libraries
 {
-    static class TextureLibrary
+    public static class TextureLibrary
     {
         private static Dictionary<string, Texture2D> textures;
         

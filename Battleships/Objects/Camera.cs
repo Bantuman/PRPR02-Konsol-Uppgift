@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Battleships.Objects
 {
-    class Camera
+    public class Camera
     {
         public float ShakeMagnitude  { get; set; }              = 4;
         public Vector2 Zoom          { get => zoom; set => zoom = new Vector2(MathHelper.Clamp(value.X, 0.1f, 2), MathHelper.Clamp(value.Y, 0.1f, 2)); }

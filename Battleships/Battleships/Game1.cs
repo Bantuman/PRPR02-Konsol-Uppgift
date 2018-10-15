@@ -14,7 +14,7 @@ namespace Battleships
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Game1 : Game, IGame1
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch           spriteBatch;
@@ -132,6 +132,11 @@ namespace Battleships
             }
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public Objects.Object Instantiate(Objects.Object obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

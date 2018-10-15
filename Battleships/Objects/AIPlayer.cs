@@ -17,8 +17,7 @@ namespace Battleships.Objects
 
         public override void Act()
         {
-            //Vector2 dv = Vector2.Normalize(Mouse.GetState().Position.ToVector2() - Position);
-           // Acceleration = new Vector2(dv.X, dv.Y) * 100f;//new Vector2(1.8f, 1f) * 100f * ((position.X > 1) ? -1 : 1);
+            
         }
     }
 }

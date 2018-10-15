@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Battleships.Objects
 {
-    abstract class Ship : Object, ICollidable, IAnimated
+    public abstract class Ship : Object, ICollidable, IAnimated
     {
         public new Collider Collider { get; set; }
         public Animator Animator { get; set; }

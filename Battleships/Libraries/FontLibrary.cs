@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Battleships.Libraries
 {
-    static class FontLibrary
+    public static class FontLibrary
     {
         private static Dictionary<string, SpriteFont> fonts;
         private static KeyValuePair<string, string> fontsToLoad = new KeyValuePair<string, string>

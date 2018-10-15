@@ -12,11 +12,6 @@ namespace Battleships.Objects
 {
     abstract partial class Object : IObject
     {
-        public Object(Texture2D texture)
-        {
-            Texture = texture;
-        }
-
         public Vector2 Position
         {
             get => position;
@@ -27,29 +22,43 @@ namespace Battleships.Objects
             }
         }
         public RotatedRectangle Rectangle { get => rectangle; protected set => rectangle = value; }
-        public float Layer         { get; set; }
+        public float Layer                { get; set; }
         public event EventHandler OnDestroy;
         public Vector2 Offset { get; private set; }
         public float RotationOffset { get; set; }
 
         protected Vector2 Velocity     { get; private set; }
         protected Vector2 Acceleration { get; set; }
+<<<<<<< HEAD:Battleships/Battleships/Objects/Object.cs
         protected Texture2D Texture { get; private set; }
         protected float Rotation => MathLibrary.Direction(Velocity);
+=======
+        protected Texture2D Texture    { get; private set; }
+        protected float Rotation => MathLibrary.Direction(Acceleration);
+>>>>>>> 917e4bf223ef28e860569b806f8edf3fcdeaca97:Battleships/Objects/Object.cs
+
+        private protected IGame1 Game { get; set; }
 
         private Vector2 position;
         private RotatedRectangle rectangle;
-        
+
+        public Object(Texture2D texture)
+        {
+            Texture = texture;
+        }
+
+        ~Object()
+        {
+            OnDestroy?.Invoke(this, new EventArgs());
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
+            Vector2 Offset = Texture.Bounds.Size.ToVector2() / 2;
             if (this is IAnimated animated)
             {
                 Texture = animated.Animator.Texture;
-            }
-            Offset = Texture.Bounds.Size.ToVector2() / 2;
-            if (this is IAnimated)
-            {
-                Offset = (Texture.Bounds.Size.ToVector2() / (this as IAnimated)?.Animator.Animation.SpriteCount.ToVector2() ?? Vector2.One) / 2;
+                Offset = (Texture.Bounds.Size.ToVector2() / animated?.Animator.Animation.SpriteCount.ToVector2() ?? Vector2.One) / 2;
             }
             spriteBatch.Draw(Texture, Rectangle.CollisionRectangle, (this as IAnimated)?.Animator.SourceRectangle, Color.White, Rotation, Offset, SpriteEffects.None, Layer);
         }
