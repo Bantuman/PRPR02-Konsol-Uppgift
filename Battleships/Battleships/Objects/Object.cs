@@ -29,6 +29,8 @@ namespace Battleships.Objects
         public RotatedRectangle Rectangle { get => rectangle; protected set => rectangle = value; }
         public float Layer         { get; set; }
         public event EventHandler OnDestroy;
+        public Vector2 Offset { get; private set; }
+        public float RotationOffset { get; set; }
 
         protected Vector2 Velocity     { get; private set; }
         protected Vector2 Acceleration { get; set; }
@@ -44,7 +46,7 @@ namespace Battleships.Objects
             {
                 Texture = animated.Animator.Texture;
             }
-            Vector2 Offset = Texture.Bounds.Size.ToVector2() / 2;
+            Offset = Texture.Bounds.Size.ToVector2() / 2;
             if (this is IAnimated)
             {
                 Offset = (Texture.Bounds.Size.ToVector2() / (this as IAnimated)?.Animator.Animation.SpriteCount.ToVector2() ?? Vector2.One) / 2;
@@ -56,8 +58,8 @@ namespace Battleships.Objects
         {
             ApplyAcceleration(gameTime);
             ApplyVelocity(gameTime);
-            rectangle.Rotation = Rotation;
-            (this as ICollidable)?.Collider.Update();
+            rectangle.Rotation = Rotation; 
+            (this as ICollidable)?.Collider.Update(gameTime);
             (this as IAnimated)?.Animator.Update(gameTime);
         }
 
