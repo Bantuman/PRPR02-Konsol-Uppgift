@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Battleships.Objects.Animation
 {
-    class Animation
+    public class Animation
     {
         public Texture2D SpriteSheet     { get; }
         public Rectangle SourceRectangle { get; set; }

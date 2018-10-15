@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Battleships.Objects
 {
-    class RotatedRectangle
+    public class RotatedRectangle
     {
         public Rectangle CollisionRectangle;
         public float Rotation;

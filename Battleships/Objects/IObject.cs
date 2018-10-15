@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Battleships.Objects
 {
-    interface IObject
+    public interface IObject
     {
-        Vector2 Position     { get; set; }
+        Vector2 Position            { get; set; }
         RotatedRectangle Rectangle  { get; }
-        float Layer          { get; set; }
+        float Layer                 { get; set; }
 
         event EventHandler OnDestroy;
 
