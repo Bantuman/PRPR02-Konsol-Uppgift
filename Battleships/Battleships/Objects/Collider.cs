@@ -83,7 +83,7 @@ namespace Battleships.Objects
                             nVector = Vector2.UnitX * collision.Rectangle.Width;
                         }
 
-                        collision.Velocity += Holder.Velocity / nVector.Length();
+                        collision.Velocity += Holder.Acceleration / nVector.Length();
                         collision.ApplyVelocity(gameTime);
                     }
                 }

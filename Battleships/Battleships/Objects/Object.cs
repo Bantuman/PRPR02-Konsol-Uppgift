@@ -35,7 +35,7 @@ namespace Battleships.Objects
         protected Vector2 Velocity     { get; private set; }
         protected Vector2 Acceleration { get; set; }
         protected Texture2D Texture { get; private set; }
-        protected float Rotation => MathLibrary.Direction(Acceleration);
+        protected float Rotation => MathLibrary.Direction(Velocity);
 
         private Vector2 position;
         private RotatedRectangle rectangle;
