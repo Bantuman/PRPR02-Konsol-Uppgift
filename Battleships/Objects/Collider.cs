@@ -102,8 +102,14 @@ namespace Battleships.Objects
                             nVector = Vector2.UnitX * collision.Rectangle.Width;
                         }
 
-                        collision.Velocity += Holder.Acceleration / nVector.Length();
-                        collision.ApplyVelocity(gameTime);
+                        float nLength = nVector.Length();
+                        float hLength = Holder.Rectangle.Height;
+                        Vector2 collisionDirection = Vector2.Normalize(collision.Position - Holder.Position);
+                        Holder.Velocity = (collisionDirection * (collision.Velocity.Length() - Holder.Velocity.Length())) / 2; // dividing by 2 because mass and stuff
+                        collision.Velocity = (collisionDirection * (Holder.Velocity.Length() - collision.Velocity.Length())); 
+                        
+                       // Holder.ApplyVelocity(gameTime);
+                       // collision.ApplyVelocity(gameTime);
                     }
                 }
                 previousPosition = Holder.Position;

@@ -11,6 +11,7 @@ namespace Battleships.Objects
 {
     public abstract class Ship : Object, ICollidable, IAnimated
     {
+        public Ship[] ShipCollection { get => shipCollection.ToArray(); }
         public new Collider Collider { get; set; }
         public Animator Animator { get; set; }
         public Animation.Animation[] Animations { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -18,6 +19,7 @@ namespace Battleships.Objects
         private Turret[] turrets;
         private float energy;
         private float health;
+        private static List<Ship> shipCollection = new List<Ship>();
 
         public Ship(Vector2 position) : base(TextureLibrary.GetTexture("Ship"))
         {
@@ -26,6 +28,8 @@ namespace Battleships.Objects
             Collider = new Collider(this);
             Position = position;
             Animator = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5));
+
+            shipCollection.Add(this);
         }
 
         public abstract void Act();
