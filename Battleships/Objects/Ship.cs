@@ -19,7 +19,6 @@ namespace Battleships.Objects
         private float energy;
         private float health;
         private bool initialized;
-
         private const int TURRET_COUNT = 6;
 
         public Ship(IGame1 game, Vector2 position) : base(game, TextureLibrary.GetTexture("Ship"))

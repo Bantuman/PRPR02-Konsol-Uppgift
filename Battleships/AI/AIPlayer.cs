@@ -12,7 +12,7 @@ namespace Battleships.Objects
     {
         public AIPlayer(Vector2 position) : base(null, position)
         {
-            
+            Acceleration = new Vector2(1.8f, 1f) * 100f * ((position.Y > 1) ? -1 : 1);
         }
 
         public override void Act()
