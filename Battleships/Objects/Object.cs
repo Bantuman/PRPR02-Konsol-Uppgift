@@ -24,12 +24,12 @@ namespace Battleships.Objects
         public RotatedRectangle Rectangle { get => rectangle; protected set => rectangle = value; }
         public float Layer                { get; set; }
         public event EventHandler OnDestroy;
-        public Vector2 Offset { get; private set; }
-        public float RotationOffset { get; set; }
+        public Vector2 Offset             { get; private set; }
+        public float RotationOffset       { get; set; }
 
-        protected Vector2 Velocity     { get; private set; }
-        protected Vector2 Acceleration { get; set; }
-        protected Texture2D Texture    { get; private set; }
+        protected Vector2 Velocity        { get; private set; }
+        protected Vector2 Acceleration    { get; set; }
+        protected Texture2D Texture       { get; private set; }
         protected float Rotation => MathLibrary.Direction(Acceleration);
 
         private protected IGame1 Game { get; set; }
