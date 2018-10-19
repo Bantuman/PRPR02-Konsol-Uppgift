@@ -11,7 +11,7 @@ namespace Battleships.Objects.Projectile
     {
         private float damage;
 
-        public Projectile(Texture2D texture) : base(texture)
+        public Projectile(IGame1 game, Texture2D texture) : base(game, texture)
         {
         }
 

@@ -10,7 +10,7 @@ namespace Battleships.Objects
 {
     class AIPlayer : Ship
     {
-        public AIPlayer(Vector2 position) : base(position)
+        public AIPlayer(IGame1 game, Vector2 position) : base(game, position)
         {
             Acceleration = new Vector2(1.8f, 1f) * 100f * ((position.X > 1) ? -1 : 1);
         }

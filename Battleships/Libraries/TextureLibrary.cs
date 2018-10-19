@@ -15,10 +15,12 @@ namespace Battleships.Libraries
         {
             return new Color(value, value, value);
         }
+
         // Format: { Location, Key }
         private static string[,] texturesToLoad = new string[,]
         {
-            { "ShipBody", "Ship" }
+            { "ShipBody", "Ship" },
+            { "Turret", "Turret" }
         };
 
         public static Texture2D GetTexture(string key)

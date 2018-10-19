@@ -23,22 +23,22 @@ namespace Battleships.Objects
         }
         public RotatedRectangle Rectangle { get => rectangle; protected set => rectangle = value; }
         public float Layer                { get; set; }
-        public event EventHandler OnDestroy;
         public Vector2 Offset             { get; private set; }
         public float RotationOffset       { get; set; }
+        public IGame1 Game                { private protected get; set; }
+        public event EventHandler OnDestroy;
 
         protected Vector2 Velocity        { get; private set; }
         protected Vector2 Acceleration    { get; set; }
         protected Texture2D Texture       { get; private set; }
         protected float Rotation => MathLibrary.Direction(Acceleration);
 
-        private protected IGame1 Game { get; set; }
-
         private Vector2 position;
         private RotatedRectangle rectangle;
 
-        public Object(Texture2D texture)
+        public Object(IGame1 game, Texture2D texture)
         {
+            Game = game;
             Texture = texture;
         }
 
@@ -47,7 +47,7 @@ namespace Battleships.Objects
             OnDestroy?.Invoke(this, new EventArgs());
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             Vector2 Offset = Texture.Bounds.Size.ToVector2() / 2;
             if (this is IAnimated animated)

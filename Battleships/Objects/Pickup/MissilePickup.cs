@@ -8,7 +8,7 @@ namespace Battleships.Objects.Pickup
 {
     class MissilePickup : Pickup
     {
-        public MissilePickup(Texture2D texture) : base(texture)
+        public MissilePickup(IGame1 game, Texture2D texture) : base(game, texture)
         {
         }
 

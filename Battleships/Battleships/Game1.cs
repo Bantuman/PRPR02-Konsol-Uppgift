@@ -57,10 +57,15 @@ namespace Battleships
             base.Initialize();
 
             Vector2 playerOneStartPosition = new Vector2(-300, -150),
-                    playerTwoStartPosition = new Vector2(300, 150);
+                    playerTwoStartPosition = new Vector2( 300,  150);
 
-            objects.Add(new AIPlayer(playerOneStartPosition));
-            objects.Add(new AIPlayer(playerTwoStartPosition));
+            Ship playerOne = new AIPlayer(playerOneStartPosition) { Game = this };
+            Ship playerTwo = new AIPlayer(playerTwoStartPosition) { Game = this };
+            playerOne.Initialize();
+            playerTwo.Initialize();
+
+            objects.Add(playerOne);
+            objects.Add(playerTwo);
         }
 
         /// <summary>

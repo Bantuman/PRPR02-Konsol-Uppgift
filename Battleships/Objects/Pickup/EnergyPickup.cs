@@ -8,7 +8,7 @@ namespace Battleships.Objects.Pickup
 {
     class EnergyPickup : Pickup
     {
-        public EnergyPickup(Texture2D texture) : base(texture)
+        public EnergyPickup(IGame1 game, Texture2D texture) : base(game, texture)
         {
         }
 

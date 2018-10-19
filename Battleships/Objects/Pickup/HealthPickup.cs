@@ -8,7 +8,7 @@ namespace Battleships.Objects.Pickup
 {
     class HealthPickup : Pickup
     {
-        public HealthPickup(Texture2D texture) : base(texture)
+        public HealthPickup(IGame1 game, Texture2D texture) : base(game, texture)
         {
         }
 

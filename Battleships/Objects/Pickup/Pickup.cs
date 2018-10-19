@@ -9,7 +9,7 @@ namespace Battleships.Objects.Pickup
 {
     abstract class Pickup : Object
     {
-        public Pickup(Texture2D texture) : base(texture)
+        public Pickup(IGame1 game, Texture2D texture) : base(game, texture)
         {
         }
 
