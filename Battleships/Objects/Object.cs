@@ -29,13 +29,8 @@ namespace Battleships.Objects
 
         protected Vector2 Velocity     { get; private set; }
         protected Vector2 Acceleration { get; set; }
-<<<<<<< HEAD:Battleships/Battleships/Objects/Object.cs
-        protected Texture2D Texture { get; private set; }
-        protected float Rotation => MathLibrary.Direction(Velocity);
-=======
         protected Texture2D Texture    { get; private set; }
         protected float Rotation => MathLibrary.Direction(Acceleration);
->>>>>>> 917e4bf223ef28e860569b806f8edf3fcdeaca97:Battleships/Objects/Object.cs
 
         private protected IGame1 Game { get; set; }
 
