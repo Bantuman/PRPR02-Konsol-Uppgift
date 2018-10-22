@@ -44,14 +44,13 @@ namespace Battleships.Objects
 
             for (int i = 0; i < turrets.Length; ++i)
             {
-                Vector2 originalPosition = turrets[i].RelativePosition;
                 float rotation = Rotation + ((i > (turrets.Length - 2) / 2) ? (float)Math.PI : 0);
                 float cosTetha = (float)Math.Cos(rotation);
                 float sinTetha = (float)Math.Sin(rotation);
+                Vector2 originalPosition = turrets[i].RelativePosition;
                 Vector2 rotatedPosition = new Vector2(originalPosition.X * cosTetha - originalPosition.Y * sinTetha, originalPosition.X * sinTetha + originalPosition.Y * cosTetha);
-
                 Vector2 offset = turrets[i].Texture.Bounds.Size.ToVector2() / 2;
-                
+
                 spriteBatch.Draw(turrets[i].Texture, new Rectangle(Position.ToPoint() + rotatedPosition.ToPoint(), turrets[i].Size.ToPoint()), null, Color.White, rotation, offset, SpriteEffects.None, 0);
             }
         }

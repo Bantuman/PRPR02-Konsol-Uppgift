@@ -65,6 +65,7 @@ namespace Battleships.Objects
             rectangle.Rotation = Rotation; 
             (this as ICollidable)?.Collider.Update(gameTime);
             (this as IAnimated)?.Animator.Update(gameTime);
+
         }
 
         protected void ApplyAcceleration(GameTime gameTime)

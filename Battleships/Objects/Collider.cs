@@ -48,14 +48,17 @@ namespace Battleships.Objects
             {
                 colliders.Remove(this);
             }
+
             private float Cross(Vector2 v1, Vector2 v2)
             {
                 return (v1.X * v2.Y - v1.Y * v2.X);
             }
+
             private Vector2 Cross(float v1, Vector2 v2)
             {
                 return new Vector2(-v1 * v2.X, v1 * v2.X);
             }
+
             public void Update(GameTime gameTime)
             {
                 List<Object> collidingObjects = GetCollidingObjects();
@@ -73,7 +76,7 @@ namespace Battleships.Objects
                     for (int i = 0; i < collidingObjects.Count; i++)
                     {
                         Object collision = collidingObjects[i];
-                        Vector2 nVector = -Vector2.UnitX * collision.Rectangle.Width; // default is left collision
+                        Vector2 nVector = -Vector2.UnitX * collision.Rectangle.Width; // Left collision
 
                         double collisionBottom = collision.Position.Y + collision.Rectangle.Height;
                         double holderBottom = Holder.Position.Y + Holder.Rectangle.Height;
@@ -87,29 +90,26 @@ namespace Battleships.Objects
                        
                         if (bCollision < aCollision && bCollision < cCollision && bCollision < dCollision)
                         {
-                            // top collision
+                            // Top collision
                             nVector = Vector2.UnitY * collision.Rectangle.Height;
                           
                         }
                         if (aCollision < bCollision && aCollision < cCollision && aCollision < dCollision)
                         {
-                            // bottom collision
+                            // Bottom collision
                             nVector = -Vector2.UnitY * collision.Rectangle.Height;
                         }
                         if (dCollision < cCollision && dCollision < bCollision && dCollision < aCollision)
                         {
-                            // right collision
+                            // Right collision
                             nVector = Vector2.UnitX * collision.Rectangle.Width;
                         }
 
                         float nLength = nVector.Length();
                         float hLength = Holder.Rectangle.Height;
                         Vector2 collisionDirection = Vector2.Normalize(collision.Position - Holder.Position);
-                        Holder.Velocity = (collisionDirection * (collision.Velocity.Length() - Holder.Velocity.Length())) / 2; // dividing by 2 because mass and stuff
+                        Holder.Velocity = (collisionDirection * (collision.Velocity.Length() - Holder.Velocity.Length())) / 2; // Dividing by 2 because mass and stuff
                         collision.Velocity = (collisionDirection * (Holder.Velocity.Length() - collision.Velocity.Length())); 
-                        
-                       // Holder.ApplyVelocity(gameTime);
-                       // collision.ApplyVelocity(gameTime);
                     }
                 }
                 previousPosition = Holder.Position;
