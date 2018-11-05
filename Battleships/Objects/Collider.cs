@@ -108,6 +108,7 @@ namespace Battleships.Objects
                         float nLength = nVector.Length();
                         float hLength = Holder.Rectangle.Height;
                         Vector2 collisionDirection = Vector2.Normalize(collision.Position - Holder.Position);
+
                         Holder.Velocity = (collisionDirection * (collision.Velocity.Length() - Holder.Velocity.Length())) / 2; // Dividing by 2 because mass and stuff
                         collision.Velocity = (collisionDirection * (Holder.Velocity.Length() - collision.Velocity.Length())); 
                     }
