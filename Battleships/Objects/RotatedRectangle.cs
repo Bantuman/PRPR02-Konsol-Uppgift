@@ -10,16 +10,20 @@ namespace Battleships.Objects
     public class RotatedRectangle
     {
         public Rectangle CollisionRectangle;
-        public float Rotation;
-        public Vector2 Origin;
+        public float Rotation { get; set; }
+        public Vector2 Origin { get; set; }
+
+        public int X      { get => CollisionRectangle.X; }
+        public int Y      { get => CollisionRectangle.Y; }
+        public int Width  { get => CollisionRectangle.Width; }
+        public int Height { get => CollisionRectangle.Height; }
 
         public RotatedRectangle(Rectangle theRectangle, float theInitialRotation)
         {
             CollisionRectangle = theRectangle;
             Rotation = theInitialRotation;
 
-            //Calculate the Rectangles origin. We assume the center of the Rectangle will
-            //be the point that we will be rotating around and we use that for the origin
+            // Calculate the Rectangles origin
             Origin = new Vector2((int)theRectangle.Width / 2, (int)theRectangle.Height / 2);
         }
 
@@ -52,20 +56,14 @@ namespace Battleships.Objects
         /// <returns></returns>
         public bool Intersects(RotatedRectangle theRectangle)
         {
-            //Calculate the Axis we will use to determine if a collision has occurred
-            //Since the objects are rectangles, we only have to generate 4 Axis (2 for
-            //each rectangle) since we know the other 2 on a rectangle are parallel.
+            // Calculate the Axis
             List<Vector2> aRectangleAxis = new List<Vector2>();
             aRectangleAxis.Add(UpperRightCorner() - UpperLeftCorner());
             aRectangleAxis.Add(UpperRightCorner() - LowerRightCorner());
             aRectangleAxis.Add(theRectangle.UpperLeftCorner() - theRectangle.LowerLeftCorner());
             aRectangleAxis.Add(theRectangle.UpperLeftCorner() - theRectangle.UpperRightCorner());
 
-            //Cycle through all of the Axis we need to check. If a collision does not occur
-            //on ALL of the Axis, then a collision is NOT occurring. We can then exit out 
-            //immediately and notify the calling function that no collision was detected. If
-            //a collision DOES occur on ALL of the Axis, then there is a collision occurring
-            //between the rotated rectangles. We know this to be true by the Seperating Axis Theorem
+            // Cycle through all of the Axis we need to check
             foreach (Vector2 aAxis in aRectangleAxis)
             {
                 if (!IsAxisCollision(theRectangle, aAxis))
@@ -86,30 +84,27 @@ namespace Battleships.Objects
         /// <returns></returns>
         private bool IsAxisCollision(RotatedRectangle theRectangle, Vector2 aAxis)
         {
-            //Project the corners of the Rectangle we are checking on to the Axis and
-            //get a scalar value of that project we can then use for comparison
+            // Projects the corners of the Rectangle we are checking on to the Axis
             List<int> aRectangleAScalars = new List<int>();
             aRectangleAScalars.Add(GenerateScalar(theRectangle.UpperLeftCorner(), aAxis));
             aRectangleAScalars.Add(GenerateScalar(theRectangle.UpperRightCorner(), aAxis));
             aRectangleAScalars.Add(GenerateScalar(theRectangle.LowerLeftCorner(), aAxis));
             aRectangleAScalars.Add(GenerateScalar(theRectangle.LowerRightCorner(), aAxis));
 
-            //Project the corners of the current Rectangle on to the Axis and
-            //get a scalar value of that project we can then use for comparison
+            // Projects the corners of the current Rectangle on to the Axis
             List<int> aRectangleBScalars = new List<int>();
             aRectangleBScalars.Add(GenerateScalar(UpperLeftCorner(), aAxis));
             aRectangleBScalars.Add(GenerateScalar(UpperRightCorner(), aAxis));
             aRectangleBScalars.Add(GenerateScalar(LowerLeftCorner(), aAxis));
             aRectangleBScalars.Add(GenerateScalar(LowerRightCorner(), aAxis));
 
-            //Get the Maximum and Minium Scalar values for each of the Rectangles
+            // Gets the Maximum and Minium Scalar values for each of the Rectangles
             int aRectangleAMinimum = aRectangleAScalars.Min();
             int aRectangleAMaximum = aRectangleAScalars.Max();
             int aRectangleBMinimum = aRectangleBScalars.Min();
             int aRectangleBMaximum = aRectangleBScalars.Max();
 
-            //If we have overlaps between the Rectangles (i.e. Min of B is less than Max of A)
-            //then we are detecting a collision between the rectangles on this Axis
+            // Check if we have overlaps between the Rectangles
             if (aRectangleBMinimum <= aRectangleAMaximum && aRectangleBMaximum >= aRectangleAMaximum)
             {
                 return true;
@@ -131,15 +126,13 @@ namespace Battleships.Objects
         /// <returns></returns>
         private int GenerateScalar(Vector2 theRectangleCorner, Vector2 theAxis)
         {
-            //Using the formula for Vector projection. Take the corner being passed in
-            //and project it onto the given Axis
+            // Using the formula for Vector projection
             float aNumerator = (theRectangleCorner.X * theAxis.X) + (theRectangleCorner.Y * theAxis.Y);
             float aDenominator = (theAxis.X * theAxis.X) + (theAxis.Y * theAxis.Y);
             float aDivisionResult = aNumerator / aDenominator;
             Vector2 aCornerProjected = new Vector2(aDivisionResult * theAxis.X, aDivisionResult * theAxis.Y);
 
-            //Now that we have our projected Vector, calculate a scalar of that projection
-            //that can be used to more easily do comparisons
+            // Now that we have our projected Vector, calculate a scalar of that projection
             float aScalar = (theAxis.X * aCornerProjected.X) + (theAxis.Y * aCornerProjected.Y);
             return (int)aScalar;
         }
@@ -189,26 +182,5 @@ namespace Battleships.Objects
             aLowerRight = RotatePoint(aLowerRight, aLowerRight + new Vector2(-Origin.X, -Origin.Y), Rotation);
             return aLowerRight;
         }
-
-        public int X
-        {
-            get { return CollisionRectangle.X; }
-        }
-
-        public int Y
-        {
-            get { return CollisionRectangle.Y; }
-        }
-
-        public int Width
-        {
-            get { return CollisionRectangle.Width; }
-        }
-
-        public int Height
-        {
-            get { return CollisionRectangle.Height; }
-        }
-
     }
 }
