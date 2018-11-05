@@ -19,7 +19,9 @@ namespace Battleships.Objects
         private float energy;
         private float health;
         private bool initialized;
-        private const int TURRET_COUNT = 6;
+        private const int turretCount = 6;
+
+        internal float Damage { get => 10; }
 
         public Ship(IGame1 game, Vector2 position) : base(game, TextureLibrary.GetTexture("Ship"))
         {
@@ -36,6 +38,10 @@ namespace Battleships.Objects
         public sealed override void Update(GameTime gameTime) 
         {
             base.Update(gameTime);
+            foreach(Turret turret in turrets)
+            {
+                turret.Update(gameTime);
+            }
         }
 
         public sealed override void Draw(SpriteBatch spriteBatch)
@@ -45,14 +51,17 @@ namespace Battleships.Objects
             for (int i = 0; i < turrets.Length; ++i)
             {
                 Vector2 originalPosition = turrets[i].RelativePosition;
-                float rotation = Rotation + ((i > (turrets.Length - 2) / 2) ? (float)Math.PI : 0);
+                turrets[i].FacingLeft = (i > (turrets.Length - 2) / 2);
+
+                float rotation = Rotation + (turrets[i].FacingLeft ? (float)Math.PI : 0);
                 float cosTetha = (float)Math.Cos(rotation);
                 float sinTetha = (float)Math.Sin(rotation);
-                Vector2 rotatedPosition = new Vector2(originalPosition.X * cosTetha - originalPosition.Y * sinTetha, originalPosition.X * sinTetha + originalPosition.Y * cosTetha);
+
+                turrets[i].RotatedPosition = new Vector2(originalPosition.X * cosTetha - originalPosition.Y * sinTetha, originalPosition.X * sinTetha + originalPosition.Y * cosTetha);
 
                 Vector2 offset = turrets[i].Texture.Bounds.Size.ToVector2() / 2;
                 
-                spriteBatch.Draw(turrets[i].Texture, new Rectangle(Position.ToPoint() + rotatedPosition.ToPoint(), turrets[i].Size.ToPoint()), null, Color.White, rotation, offset, SpriteEffects.None, 0);
+                spriteBatch.Draw(turrets[i].Texture, new Rectangle(Position.ToPoint() + turrets[i].RotatedPosition.ToPoint(), turrets[i].Size.ToPoint()), null, Color.White, rotation, offset, SpriteEffects.None, 0);
             }
         }
 
@@ -67,7 +76,7 @@ namespace Battleships.Objects
                 throw new Exception("Value of game has not been set.");
             }
 
-            turrets = new Turret[TURRET_COUNT];
+            turrets = new Turret[turretCount];
             for(int i = 0; i < turrets.Length; ++i)
             {
                 Vector2 position = new Vector2(-Rectangle.CollisionRectangle.Size.X / 2 + 28 * (i % (turrets.Length / 2)), 20);
@@ -79,6 +88,14 @@ namespace Battleships.Objects
             }
 
             initialized = true;
+        }
+
+        protected void Shoot(float duration)
+        {
+            foreach(Turret turret in turrets)
+            {
+                turret.Fire(duration);
+            }
         }
     }
 }

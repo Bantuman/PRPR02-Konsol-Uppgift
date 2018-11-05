@@ -57,7 +57,7 @@ namespace Battleships
             base.Initialize();
 
             Vector2 playerOneStartPosition = new Vector2(-270, -150),
-                    playerTwoStartPosition = new Vector2 (300,  150);
+                    playerTwoStartPosition = new Vector2( 300,  150);
 
             Ship playerOne = new AIPlayer(playerOneStartPosition) { Game = this };
             Ship playerTwo = new AIPlayer(playerTwoStartPosition) { Game = this };
@@ -139,9 +139,10 @@ namespace Battleships
             base.Draw(gameTime);
         }
 
-        public Objects.Object Instantiate(Objects.Object obj)
+        public IObject Instantiate(IObject obj)
         {
-            throw new NotImplementedException();
+            objects.Add(obj);
+            return obj;
         }
     }
 }
