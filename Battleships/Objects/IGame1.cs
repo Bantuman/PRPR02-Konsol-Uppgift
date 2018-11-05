@@ -8,6 +8,6 @@ namespace Battleships
 {
     public interface IGame1
     {
-        Objects.Object Instantiate(Objects.Object obj);
+        Objects.IObject Instantiate(Objects.IObject obj);
     }
 }

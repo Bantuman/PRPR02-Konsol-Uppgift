@@ -102,6 +102,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Libraries\Libraries.csproj">
+      <Project>{84f60dfd-9072-4cc3-b14b-0f545e4f1e68}</Project>
+      <Name>Libraries</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Objects\Objects.csproj">
       <Project>{6a823123-c379-41ea-86bf-64b6a4343894}</Project>
       <Name>Objects</Name>

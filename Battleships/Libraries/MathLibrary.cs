@@ -12,5 +12,10 @@ namespace Battleships.Libraries
         {
             return (float)Math.Atan2(vector.Y, vector.X);
         }
+
+        public static Vector2 ConstructVector(float angle, float length = 1)
+        {
+            return (new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * length);
+        }
     }
 }

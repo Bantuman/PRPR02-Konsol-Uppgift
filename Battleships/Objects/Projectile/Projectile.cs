@@ -11,13 +11,14 @@ namespace Battleships.Objects.Projectile
     {
         private float damage;
 
-        public Projectile(IGame1 game, Texture2D texture) : base(game, texture)
+        public Projectile(float damage, Texture2D texture) : base(null, texture)
         {
+            this.damage = damage;
         }
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            base.Update(gameTime);
         }
     }
 }
