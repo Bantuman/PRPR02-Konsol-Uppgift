@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Battleships.Objects
 {
-    enum ColliderType
+    public enum ColliderType
     {
         Trigger,
         Static
@@ -17,6 +17,7 @@ namespace Battleships.Objects
     {
         public class Collider
         {
+            public ColliderType ColliderType { get; set; }
             public struct CollisionHitInfo
             {
                 public Object Object { get; set; }
@@ -30,18 +31,23 @@ namespace Battleships.Objects
             private static List<Collider> colliders = new List<Collider>();
 
             private Object Holder { get; }
-            private ColliderType ColliderType { get; set; }
             private Vector2 previousPosition;
             private List<Object> previousCollidingObjects;
+            private List<ICollidable> ignoreList;
 
-            public delegate void CollisionHandler(CollisionHitInfo collided);
+            public delegate void CollisionHandler(object sender, CollisionHitInfo collided);
             public event CollisionHandler OnCollisionEnter;
 
-            public Collider(Object holder)
+            public Collider(Object holder, ColliderType type, List<ICollidable> ignore = null)
             {
-                colliders.Add(this);
+                if (type == ColliderType.Static)
+                {
+                    colliders.Add(this);
+                }
+                ColliderType = type;
                 Holder = holder;
                 previousCollidingObjects = new List<Object>();
+                ignoreList = ignore ?? new List<ICollidable> { };
             }
 
             ~Collider()
@@ -61,72 +67,78 @@ namespace Battleships.Objects
 
             public void Update(GameTime gameTime)
             {
-                List<Object> collidingObjects = GetCollidingObjects();
+                List<Object> collidingObjects = GetCollidingObjects(ColliderType.Static);
                 if (collidingObjects.Count > 0)
                 {
                     foreach (Object obj in collidingObjects)
                     {
-                        if (previousCollidingObjects.Contains(obj))
+                         if (previousCollidingObjects.Contains(obj))
                         {
                             continue;
                         }
-                        OnCollisionEnter?.Invoke(new CollisionHitInfo(obj));
+                        OnCollisionEnter?.Invoke(this, new CollisionHitInfo(obj));
                     }
-                    Holder.Position = previousPosition;
-                    for (int i = 0; i < collidingObjects.Count; i++)
+                    if (ColliderType == ColliderType.Static)
                     {
-                        Object collision = collidingObjects[i];
-                        Vector2 nVector = -Vector2.UnitX * collision.Rectangle.Width; // Left collision
-
-                        double collisionBottom = collision.Position.Y + collision.Rectangle.Height;
-                        double holderBottom = Holder.Position.Y + Holder.Rectangle.Height;
-                        double collisionRight = collision.Position.X + collision.Rectangle.Width;
-                        double holderRight = Holder.Position.Y + Holder.Rectangle.Width;
-
-                        double aCollision = holderBottom - collision.Position.Y;
-                        double bCollision = collisionBottom - Holder.Position.Y;
-                        double cCollision = holderRight - collision.Position.X;
-                        double dCollision = collisionRight - Holder.Position.X;
-                       
-                        if (bCollision < aCollision && bCollision < cCollision && bCollision < dCollision)
+                        Holder.Position = previousPosition;
+                        for (int i = 0; i < collidingObjects.Count; i++)
                         {
-                            // Top collision
-                            nVector = Vector2.UnitY * collision.Rectangle.Height;
-                          
-                        }
-                        if (aCollision < bCollision && aCollision < cCollision && aCollision < dCollision)
-                        {
-                            // Bottom collision
-                            nVector = -Vector2.UnitY * collision.Rectangle.Height;
-                        }
-                        if (dCollision < cCollision && dCollision < bCollision && dCollision < aCollision)
-                        {
-                            // Right collision
-                            nVector = Vector2.UnitX * collision.Rectangle.Width;
-                        }
+                            Object collision = collidingObjects[i];
+                            if ((collision as ICollidable).Collider.ColliderType == ColliderType.Static)
+                            {
+                                Vector2 nVector = -Vector2.UnitX * collision.Rectangle.Width; // Left Collision
 
-                        float nLength = nVector.Length();
-                        float hLength = Holder.Rectangle.Height;
-                        Vector2 collisionDirection = Vector2.Normalize(collision.Position - Holder.Position);
+                                double collisionBottom = collision.Position.Y + collision.Rectangle.Height;
+                                double holderBottom = Holder.Position.Y + Holder.Rectangle.Height;
+                                double collisionRight = collision.Position.X + collision.Rectangle.Width;
+                                double holderRight = Holder.Position.Y + Holder.Rectangle.Width;
 
-                        Holder.Velocity = (collisionDirection * (collision.Velocity.Length() - Holder.Velocity.Length())) / 2; // Dividing by 2 because mass and stuff
-                        collision.Velocity = (collisionDirection * (Holder.Velocity.Length() - collision.Velocity.Length())); 
+                                double aCollision = holderBottom - collision.Position.Y;
+                                double bCollision = collisionBottom - Holder.Position.Y;
+                                double cCollision = holderRight - collision.Position.X;
+                                double dCollision = collisionRight - Holder.Position.X;
+
+                                if (bCollision < aCollision && bCollision < cCollision && bCollision < dCollision)
+                                {
+                                    // Top Collision
+                                    nVector = Vector2.UnitY * collision.Rectangle.Height;
+
+                                }
+                                if (aCollision < bCollision && aCollision < cCollision && aCollision < dCollision)
+                                {
+                                    // Bottom Collision
+                                    nVector = -Vector2.UnitY * collision.Rectangle.Height;
+                                }
+                                if (dCollision < cCollision && dCollision < bCollision && dCollision < aCollision)
+                                {
+                                    // Right Collision
+                                    nVector = Vector2.UnitX * collision.Rectangle.Width;
+                                }
+
+                                float nLength = nVector.Length();
+                                float hLength = Holder.Rectangle.Height;
+                                Vector2 collisionDirection = Vector2.Normalize(collision.Position - Holder.Position);
+
+                                Holder.Velocity = (collisionDirection * (collision.Velocity.Length() - Holder.Velocity.Length())) / 2; // Dividing by 2 because mass and stuff
+                                collision.Velocity = (collisionDirection * (Holder.Velocity.Length() - collision.Velocity.Length()));
+                            }
+                        }
                     }
+                    previousPosition = Holder.Position;
+                    previousCollidingObjects = collidingObjects;
                 }
-                previousPosition = Holder.Position;
-                previousCollidingObjects = collidingObjects;
             }
             
-            public List<Object> GetCollidingObjects()
+            public List<Object> GetCollidingObjects(ColliderType type)
             {
                 List<Object> collidingObjects = new List<Object>();
                 foreach (Collider collider in colliders)
                 {
-                    if (collider == this)
+                    if (collider == this || ignoreList.Contains(collider as ICollidable))
                     {
                         continue;
                     }
-                    if (collider.Holder.Rectangle.Intersects(Holder.Rectangle))
+                    if (collider.Holder.Rectangle.Intersects(Holder.Rectangle) && collider.ColliderType == type)
                     {
                         collidingObjects.Add(collider.Holder);
                     }

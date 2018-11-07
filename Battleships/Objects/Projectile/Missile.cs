@@ -8,7 +8,7 @@ namespace Battleships.Objects.Projectile
 {
     class Missile : Projectile
     {
-        public Missile(IGame1 game, Texture2D texture) : base(0, texture)
+        public Missile(IGame1 game, Texture2D texture) : base(game, 0, texture)
         {
         }
     }

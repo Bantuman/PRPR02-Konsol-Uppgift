@@ -139,9 +139,15 @@ namespace Battleships
             base.Draw(gameTime);
         }
 
-        public Objects.Object Instantiate(Objects.Object obj)
+        public void Destroy(IObject obj)
         {
-            throw new NotImplementedException();
+            objects.Remove(obj);
+        }
+
+        public IObject Instantiate(IObject obj)
+        {
+            objects.Add(obj);
+            return obj;
         }
     }
 }

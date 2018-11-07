@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Battleships.Objects
 {
-    internal interface ICollidable
+    public interface ICollidable
     {
         Object.Collider Collider { get; set; }
     }

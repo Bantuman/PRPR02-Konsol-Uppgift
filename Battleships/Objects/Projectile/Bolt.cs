@@ -10,17 +10,28 @@ namespace Battleships.Objects.Projectile
 {
     class Bolt : Projectile
     {
-        public Bolt(float damage, Ship owner, Vector2 direction, float speed, Vector2 position) : base(damage, TextureLibrary.GetTexture("Bullet"))
+        private Ship bulletOwner;
+        public Bolt(IGame1 game, float damage, Ship owner, Vector2 direction, float speed, Vector2 position) : base(game, damage, TextureLibrary.GetTexture("Bullet"))
         {
             Rectangle = new RotatedRectangle(new Rectangle(0, 0, 10, 10), 0);
             Position  = position;
-
+            bulletOwner = owner;
             if (direction.Length() == 0)
             {
                 direction = Vector2.One;
             }
             direction.Normalize();
             Velocity = direction * speed;
+            Collider.OnCollisionEnter += OnHit;
+        }
+
+        private void OnHit(object sender, Collider.CollisionHitInfo args)
+        {
+            if (args.Object == bulletOwner as Object)
+            {
+                return;
+            }
+            Destroy();
         }
     }
 }

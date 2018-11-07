@@ -27,7 +27,7 @@ namespace Battleships.Objects
         {
             Point size  = new Point(64, 32);
             Rectangle   = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
-            Collider    = new Collider(this);
+            Collider    = new Collider(this, ColliderType.Static);
             Position    = position;
             Animator    = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5));
             initialized = false;

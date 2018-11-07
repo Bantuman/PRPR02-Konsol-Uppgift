@@ -58,7 +58,11 @@ namespace Battleships.Objects
             }
             spriteBatch.Draw(Texture, Rectangle.CollisionRectangle, (this as IAnimated)?.Animator.SourceRectangle, Color.White, Rotation, Offset, SpriteEffects.None, Layer);
         }
-
+        public void Destroy()
+        {
+            Game.Destroy(this);
+            OnDestroy?.Invoke(this, new EventArgs());
+        }
         public virtual void Update(GameTime gameTime)
         {
             ApplyAcceleration(gameTime);
