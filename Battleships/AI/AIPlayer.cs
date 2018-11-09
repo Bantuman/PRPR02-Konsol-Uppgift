@@ -20,9 +20,6 @@ namespace Battleships.Objects
 
         public override void Act()
         {
-            // rotation += .01f;
-            //Acceleration = MathLibrary.ConstructVector(rotation, 10f);
-        
             Shoot(10);
         }
     }

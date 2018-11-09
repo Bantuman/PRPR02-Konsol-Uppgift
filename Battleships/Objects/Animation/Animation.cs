@@ -65,7 +65,7 @@ namespace Battleships.Objects.Animation
 
         private Point GetTargetSprite(int targetImageIndex)
         {
-	        return new Point(targetImageIndex % spriteCount.X, (int)(targetImageIndex / spriteCount.Y));
+	        return new Point(targetImageIndex % spriteCount.X, (int)(targetImageIndex / spriteCount.X));
         }
     }
 }
