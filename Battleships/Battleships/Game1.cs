@@ -142,7 +142,7 @@ namespace Battleships
 
         public void ShakeCamera(float amount)
         {
-            camera.ShakeIntensity = MathHelper.Clamp(camera.ShakeIntensity + amount, 0, 1);
+            camera.ShakeIntensity += amount;
         }
 
         public void Destroy(IObject obj)
