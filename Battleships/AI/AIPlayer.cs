@@ -15,15 +15,15 @@ namespace Battleships.Objects
 
         public AIPlayer(Vector2 position) : base(null, position)
         {
-            Acceleration = new Vector2(0, 1f) * 20f * ((position.Y > 1) ? -1 : 1);
+            //Acceleration = new Vector2(0, 1f) * 20f * ((position.Y > 1) ? -1 : 1);
         }
 
         public override void Act()
         {
-           // rotation += .01f;
-//Acceleration = MathLibrary.ConstructVector(rotation, 10f);
+            // rotation += .01f;
+            //Acceleration = MathLibrary.ConstructVector(rotation, 10f);
 
-            Shoot(10);
+            //Shoot(10);
         }
     }
 }

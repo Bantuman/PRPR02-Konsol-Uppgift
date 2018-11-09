@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -55,7 +56,7 @@ namespace Battleships.Objects.Animation
                 elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (targetSpriteIndex >= spriteCount.X * spriteCount.Y)
                 {
-                    elapsedTime -= (spriteCount.X * spriteCount.Y);
+                    elapsedTime = 0;
                 }
             } while (targetSpriteIndex >= spriteCount.X * spriteCount.Y);
 
@@ -64,7 +65,7 @@ namespace Battleships.Objects.Animation
 
         private Point GetTargetSprite(int targetImageIndex)
         {
-	        return new Point(targetImageIndex % spriteCount.X, (int)(targetImageIndex / (spriteCount.X + 1)));
+	        return new Point(targetImageIndex % spriteCount.X, (int)(targetImageIndex / spriteCount.Y));
         }
     }
 }
