@@ -32,7 +32,8 @@ namespace Battleships.Objects.Projectile
             {
                 return;
             }
-            Game.Instantiate(new Explosion(Game, Position, 1, 2));
+            Random random = new Random();
+            Game.Instantiate(new Explosion(Game, Position, (float)random.NextDouble() * 3 + 1, (float)random.NextDouble() * 2 + 1));
             Destroy();
         }
     }
