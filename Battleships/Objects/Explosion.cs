@@ -27,7 +27,7 @@ namespace Battleships.Objects
             Animator = new Animator(new Animation.Animation(Texture, new Point(128, 128), new Point(4, 4), duration/16));
             spawnTick = 0;
             lifetime = duration;
-            game.ShakeCamera(scale / 8);
+            game.ShakeCamera(scale / 4);
         }
 
         public sealed override void Update(GameTime gameTime)

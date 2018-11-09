@@ -33,12 +33,14 @@ namespace Battleships.Objects.Projectile
             {
                 return;
             }
+
             if (args.Object is Ship ship)
             {
                 ship.TakeDamage(Damage);
             }
 
-            Game.Instantiate(new Explosion(Game, Position, (float)new Random().NextDouble() * 3 + 1, 2));
+            Random random = new Random();
+            Game.Instantiate(new Explosion(Game, Position, (float)random.NextDouble() * 2 + 1, (float)random.NextDouble() * 2 + 1));
             Destroy();
         }
     }
