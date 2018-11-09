@@ -10,12 +10,12 @@ namespace Battleships.Objects.Projectile
 {
     abstract class Projectile : Object, ICollidable
     {
-        private float damage;
+        protected float Damage { get; set; }
         public new Collider Collider { get; set; }
 
         public Projectile(IGame1 game, float damage, Texture2D texture) : base(game, texture)
         {
-            this.damage = damage;
+            Damage = damage;
             Collider = new Collider(this, ColliderType.Trigger);
         }
     }
