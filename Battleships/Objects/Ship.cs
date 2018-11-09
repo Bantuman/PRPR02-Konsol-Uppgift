@@ -30,9 +30,7 @@ namespace Battleships.Objects
             Collider    = new Collider(this, ColliderType.Static);
             Position    = position;
 
-            Texture2D texture = TextureLibrary.GetTexture("Explosion");
-            Animator    = new Animator(new Animation.Animation(texture, new Point(128, 128), new Point(4, 4), 0.5f));
-
+            Animator    = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
             initialized = false;
         }
 
