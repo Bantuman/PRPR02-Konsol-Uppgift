@@ -29,9 +29,15 @@ namespace Battleships.Objects
             Rectangle   = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
             Collider    = new Collider(this, ColliderType.Static);
             Position    = position;
-
             Animator    = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
             initialized = false;
+            health      = 1;
+            OnDestroy += OnDeath;
+        }
+
+        private void OnDeath(object sender, EventArgs e)
+        {
+            Game.Instantiate(new Explosion(Game, Position, 4, 3));
         }
 
         public abstract void Act();
@@ -42,6 +48,10 @@ namespace Battleships.Objects
             foreach(Turret turret in turrets)
             {
                 turret.Update(gameTime);
+            }
+            if (health <= 0)
+            {
+                Destroy();
             }
         }
 
@@ -97,6 +107,11 @@ namespace Battleships.Objects
             {
                 turret.Fire(duration);
             }
+        }
+
+        public void TakeDamage(float damage)
+        {
+            health -= Math.Abs(damage);
         }
     }
 }

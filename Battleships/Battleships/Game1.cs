@@ -55,7 +55,7 @@ namespace Battleships
         protected override void Initialize()
         {
             base.Initialize();
-            camera.ShakeMagnitude = 7;
+            camera.ShakeMagnitude = 14;
 
             Vector2 playerOneStartPosition = new Vector2(-242, -150),
                     playerTwoStartPosition = new Vector2 (300,  150);
