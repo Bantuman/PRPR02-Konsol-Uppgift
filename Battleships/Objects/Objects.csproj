@@ -53,6 +53,7 @@
     <Compile Include="Animation\IAnimated.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Collider.cs" />
+    <Compile Include="Explosion.cs" />
     <Compile Include="ICollidable.cs" />
     <Compile Include="IGame1.cs" />
     <Compile Include="IObject.cs" />

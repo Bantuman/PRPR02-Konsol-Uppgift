@@ -8,6 +8,7 @@ namespace Battleships
 {
     public interface IGame1
     {
+        void ShakeCamera(float amount);
         void Destroy(Objects.IObject obj);
         Objects.IObject Instantiate(Objects.IObject obj);
     }

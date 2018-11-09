@@ -10,6 +10,7 @@ namespace Battleships.Objects.Projectile
 {
     class Bolt : Projectile
     {
+        public override float Rotation => MathLibrary.Direction(Velocity);
         private Ship bulletOwner;
         public Bolt(IGame1 game, float damage, Ship owner, Vector2 direction, float speed, Vector2 position) : base(game, damage, TextureLibrary.GetTexture("Bullet"))
         {
@@ -31,6 +32,7 @@ namespace Battleships.Objects.Projectile
             {
                 return;
             }
+            Game.Instantiate(new Explosion(Game, Position, 1, 2));
             Destroy();
         }
     }

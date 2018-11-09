@@ -26,7 +26,7 @@ namespace Battleships.Objects
         public Vector2 Offset             { get; private set; }
         public float RotationOffset       { get; set; }
         public IGame1 Game                { private protected get; set; }
-        public float Rotation => MathLibrary.Direction(Acceleration);
+        public virtual float Rotation => MathLibrary.Direction(Acceleration);
         public event EventHandler OnDestroy;
 
         protected Vector2 Velocity        { get; private protected set; }
@@ -58,11 +58,13 @@ namespace Battleships.Objects
             }
             spriteBatch.Draw(Texture, Rectangle.CollisionRectangle, (this as IAnimated)?.Animator.SourceRectangle, Color.White, Rotation, Offset, SpriteEffects.None, Layer);
         }
+
         public void Destroy()
         {
             Game.Destroy(this);
             OnDestroy?.Invoke(this, new EventArgs());
         }
+
         public virtual void Update(GameTime gameTime)
         {
             ApplyAcceleration(gameTime);
@@ -70,7 +72,6 @@ namespace Battleships.Objects
             rectangle.Rotation = Rotation; 
             (this as ICollidable)?.Collider.Update(gameTime);
             (this as IAnimated)?.Animator.Update(gameTime);
-
         }
 
         protected void ApplyAcceleration(GameTime gameTime)

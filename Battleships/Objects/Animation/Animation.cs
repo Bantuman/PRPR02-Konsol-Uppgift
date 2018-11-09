@@ -55,7 +55,7 @@ namespace Battleships.Objects.Animation
                 elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (targetSpriteIndex >= spriteCount.X * spriteCount.Y)
                 {
-                    elapsedTime = 0;
+                    elapsedTime -= (spriteCount.X * spriteCount.Y);
                 }
             } while (targetSpriteIndex >= spriteCount.X * spriteCount.Y);
 

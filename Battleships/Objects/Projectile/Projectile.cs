@@ -1,4 +1,5 @@
 ﻿using System;
+using Battleships.Libraries;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,11 +17,6 @@ namespace Battleships.Objects.Projectile
         {
             this.damage = damage;
             Collider = new Collider(this, ColliderType.Trigger);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
         }
     }
 }
