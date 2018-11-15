@@ -31,7 +31,7 @@ namespace Battleships.Objects
             Position    = position;
             Animator    = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
             initialized = false;
-            health      = 1;
+            health      = 10;
             OnDestroy += OnDeath;
         }
 
