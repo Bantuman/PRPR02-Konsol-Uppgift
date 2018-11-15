@@ -24,7 +24,7 @@ namespace Battleships.Objects
             Point size = new Point((int)(32 * scale), (int)(32 * scale));
             Rectangle = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
             Position = position;
-            Animator = new Animator(new Animation.Animation(Texture, new Point(128, 128), new Point(4, 4), duration/16));
+            Animator = new Animator(new Animation.Animation(Texture, new Point(128, 128), new Point(4, 4), duration / 8));
             spawnTick = 0;
             lifetime = duration;
             game.ShakeCamera(scale / 4);

@@ -1,5 +1,6 @@
 ﻿using Battleships.Libraries;
 using Battleships.Objects;
+using Battleships.Objects.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,6 +20,7 @@ namespace Battleships
         private GraphicsDeviceManager graphics;
         private SpriteBatch           spriteBatch;
         private List<IObject>         objects;
+        private List<IObject>         userInterface;
         private Camera                camera;
         private Vector2               baseDimension;
         private Texture2D             backgroundTexture;
@@ -34,6 +36,7 @@ namespace Battleships
             Content.RootDirectory    = "Content";
 
             objects       = new List<IObject>();
+            userInterface = new List<IObject>();
             camera        = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
             baseDimension = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
@@ -67,6 +70,9 @@ namespace Battleships
 
             objects.Add(playerOne);
             objects.Add(playerTwo);
+
+            userInterface.Add(new HealthBar(this, playerOne));
+            userInterface.Add(new HealthBar(this, playerTwo));
         }
 
         /// <summary>
@@ -128,6 +134,10 @@ namespace Battleships
             #pragma warning disable CS0618 // Type or member is obsolete
             spriteBatch.Draw(backgroundTexture, position: Vector2.Zero, sourceRectangle: new Rectangle(Point.Zero, Window.ClientBounds.Size));
             #pragma warning restore CS0618 // Type or member is obsolete
+            for(int i = objects.Count - 1; i >= 0; --i)
+            {
+                userInterface[i].Draw(spriteBatch);
+            }
             spriteBatch.End();
 
             spriteBatch.Begin(transformMatrix: camera.TranslationMatrix, blendState: BlendState.AlphaBlend);

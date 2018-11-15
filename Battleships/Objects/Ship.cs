@@ -14,10 +14,11 @@ namespace Battleships.Objects
         public new Collider Collider            { get; set; }
         public Animator Animator                { get; set; }
         public Animation.Animation[] Animations { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public float Health                     { get; private set; }
+        public float MaxHealth                  { get; private set; }
 
         private Turret[] turrets;
         private float energy;
-        private float health;
         private bool initialized;
         private const int turretCount = 6;
 
@@ -31,13 +32,13 @@ namespace Battleships.Objects
             Position    = position;
             Animator    = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
             initialized = false;
-            health      = 1;
-            OnDestroy += OnDeath;
+            MaxHealth   = Health = 30;
+            OnDestroy  += OnDeath;
         }
 
         private void OnDeath(object sender, EventArgs e)
         {
-            Game.Instantiate(new Explosion(Game, Position, 4, 3));
+            Game.Instantiate(new Explosion(Game, Position, 4, 1));
         }
 
         public abstract void Act();
@@ -49,7 +50,7 @@ namespace Battleships.Objects
             {
                 turret.Update(gameTime);
             }
-            if (health <= 0)
+            if (Health <= 0)
             {
                 Destroy();
             }
@@ -111,7 +112,7 @@ namespace Battleships.Objects
 
         public void TakeDamage(float damage)
         {
-            health -= Math.Abs(damage);
+            Health -= Math.Abs(damage);
         }
     }
 }
