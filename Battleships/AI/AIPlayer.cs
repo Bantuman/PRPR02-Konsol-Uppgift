@@ -11,16 +11,18 @@ namespace Battleships.Objects
 {
     public class AIPlayer : Ship
     {
-        float rotation = 0;
-
         public AIPlayer(Vector2 position) : base(null, position)
         {
-            Acceleration = new Vector2(0, 1f) * 40f * ((position.Y > 1) ? -1 : 1);
+            Acceleration = new Vector2(1.8f, 1f) * 40f * ((position.Y > 1) ? -1 : 1);
         }
-
+        private void MoveToPoint(Vector2 targetPosition)
+        {
+            Acceleration = Vector2.Normalize(targetPosition - Position) * 40f;
+        }
         public override void Act()
         {
-            Shoot(10);
+            Shoot(1);
+            MoveToPoint(new Vector2(0, 0));
         }
     }
 }

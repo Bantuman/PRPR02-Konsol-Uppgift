@@ -31,7 +31,9 @@ namespace Battleships.Objects
             Position    = position;
             Animator    = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
             initialized = false;
-            health      = 10;
+            health      = 100;
+
+            Collider.OnCollisionEnter += OnCollision;
             OnDestroy += OnDeath;
         }
 
@@ -40,6 +42,20 @@ namespace Battleships.Objects
             Game.Instantiate(new Explosion(Game, Position, 4, 3));
         }
 
+        private void OnCollision(object sender, Collider.CollisionHitInfo e)
+        {
+            if (e.Object is Ship ship)
+            {
+                float collisionVelocity = ship.Velocity.Length();
+                if (collisionVelocity > 70)
+                {
+                    TakeDamage(10 * (collisionVelocity / 70));
+                    ship.TakeDamage(10 * (collisionVelocity / 70));
+                    Game.Instantiate(new Explosion(Game, Vector2.Lerp(Position, e.Object.Position, 0.5f), 2 * (collisionVelocity / 70), 3));
+                }
+            }
+        }
+        
         public abstract void Act();
 
         public sealed override void Update(GameTime gameTime) 
