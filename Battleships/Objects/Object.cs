@@ -44,11 +44,6 @@ namespace Battleships.Objects
             Rectangle = rectangle;
         }
 
-        ~Object()
-        {
-            OnDestroy?.Invoke(this, new EventArgs());
-        }
-
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             Vector2 Offset = Texture.Bounds.Size.ToVector2() / 2;

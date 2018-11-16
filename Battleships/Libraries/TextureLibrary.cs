@@ -20,9 +20,11 @@ namespace Battleships.Libraries
         private static string[,] texturesToLoad = new string[,]
         {
             { "ShipBody", "Ship" },
+            { "glow", "glow" },
             { "Explosion", "Explosion" },
             { "Turret", "Turret" },
-            { "Bullet", "Bullet" }
+            { "Bullet", "Bullet" },
+            { "HealthBar", "HealthBar" }
         };
 
         public static Texture2D GetTexture(string key)

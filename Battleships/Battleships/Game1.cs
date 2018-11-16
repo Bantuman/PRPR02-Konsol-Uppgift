@@ -34,6 +34,7 @@ namespace Battleships
             IsMouseVisible           = true;
             graphics                 = new GraphicsDeviceManager(this);
             Content.RootDirectory    = "Content";
+            
 
             objects       = new List<IObject>();
             userInterface = new List<IObject>();
@@ -58,21 +59,23 @@ namespace Battleships
         protected override void Initialize()
         {
             base.Initialize();
+            backgroundTexture = TextureLibrary.GetTexture("background");
+
             camera.ShakeMagnitude = 14;
 
-            Vector2 playerOneStartPosition = new Vector2(-242, -150),
-                    playerTwoStartPosition = new Vector2 (300,  150);
+            Vector2 playerOneStartPosition = new Vector2(-242, 0),
+                    playerTwoStartPosition = new Vector2( 242, 0);
 
-            Ship playerOne = new AIPlayer(playerOneStartPosition) { Game = this };
-            Ship playerTwo = new AIPlayer(playerTwoStartPosition) { Game = this };
+            Ship playerOne = new AIPlayer(playerOneStartPosition, "Nemo", Color.Red) { Game = this, Layer = 0.01f };
+            Ship playerTwo = new AIPlayer(playerTwoStartPosition, "Alex", Color.White) { Game = this, Layer = 0.01f };
             playerOne.Initialize();
             playerTwo.Initialize();
 
             objects.Add(playerOne);
             objects.Add(playerTwo);
 
-            userInterface.Add(new HealthBar(this, playerOne));
-            userInterface.Add(new HealthBar(this, playerTwo));
+            userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45, 50))  { Layer = 0.99f });
+            userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 50)) { Layer = 0.99f });
         }
 
         /// <summary>
@@ -86,7 +89,7 @@ namespace Battleships
 
             TextureLibrary.LoadTextures(Content);
             TextureLibrary.BuildTextures(GraphicsDevice, Window.ClientBounds.Size);
-            backgroundTexture = TextureLibrary.GetTexture("background");
+            FontLibrary.LoadFonts(Content);
         }
 
         /// <summary>
@@ -131,13 +134,7 @@ namespace Battleships
             GraphicsDevice.Clear(Color.Magenta);
 
             spriteBatch.Begin();
-            #pragma warning disable CS0618 // Type or member is obsolete
-            spriteBatch.Draw(backgroundTexture, position: Vector2.Zero, sourceRectangle: new Rectangle(Point.Zero, Window.ClientBounds.Size));
-            #pragma warning restore CS0618 // Type or member is obsolete
-            for(int i = objects.Count - 1; i >= 0; --i)
-            {
-                userInterface[i].Draw(spriteBatch);
-            }
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, new Rectangle(Point.Zero, Window.ClientBounds.Size), Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
             spriteBatch.End();
 
             spriteBatch.Begin(transformMatrix: camera.TranslationMatrix, blendState: BlendState.AlphaBlend);
@@ -145,6 +142,13 @@ namespace Battleships
             for (int i = objects.Count - 1; i >= 0; --i)
             {
                 objects[i].Draw(spriteBatch);
+            }
+            spriteBatch.End();
+
+            spriteBatch.Begin(transformMatrix: Matrix.CreateScale(new Vector3(Window.ClientBounds.Width / baseDimension.X, Window.ClientBounds.Height / baseDimension.Y, 1)));
+            for (int i = userInterface.Count - 1; i >= 0; --i)
+            {
+                userInterface[i].Draw(spriteBatch);
             }
             spriteBatch.End();
             base.Draw(gameTime);
@@ -157,7 +161,8 @@ namespace Battleships
 
         public void Destroy(IObject obj)
         {
-            objects.Remove(obj);
+            if(!objects.Remove(obj))
+                userInterface.Remove(obj);
         }
 
         public IObject Instantiate(IObject obj)

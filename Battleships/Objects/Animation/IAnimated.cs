@@ -8,6 +8,5 @@ namespace Battleships.Objects.Animation
     interface IAnimated
     {
         Animator Animator      { get; set; }
-        Animation[] Animations { get; set; }
     }
 }

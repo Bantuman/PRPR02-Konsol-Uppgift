@@ -47,7 +47,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AIPlayer.cs" />
     <Compile Include="Animation\Animation.cs" />
     <Compile Include="Animation\Animator.cs" />
     <Compile Include="Animation\IAnimated.cs" />

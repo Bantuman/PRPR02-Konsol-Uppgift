@@ -13,14 +13,17 @@ namespace Battleships.Objects
     {
         float rotation = 0;
 
-        public AIPlayer(Vector2 position) : base(null, position)
+        public AIPlayer(Vector2 position, string name, Color nameColor) : base(null, position, name, nameColor)
         {
-            Acceleration = new Vector2(0, 1f) * 20f * ((position.Y > 1) ? -1 : 1);
+            //Acceleration = new Vector2(0, 1f) * 40f * ((position.Y > 1) ? -1 : 1);
         }
-
+        
         public override void Act()
         {
-            Shoot(10);
+            rotation = MathHelper.PiOver2;
+            Acceleration = MathLibrary.ConstructVector(rotation, 0.0000001f);
+            if(Name == "Nemo")
+                Shoot(10);
         }
     }
 }

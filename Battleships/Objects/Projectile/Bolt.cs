@@ -11,13 +11,13 @@ namespace Battleships.Objects.Projectile
     class Bolt : Projectile
     {
         public override float Rotation => MathLibrary.Direction(Velocity);
-        private Ship bulletOwner;
+        private Ship BulletOwner { get; }
 
         public Bolt(IGame1 game, float damage, Ship owner, Vector2 direction, float speed, Vector2 position) : base(game, damage, TextureLibrary.GetTexture("Bullet"))
         {
-            Rectangle = new RotatedRectangle(new Rectangle(0, 0, 10, 10), 0);
+            Rectangle = new RotatedRectangle(new Rectangle(0, 0, 8, 4), 0);
             Position  = position;
-            bulletOwner = owner;
+            BulletOwner = owner;
             if (direction.Length() == 0)
             {
                 direction = Vector2.One;
@@ -25,11 +25,12 @@ namespace Battleships.Objects.Projectile
             direction.Normalize();
             Velocity = direction * speed;
             Collider.OnCollisionEnter += OnHit;
+            Layer = 0.01f;
         }
 
         private void OnHit(object sender, Collider.CollisionHitInfo args)
         {
-            if (args.Object == bulletOwner as Object)
+            if (args.Object == BulletOwner as Object)
             {
                 return;
             }

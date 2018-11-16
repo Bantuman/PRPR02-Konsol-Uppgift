@@ -3,9 +3,6 @@ using Battleships.Objects.Projectile;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Battleships.Objects
 {
@@ -60,7 +57,7 @@ namespace Battleships.Objects
         {
             float rotation = Ship.Rotation + ((FacingLeft) ? (float)Math.PI : 0);
 
-            Game.Instantiate(new Bolt(Game, Ship.Damage, Ship, MathLibrary.ConstructVector(rotation + (float)Math.PI / 2), 500, RotatedPosition + Ship.Position));
+            Game.Instantiate(new Bolt(Game, Ship.Damage, Ship, MathLibrary.ConstructVector(rotation + (float)Math.PI / 2), 800, RotatedPosition + Ship.Position));
         }
 
         public void Fire(float duration)
