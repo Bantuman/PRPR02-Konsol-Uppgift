@@ -12,9 +12,11 @@ namespace Battleships.Objects.Projectile
     {
         public override float Rotation => MathLibrary.Direction(Velocity);
         private Ship BulletOwner { get; }
+        private Random random;
 
         public Bolt(IGame1 game, float damage, Ship owner, Vector2 direction, float speed, Vector2 position) : base(game, damage, TextureLibrary.GetTexture("Bullet"))
         {
+            random = new Random();
             Rectangle = new RotatedRectangle(new Rectangle(0, 0, 8, 4), 0);
             Position  = position;
             BulletOwner = owner;
@@ -27,7 +29,7 @@ namespace Battleships.Objects.Projectile
             Collider.OnCollisionEnter += OnHit;
             Layer = 0.01f;
         }
-
+    
         private void OnHit(object sender, Collider.CollisionHitInfo args)
         {
             if (args.Object == BulletOwner as Object)
@@ -40,7 +42,6 @@ namespace Battleships.Objects.Projectile
                 ship.TakeDamage(Damage);
             }
 
-            Random random = new Random();
             Game.Instantiate(new Explosion(Game, Position, (float)random.NextDouble() * 2 + 1, (float)random.NextDouble() * 2 + 1));
             Destroy();
         }

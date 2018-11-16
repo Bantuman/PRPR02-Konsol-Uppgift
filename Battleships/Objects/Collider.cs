@@ -71,6 +71,7 @@ namespace Battleships.Objects
                 List<Object> collidingObjects = GetCollidingObjects(ColliderType.Static);
                 if (collidingObjects.Count > 0)
                 {
+                    Holder.Position = previousPosition;
                     foreach (Object obj in collidingObjects)
                     {
                          if (previousCollidingObjects.Contains(obj))
@@ -81,7 +82,6 @@ namespace Battleships.Objects
                     }
                     if (ColliderType == ColliderType.Static)
                     {
-                        Holder.Position = previousPosition;
                         for (int i = 0; i < collidingObjects.Count; i++)
                         {
                             Object collision = collidingObjects[i];
@@ -120,14 +120,14 @@ namespace Battleships.Objects
                                 float hLength = Holder.Rectangle.Height;
                                 Vector2 collisionDirection = Vector2.Normalize(collision.Position - Holder.Position);
 
-                                Holder.Velocity = (collisionDirection * (collision.Velocity.Length() - Holder.Velocity.Length())) / 2; // Dividing by 2 because mass and stuff
+                                Holder.Velocity = (collisionDirection * (collision.Velocity.Length() - Holder.Velocity.Length())) / 2;
                                 collision.Velocity = (collisionDirection * (Holder.Velocity.Length() - collision.Velocity.Length()));
                             }
                         }
                     }
-                    previousPosition = Holder.Position;
-                    previousCollidingObjects = collidingObjects;
                 }
+                previousPosition = Holder.Position;
+                previousCollidingObjects = collidingObjects;
             }
             
             public List<Object> GetCollidingObjects(ColliderType type)

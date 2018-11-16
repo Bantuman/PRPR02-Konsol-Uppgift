@@ -11,19 +11,18 @@ namespace Battleships.Objects
 {
     public class AIPlayer : Ship
     {
-        float rotation = 0;
-
         public AIPlayer(Vector2 position, string name, Color nameColor) : base(null, position, name, nameColor)
+        {}
+
+        private void MoveToPoint(Vector2 targetPosition)
         {
-            //Acceleration = new Vector2(0, 1f) * 40f * ((position.Y > 1) ? -1 : 1);
+            Acceleration = Vector2.Normalize(targetPosition - Position) * 40f;
         }
-        
+
         public override void Act()
         {
-            rotation = MathHelper.PiOver2;
-            Acceleration = MathLibrary.ConstructVector(rotation, 0.0000001f);
-            if(Name == "Nemo")
-                Shoot(10);
+            Shoot(1);
+            MoveToPoint(new Vector2(0, 0));
         }
     }
 }

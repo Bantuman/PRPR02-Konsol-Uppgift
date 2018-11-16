@@ -27,16 +27,17 @@ namespace Battleships.Objects
 
         public Ship(IGame1 game, Vector2 position, string name, Color nameColor) : base(game, TextureLibrary.GetTexture("Ship"))
         {
-            Point size  = new Point(64, 32);
-            Rectangle   = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
-            Collider    = new Collider(this, ColliderType.Static);
-            Position    = position;
-            Animator    = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
-            initialized = false;
-            MaxHealth   = Health = 30;
-            OnDestroy  += OnDeath;
-            Name        = name;
-            NameColor   = nameColor;
+            Point size                 = new Point(64, 32);
+            Rectangle                  = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
+            Collider                   = new Collider(this, ColliderType.Static);
+            Position                   = position;
+            Animator                   = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
+            initialized                = false;
+            MaxHealth                  = Health = 30;
+            OnDestroy                 += OnDeath;
+            Name                       = name;
+            NameColor                  = nameColor;
+            Collider.OnCollisionEnter += OnCollision;
         }
 
         private void OnDeath(object sender, EventArgs e)
@@ -44,6 +45,20 @@ namespace Battleships.Objects
             Game.Instantiate(new Explosion(Game, Position, 4, 1));
         }
 
+        private void OnCollision(object sender, Collider.CollisionHitInfo e)
+        {
+            if (e.Object is Ship ship)
+            {
+                float collisionVelocity = ship.Velocity.Length();
+                if (collisionVelocity > 70)
+                {
+                    TakeDamage(10 * (collisionVelocity / 70));
+                    ship.TakeDamage(10 * (collisionVelocity / 70));
+                    Game.Instantiate(new Explosion(Game, Vector2.Lerp(Position, e.Object.Position, 0.5f), 2 * (collisionVelocity / 70), 3));
+                }
+            }
+        }
+        
         public abstract void Act();
 
         public sealed override void Update(GameTime gameTime) 

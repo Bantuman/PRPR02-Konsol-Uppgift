@@ -47,7 +47,7 @@ namespace Battleships.Objects
 
         public sealed override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(glowTexture, Rectangle.CollisionRectangle, null, new Color(244, 130, 66) * glowTransparency, 0, new Vector2(glowTexture.Width * 0.5f, glowTexture.Height * 0.5f), SpriteEffects.None, Layer + 1);
+            spriteBatch.Draw(glowTexture, Rectangle.CollisionRectangle, null, new Color(244, 130, 66) * glowTransparency, 0, new Vector2(glowTexture.Width * 0.5f, glowTexture.Height * 0.5f), SpriteEffects.None, 1);
             base.Draw(spriteBatch);
         }
     }
