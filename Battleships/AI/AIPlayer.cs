@@ -11,6 +11,8 @@ namespace Battleships.Objects
 {
     public class AIPlayer : Ship
     {
+        private float rotation = 0;
+
         public AIPlayer(Vector2 position, string name, Color nameColor) : base(null, position, name, nameColor)
         {}
 
@@ -21,8 +23,10 @@ namespace Battleships.Objects
 
         public override void Act()
         {
-            Shoot(1);
-            MoveToPoint(new Vector2(0, 0));
+            Shoot(10);
+            rotation += 0.1f;
+            Acceleration = MathLibrary.ConstructVector(rotation);
+            //MoveToPoint(new Vector2(0, 100));
         }
     }
 }

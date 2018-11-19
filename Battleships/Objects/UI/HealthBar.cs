@@ -3,6 +3,7 @@ using Battleships.Libraries;
 using Battleships.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,7 +34,7 @@ namespace Battleships.Objects.UI
             spriteBatch.Draw(healthTexture, rectangle, null, Color.White, Rotation, offset, SpriteEffects.None, Layer + 0.01f);
 
             SpriteFont font = FontLibrary.GetFont("Pixel");
-            spriteBatch.DrawString(font, Ship.Name + $" ({Ship.Health}/{Ship.MaxHealth})", rectangle.Location.ToVector2(), Ship.NameColor, 0, Vector2.Zero, 0.7f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(font, Ship.Name + $" ({Math.Round(Ship.Health, MidpointRounding.AwayFromZero)}/{Math.Round(Ship.MaxHealth, MidpointRounding.AwayFromZero)})", rectangle.Location.ToVector2(), Ship.NameColor, 0, Vector2.Zero, 0.7f, SpriteEffects.None, 1f);
         }
     }
 }
