@@ -20,6 +20,11 @@ namespace Battleships.Objects
         {
             Acceleration = Vector2.Normalize(targetPosition - Position) * 40f;
         }
+        
+        private void AimTowards(Vector2 targetPosition, int shipSide = 1)
+        {
+            Acceleration = MathLibrary.ConstructVector(MathLibrary.Direction(targetPosition - Position) + (90 * shipSide));
+        }
 
         public override void Act()
         {

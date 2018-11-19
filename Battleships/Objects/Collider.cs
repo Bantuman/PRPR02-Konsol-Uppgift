@@ -71,7 +71,6 @@ namespace Battleships.Objects
                 List<Object> collidingObjects = GetCollidingObjects(ColliderType.Static);
                 if (collidingObjects.Count > 0)
                 {
-                    Holder.Position = previousPosition;
                     foreach (Object obj in collidingObjects)
                     {
                          if (previousCollidingObjects.Contains(obj))
@@ -82,6 +81,7 @@ namespace Battleships.Objects
                     }
                     if (ColliderType == ColliderType.Static)
                     {
+                        Holder.Position = previousPosition;
                         for (int i = 0; i < collidingObjects.Count; i++)
                         {
                             Object collision = collidingObjects[i];
