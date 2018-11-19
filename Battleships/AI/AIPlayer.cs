@@ -11,6 +11,8 @@ namespace Battleships.Objects
 {
     public class AIPlayer : Ship
     {
+        private float rotation = 0;
+
         public AIPlayer(Vector2 position, string name, Color nameColor) : base(null, position, name, nameColor)
         {}
 
