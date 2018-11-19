@@ -73,6 +73,12 @@
 /processorParam:TextureFormat=Color
 /build:glow.png
 
+#begin Pixelize.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Pixelize.fx
+
 #begin HealthBar.png
 /importer:TextureImporter
 /processor:TextureProcessor
