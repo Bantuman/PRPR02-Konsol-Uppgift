@@ -46,11 +46,12 @@ namespace Battleships.Objects
                 }
                 ColliderType = type;
                 Holder = holder;
+                holder.OnDestroy += Holder_OnDestroy;
                 previousCollidingObjects = new List<Object>();
                 ignoreList = ignore ?? new List<ICollidable> { };
             }
 
-            ~Collider()
+            private void Holder_OnDestroy(object sender, EventArgs e)
             {
                 colliders.Remove(this);
             }

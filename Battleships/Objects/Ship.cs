@@ -13,33 +13,36 @@ namespace Battleships.Objects
     {
         public new Collider Collider            { get; set; }
         public Animator Animator                { get; set; }
-        public Animation.Animation[] Animations { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public float Health                     { get; private set; }
+        public float MaxHealth                  { get; private set; }
+        public string Name                      { get; private set; }
+        public Color NameColor                  { get; private set; }
 
         private Turret[] turrets;
         private float energy;
-        private float health;
         private bool initialized;
         private const int turretCount = 6;
 
         internal float Damage { get => 10; }
 
-        public Ship(IGame1 game, Vector2 position) : base(game, TextureLibrary.GetTexture("Ship"))
+        public Ship(IGame1 game, Vector2 position, string name, Color nameColor) : base(game, TextureLibrary.GetTexture("Ship"))
         {
-            Point size  = new Point(64, 32);
-            Rectangle   = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
-            Collider    = new Collider(this, ColliderType.Static);
-            Position    = position;
-            Animator    = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
-            initialized = false;
-            health      = 100;
-
+            Point size                 = new Point(64, 32);
+            Rectangle                  = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
+            Collider                   = new Collider(this, ColliderType.Static);
+            Position                   = position;
+            Animator                   = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
+            initialized                = false;
+            MaxHealth                  = Health = 30;
+            OnDestroy                 += OnDeath;
+            Name                       = name;
+            NameColor                  = nameColor;
             Collider.OnCollisionEnter += OnCollision;
-            OnDestroy += OnDeath;
         }
 
         private void OnDeath(object sender, EventArgs e)
         {
-            Game.Instantiate(new Explosion(Game, Position, 4, 3));
+            Game.Instantiate(new Explosion(Game, Position, 4, 1));
         }
 
         private void OnCollision(object sender, Collider.CollisionHitInfo e)
@@ -65,7 +68,7 @@ namespace Battleships.Objects
             {
                 turret.Update(gameTime);
             }
-            if (health <= 0)
+            if (Health <= 0)
             {
                 Destroy();
             }
@@ -75,6 +78,19 @@ namespace Battleships.Objects
         {
             base.Draw(spriteBatch);
 
+            DrawTurrets(spriteBatch);
+            DrawName(spriteBatch);
+        }
+
+        private void DrawName(SpriteBatch spriteBatch)
+        {
+            SpriteFont font = FontLibrary.GetFont("Pixel");
+            Vector2 origin = font.MeasureString(Name) * 0.5f + Vector2.UnitY * Rectangle.Height * 2;
+            spriteBatch.DrawString(font, Name, Position, NameColor, 0, origin, 1, SpriteEffects.None, 1f);
+        }
+
+        private void DrawTurrets(SpriteBatch spriteBatch)
+        {
             for (int i = 0; i < turrets.Length; ++i)
             {
                 Vector2 originalPosition = turrets[i].RelativePosition;
@@ -87,8 +103,8 @@ namespace Battleships.Objects
                 turrets[i].RotatedPosition = new Vector2(originalPosition.X * cosTetha - originalPosition.Y * sinTetha, originalPosition.X * sinTetha + originalPosition.Y * cosTetha);
 
                 Vector2 offset = turrets[i].Texture.Bounds.Size.ToVector2() / 2;
-                
-                spriteBatch.Draw(turrets[i].Texture, new Rectangle(Position.ToPoint() + turrets[i].RotatedPosition.ToPoint(), turrets[i].Size.ToPoint()), null, Color.White, rotation, offset, SpriteEffects.None, 0);
+
+                spriteBatch.Draw(turrets[i].Texture, new Rectangle(Position.ToPoint() + turrets[i].RotatedPosition.ToPoint(), turrets[i].Size.ToPoint()), null, Color.White, rotation, offset, SpriteEffects.None, Layer + 0.01f);
             }
         }
 
@@ -127,7 +143,11 @@ namespace Battleships.Objects
 
         public void TakeDamage(float damage)
         {
-            health -= Math.Abs(damage);
+            Health -= Math.Abs(damage);
+            if (Health < 0)
+            {
+                Health = 0;
+            }
         }
     }
 }

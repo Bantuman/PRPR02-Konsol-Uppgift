@@ -37,15 +37,11 @@ namespace Battleships.Objects
         private Vector2 position;
         private RotatedRectangle rectangle;
 
-        public Object(IGame1 game, Texture2D texture)
+        public Object(IGame1 game, Texture2D texture, RotatedRectangle rectangle = null)
         {
             Game = game;
             Texture = texture;
-        }
-
-        ~Object()
-        {
-            OnDestroy?.Invoke(this, new EventArgs());
+            Rectangle = rectangle;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

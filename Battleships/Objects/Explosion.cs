@@ -29,7 +29,7 @@ namespace Battleships.Objects
             explosionRectangle = new Rectangle(position.ToPoint(), new Point((int)(size.X * 1.5f), (int)(size.Y * 1.5f)));
             glowTexture = TextureLibrary.GetTexture("glow");
             Position = position;
-            Animator = new Animator(new Animation.Animation(Texture, new Point(128, 128), new Point(4, 4), duration/8));
+            Animator = new Animator(new Animation.Animation(Texture, new Point(128, 128), new Point(4, 4), duration / 8));
             spawnTick = 0;
             glowTransparency = 0.7f;
             lifetime = duration;

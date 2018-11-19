@@ -23,7 +23,8 @@ namespace Battleships.Libraries
             { "glow", "glow" },
             { "Explosion", "Explosion" },
             { "Turret", "Turret" },
-            { "Bullet", "Bullet" }
+            { "Bullet", "Bullet" },
+            { "HealthBar", "HealthBar" }
         };
 
         public static Texture2D GetTexture(string key)
