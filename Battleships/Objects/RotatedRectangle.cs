@@ -152,6 +152,7 @@ namespace Battleships.Objects
                 - (thePoint.Y - theOrigin.Y) * Math.Sin(theRotation));
             aTranslatedPoint.Y = (float)(theOrigin.Y + (thePoint.Y - theOrigin.Y) * Math.Cos(theRotation)
                 + (thePoint.X - theOrigin.X) * Math.Sin(theRotation));
+
             return aTranslatedPoint;
         }
 

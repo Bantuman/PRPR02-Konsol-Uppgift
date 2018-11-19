@@ -33,7 +33,7 @@ namespace Battleships.Objects.UI
             spriteBatch.Draw(healthTexture, rectangle, null, Color.White, Rotation, offset, SpriteEffects.None, Layer + 0.01f);
 
             SpriteFont font = FontLibrary.GetFont("Pixel");
-            spriteBatch.DrawString(font, Ship.Name + $" ({Ship.Health}/{Ship.MaxHealth})", rectangle.Location.ToVector2(), Ship.NameColor, 0, Vector2.Zero, 0.7f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(font, Ship.Name + $" ({(int)Ship.Health}/{(int)Ship.MaxHealth})", rectangle.Location.ToVector2(), Ship.NameColor, 0, Vector2.Zero, 0.7f, SpriteEffects.None, 1f);
         }
     }
 }
