@@ -130,7 +130,7 @@ namespace Battleships
             #pragma warning restore CS0618 // Type or member is obsolete
             spriteBatch.End();
 
-            spriteBatch.Begin(transformMatrix: camera.TranslationMatrix, blendState: BlendState.AlphaBlend);
+            spriteBatch.Begin(transformMatrix: camera.TranslationMatrix, sortMode: SpriteSortMode.Immediate, blendState: BlendState.Additive);
             // Draws all active objects.
             for (int i = objects.Count - 1; i >= 0; --i)
             {

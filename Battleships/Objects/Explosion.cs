@@ -16,6 +16,7 @@ namespace Battleships.Objects
         public Animator Animator { get; set; }
         public Animation.Animation[] Animations { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        private Rectangle explosionRectangle;
         private Texture2D glowTexture;
         private readonly float lifetime;
         private float spawnTick;
@@ -25,11 +26,12 @@ namespace Battleships.Objects
         {
             Point size = new Point((int)(32 * scale), (int)(32 * scale));
             Rectangle = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
+            explosionRectangle = new Rectangle(position.ToPoint(), new Point((int)(size.X * 1.5f), (int)(size.Y * 1.5f)));
             glowTexture = TextureLibrary.GetTexture("glow");
             Position = position;
             Animator = new Animator(new Animation.Animation(Texture, new Point(128, 128), new Point(4, 4), duration/8));
             spawnTick = 0;
-            glowTransparency = 0.8f;
+            glowTransparency = 0.7f;
             lifetime = duration;
             game.ShakeCamera(scale / 4);
         }
@@ -47,7 +49,7 @@ namespace Battleships.Objects
 
         public sealed override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(glowTexture, Rectangle.CollisionRectangle, null, new Color(244, 130, 66) * glowTransparency, 0, new Vector2(glowTexture.Width * 0.5f, glowTexture.Height * 0.5f), SpriteEffects.None, 1);
+            spriteBatch.Draw(glowTexture, explosionRectangle, null, new Color(255, 140, 77) * glowTransparency, 0, new Vector2(glowTexture.Width * 0.5f, glowTexture.Height * 0.5f), SpriteEffects.None, 1);
             base.Draw(spriteBatch);
         }
     }
