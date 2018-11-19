@@ -27,7 +27,7 @@ namespace Battleships.Objects
         public override void Act()
         {
             Shoot(1);
-            MoveToPoint(new Vector2(0, 50));
+            MoveToPoint(new Vector2(-100, -100));
             //AimTowards(Vector2.One, 1);
         }
     }

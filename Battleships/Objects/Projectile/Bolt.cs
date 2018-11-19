@@ -17,7 +17,7 @@ namespace Battleships.Objects.Projectile
         public Bolt(IGame1 game, float damage, Ship owner, Vector2 direction, float speed, Vector2 position) : base(game, damage, TextureLibrary.GetTexture("Bullet"))
         {
             random = new Random();
-            Rectangle = new RotatedRectangle(new Rectangle(0, 0, 16, 4), MathLibrary.Direction(direction));
+            Rectangle = new RotatedRectangle(new Rectangle(0, 0, 8, 4), MathLibrary.Direction(direction));
             Position  = position;
             BulletOwner = owner;
             if (direction.Length() == 0)
