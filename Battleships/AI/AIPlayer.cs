@@ -28,7 +28,8 @@ namespace Battleships.Objects
 
         public override void Act()
         {
-            Shoot(10);
+            if (Name != "Nemo")
+                Shoot(10);
             rotation += 0.1f;
             Acceleration = MathLibrary.ConstructVector(rotation);
             //MoveToPoint(new Vector2(0, 100));

@@ -17,9 +17,10 @@ namespace Battleships.Objects
         public float MaxHealth                  { get; private set; }
         public string Name                      { get; private set; }
         public Color NameColor                  { get; private set; }
+        public float Energy                     { get; private set; }
+        public float MaxEnergy                  { get; private set; }
 
         private Turret[] turrets;
-        private float energy;
         private bool initialized;
         private const int turretCount = 6;
 
@@ -34,10 +35,13 @@ namespace Battleships.Objects
             Animator                   = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
             initialized                = false;
             MaxHealth                  = Health = 30;
+            MaxEnergy                  = Energy = 666;
             OnDestroy                 += OnDeath;
             Name                       = name;
             NameColor                  = nameColor;
             Collider.OnCollisionEnter += OnCollision;
+
+            Energy = 100;
         }
 
         private void OnDeath(object sender, EventArgs e)
@@ -71,6 +75,17 @@ namespace Battleships.Objects
             if (Health <= 0)
             {
                 Destroy();
+            }
+            RecoverEnergy(10f * (float)gameTime.ElapsedGameTime.TotalSeconds);
+        }
+
+        private void RecoverEnergy(float energy)
+        {
+            energy = Math.Abs(energy);
+            Energy += energy;
+            if (Energy > MaxEnergy)
+            {
+                Energy = MaxEnergy;
             }
         }
 

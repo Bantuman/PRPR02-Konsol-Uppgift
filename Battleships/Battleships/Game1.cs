@@ -34,7 +34,6 @@ namespace Battleships
             IsMouseVisible           = true;
             graphics                 = new GraphicsDeviceManager(this);
             Content.RootDirectory    = "Content";
-            
 
             objects       = new List<IObject>();
             userInterface = new List<IObject>();
@@ -74,8 +73,10 @@ namespace Battleships
             objects.Add(playerOne);
             objects.Add(playerTwo);
 
-            userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45, 50))  { Layer = 0.99f });
+            userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45,  50)) { Layer = 0.99f });
             userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 50)) { Layer = 0.99f });
+            userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45,  70)) { Layer = 0.99f });
+            userInterface.Add(new EnergyBar(this, playerTwo, new Point(100, 10), new Point(650, 70)) { Layer = 0.99f });
         }
 
         /// <summary>
