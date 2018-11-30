@@ -4,6 +4,7 @@ using Battleships.Objects.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Objects.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -65,8 +66,8 @@ namespace Battleships
             Vector2 playerOneStartPosition = new Vector2(-242, 0),
                     playerTwoStartPosition = new Vector2( 242, 0);
 
-            Ship playerOne = new AIPlayer(playerOneStartPosition, "ThanosSpaceship", Color.White) { Game = this, Layer = 0.01f };
-            Ship playerTwo = new AIPlayer(playerTwoStartPosition, "aa!!!!", Color.White) { Game = this, Layer = 0.01f };
+            Ship playerOne = new AIPlayer(playerOneStartPosition, "USS Enterprise", Color.White) { Game = this, Layer = 0.01f };
+            Ship playerTwo = new AIPlayer(playerTwoStartPosition, "Star Destroyer", Color.White) { Game = this, Layer = 0.01f };
             playerOne.Initialize();
             playerTwo.Initialize();
 
@@ -74,12 +75,9 @@ namespace Battleships
             objects.Add(playerTwo);
 
             { // building UI dont open thx
-                /*/userInterface.Add(new Frame(this, Color.LightGray, new Point(32, 16), new Point(56, 3)) { Layer = 0.992f });
-                userInterface.Add(new Frame(this, Color.LightGray, new Point(32, 16), new Point(14, 3)) { Layer = 0.992f });
-                userInterface.Add(new Frame(this, Color.LightGray, new Point(32, 16), new Point(96, 3)) { Layer = 0.992f });/*/
+                userInterface.Add(new TextLabel(playerOne.Name, new Vector2(45, 10), 0.12f));
+                userInterface.Add(new TextLabel(playerTwo.Name, new Vector2(650, 10), 0.12f));
 
-                //userInterface.Add(new Frame(this, Color.White, new Point(Window.ClientBounds.Width, 1), new Point(0, 25)) { Layer = 0.991f });
-                //userInterface.Add(new Frame(this, Color.White, new Point(Window.ClientBounds.Width, 24), new Point(0, 0)) { Layer = 0.991f });
                 userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45, 30)) { Layer = 0.99f });
                 userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 30)) { Layer = 0.99f });
                 userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45, 60)) { Layer = 0.99f });
@@ -118,7 +116,7 @@ namespace Battleships
             {
                 timeMultiplier -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            gameTime = new GameTime(new TimeSpan((long)((float)gameTime.TotalGameTime.Ticks * timeMultiplier)), new TimeSpan((long)((float)gameTime.ElapsedGameTime.Ticks * timeMultiplier)));
+            gameTime = new GameTime(new TimeSpan((long)(gameTime.TotalGameTime.Ticks * timeMultiplier)), new TimeSpan((long)(gameTime.ElapsedGameTime.Ticks * timeMultiplier)));
 
             camera.Update(gameTime);
 
