@@ -4,6 +4,7 @@ using Battleships.Objects.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Objects.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -69,8 +70,8 @@ namespace Battleships
             Vector2 playerOneStartPosition = new Vector2(-242, 0),
                     playerTwoStartPosition = new Vector2(242, 0);
 
-            Ship playerOne = (Ship)Activator.CreateInstance(shipTypeOne, playerOneStartPosition);
-            Ship playerTwo = (Ship)Activator.CreateInstance(shipTypeTwo, playerTwoStartPosition);
+            Ship playerOne = (Ship)Activator.CreateInstance(shipTypeOne, playerOneStartPosition, Color.White);
+            Ship playerTwo = (Ship)Activator.CreateInstance(shipTypeTwo, playerTwoStartPosition, Color.Magenta);
 
             playerOne.Layer = playerTwo.Layer = 0.01f;
             playerOne.Game  = playerTwo.Game = this;
@@ -81,10 +82,15 @@ namespace Battleships
             objects.Add(playerOne);
             objects.Add(playerTwo);
 
-            userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45, 50)) { Layer = 0.99f });
-            userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 50)) { Layer = 0.99f });
-            userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45, 70)) { Layer = 0.99f });
-            userInterface.Add(new EnergyBar(this, playerTwo, new Point(100, 10), new Point(650, 70)) { Layer = 0.99f });
+            { // building UI dont open thx
+                userInterface.Add(new TextLabel(playerOne.Name, new Vector2(45, 10), 0.12f));
+                userInterface.Add(new TextLabel(playerTwo.Name, new Vector2(650, 10), 0.12f));
+
+                userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45, 30)) { Layer = 0.99f });
+                userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 30)) { Layer = 0.99f });
+                userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45, 60)) { Layer = 0.99f });
+                userInterface.Add(new EnergyBar(this, playerTwo, new Point(100, 10), new Point(650, 60)) { Layer = 0.99f });
+            }
         }
 
         /// <summary>
@@ -101,6 +107,8 @@ namespace Battleships
             FontLibrary.LoadFonts(Content);
         }
 
+        float timeMultiplier = 1;
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -108,6 +116,16 @@ namespace Battleships
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                timeMultiplier += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                timeMultiplier -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            gameTime = new GameTime(new TimeSpan((long)(gameTime.TotalGameTime.Ticks * timeMultiplier)), new TimeSpan((long)(gameTime.ElapsedGameTime.Ticks * timeMultiplier)));
+
             camera.Update(gameTime);
 
             // Calculates when to run the ships' action.
@@ -121,6 +139,10 @@ namespace Battleships
             for (int i = objects.Count - 1; i >= 0; --i)
             {
                 IObject obj = objects[i];
+                if (Math.Abs(obj.Position.X) > baseDimension.X * 0.6f || Math.Abs(obj.Position.Y) > baseDimension.Y * 0.6f)
+                {
+                    Destroy(obj);
+                }
                 obj.Update(gameTime);
                 if (runAction && obj is Ship ship)
                 {

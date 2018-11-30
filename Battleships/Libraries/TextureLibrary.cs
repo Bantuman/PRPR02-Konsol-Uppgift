@@ -24,7 +24,8 @@ namespace Battleships.Libraries
             { "Explosion", "Explosion" },
             { "Turret", "Turret" },
             { "Bullet", "Bullet" },
-            { "HealthBar", "HealthBar" }
+            { "HealthbarFill", "HealthbarFill" },
+            { "HealthbarBorder", "HealthbarBorder" }
         };
 
         public static Texture2D GetTexture(string key)
@@ -38,6 +39,9 @@ namespace Battleships.Libraries
             Random randomNumberGenerator = new Random();
             textures["background"] = new Texture2D(graphicsDevice, viewport.X * 3, viewport.Y * 3);
             textures["background"].SetData(Enumerable.Range(0, (viewport.X * 3) * (viewport.Y * 3)).Select(i => randomNumberGenerator.NextDouble() < 0.005f ? ColorFromFloat((float)randomNumberGenerator.NextDouble()) : Color.Black).ToArray());
+            // Generates pixel texture
+            textures["pixel"] = new Texture2D(graphicsDevice, 1, 1);
+            textures["pixel"].SetData<Color>(new Color[] { Color.White });
         }
 
         public static void LoadTextures(ContentManager contentManager)
