@@ -17,5 +17,10 @@ namespace Battleships.Libraries
         {
             return (new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * length);
         }
+
+        public static string ClampString(string str, int length)
+        {
+            return str.Substring(0, Math.Min(str.Length, length - 2)) + (str.Length > length ? ".." : "");
+        }
     }
 }

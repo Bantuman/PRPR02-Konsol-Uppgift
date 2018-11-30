@@ -84,9 +84,9 @@ namespace Battleships.Objects
 
         private void DrawName(SpriteBatch spriteBatch)
         {
-            SpriteFont font = FontLibrary.GetFont("Pixel");
-            Vector2 origin = font.MeasureString(Name) * 0.5f + Vector2.UnitY * Rectangle.Height * 2;
-            spriteBatch.DrawString(font, Name, Position, NameColor, 0, origin, 1, SpriteEffects.None, 1f);
+            SpriteFont font = FontLibrary.GetFont("fixedsys");
+            Vector2 origin = font.MeasureString(Name) * 0.5f + Vector2.UnitY * Rectangle.Height * 8;
+            spriteBatch.DrawString(font, Name, Position, NameColor, 0, origin, 0.18f, SpriteEffects.None, 1f);
         }
 
         private void DrawTurrets(SpriteBatch spriteBatch)

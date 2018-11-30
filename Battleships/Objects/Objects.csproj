@@ -68,6 +68,8 @@
     <Compile Include="RotatedRectangle.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="Turret.cs" />
+    <Compile Include="UI\Button.cs" />
+    <Compile Include="UI\Frame.cs" />
     <Compile Include="UI\HealthBar.cs" />
   </ItemGroup>
   <ItemGroup>

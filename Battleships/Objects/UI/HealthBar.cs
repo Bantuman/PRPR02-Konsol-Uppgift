@@ -15,12 +15,14 @@ namespace Battleships.Objects.UI
     {
         private Ship Ship { get; }
         private Texture2D healthTexture;
+        private string shipName;
 
-        public HealthBar(IGame1 game, Ship ship, Point size, Point position) : base(game, TextureLibrary.GetTexture("HealthBar"), new RotatedRectangle(new Rectangle(position, new Point(10, 10)), 0))
+        public HealthBar(IGame1 game, Ship ship, Point size, Point position) : base(game, TextureLibrary.GetTexture("HealthbarBorder"), new RotatedRectangle(new Rectangle(position, new Point(10, 10)), 0))
         {
             Ship = ship;
+            shipName = MathLibrary.ClampString(ship.Name, 12);
             Rectangle = new RotatedRectangle(new Rectangle(position, size), 0);
-            healthTexture = TextureLibrary.GetTexture("Bullet");
+            healthTexture = TextureLibrary.GetTexture("HealthbarFill");
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -33,8 +35,8 @@ namespace Battleships.Objects.UI
 
             spriteBatch.Draw(healthTexture, rectangle, null, Color.White, Rotation, offset, SpriteEffects.None, Layer + 0.01f);
 
-            SpriteFont font = FontLibrary.GetFont("Pixel");
-            spriteBatch.DrawString(font, Ship.Name + $" ({Math.Round(Ship.Health, MidpointRounding.AwayFromZero)}/{Math.Round(Ship.MaxHealth, MidpointRounding.AwayFromZero)})", rectangle.Location.ToVector2(), Ship.NameColor, 0, Vector2.Zero, 0.7f, SpriteEffects.None, 1f);
+            SpriteFont font = FontLibrary.GetFont("fixedsys");
+            spriteBatch.DrawString(font, shipName + $"({Math.Round(Ship.Health, MidpointRounding.AwayFromZero)}/{Math.Round(Ship.MaxHealth, MidpointRounding.AwayFromZero)})", rectangle.Location.ToVector2() + new Vector2(1f, 10f), Ship.NameColor, 0, Vector2.Zero, 0.13f, SpriteEffects.None, 1f);
         }
     }
 }

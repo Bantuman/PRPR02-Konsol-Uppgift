@@ -14,7 +14,9 @@ namespace Battleships.Libraries
         // Format: { Location, Key }
         private static string[,] fontsToLoad = new string[,]
         {
-            { "Pixeled", "Pixel" }
+            { "Pixeled", "Pixel" },
+            { "fixedsys", "fixedsys" },
+            { "Consolas", "Consolas" },
         };
 
         public static SpriteFont GetFont(string key)
