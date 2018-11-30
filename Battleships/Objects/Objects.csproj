@@ -70,6 +70,7 @@
     <Compile Include="Turret.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Frame.cs" />
+    <Compile Include="UI\EnergyBar.cs" />
     <Compile Include="UI\HealthBar.cs" />
   </ItemGroup>
   <ItemGroup>
