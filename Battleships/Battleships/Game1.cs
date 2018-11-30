@@ -17,6 +17,8 @@ namespace Battleships
     /// </summary>
     public class Game1 : Game, IGame1
     {
+        private Type                  shipTypeOne;
+        private Type                  shipTypeTwo;
         private GraphicsDeviceManager graphics;
         private SpriteBatch           spriteBatch;
         private List<IObject>         objects;
@@ -28,17 +30,19 @@ namespace Battleships
         private const float actionInterval = 0.01f;
         private float elapsedActionTime;
 
-        public Game1()
+        public Game1(Type shipTypeOne, Type shipTypeTwo)
         {
             Window.AllowUserResizing = true;
             IsMouseVisible           = true;
             graphics                 = new GraphicsDeviceManager(this);
             Content.RootDirectory    = "Content";
 
-            objects       = new List<IObject>();
-            userInterface = new List<IObject>();
-            camera        = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
-            baseDimension = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            this.shipTypeOne = shipTypeOne;
+            this.shipTypeTwo = shipTypeTwo;
+            objects          = new List<IObject>();
+            userInterface    = new List<IObject>();
+            camera           = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            baseDimension    = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
             Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
@@ -63,19 +67,23 @@ namespace Battleships
             camera.ShakeMagnitude = 14;
 
             Vector2 playerOneStartPosition = new Vector2(-242, 0),
-                    playerTwoStartPosition = new Vector2( 242, 0);
+                    playerTwoStartPosition = new Vector2(242, 0);
 
-            Ship playerOne = new AIPlayer(playerOneStartPosition, "Nemo", Color.Red) { Game = this, Layer = 0.01f };
-            Ship playerTwo = new AIPlayer(playerTwoStartPosition, "Alex", Color.White) { Game = this, Layer = 0.01f };
+            Ship playerOne = (Ship)Activator.CreateInstance(shipTypeOne, playerOneStartPosition);
+            Ship playerTwo = (Ship)Activator.CreateInstance(shipTypeTwo, playerTwoStartPosition);
+
+            playerOne.Layer = playerTwo.Layer = 0.01f;
+            playerOne.Game  = playerTwo.Game = this;
+
             playerOne.Initialize();
             playerTwo.Initialize();
 
             objects.Add(playerOne);
             objects.Add(playerTwo);
 
-            userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45,  50)) { Layer = 0.99f });
+            userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45, 50)) { Layer = 0.99f });
             userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 50)) { Layer = 0.99f });
-            userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45,  70)) { Layer = 0.99f });
+            userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45, 70)) { Layer = 0.99f });
             userInterface.Add(new EnergyBar(this, playerTwo, new Point(100, 10), new Point(650, 70)) { Layer = 0.99f });
         }
 

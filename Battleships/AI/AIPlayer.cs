@@ -13,7 +13,7 @@ namespace Battleships.Objects
     {
         private float rotation = 0;
 
-        public AIPlayer(Vector2 position, string name, Color nameColor) : base(null, position, name, nameColor)
+        public AIPlayer(Vector2 position) : base(null, position)
         {}
 
         private void MoveToPoint(Vector2 targetPosition)

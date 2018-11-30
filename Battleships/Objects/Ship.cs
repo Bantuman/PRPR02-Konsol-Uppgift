@@ -26,7 +26,7 @@ namespace Battleships.Objects
 
         internal float Damage { get => 10; }
 
-        public Ship(IGame1 game, Vector2 position, string name, Color nameColor) : base(game, TextureLibrary.GetTexture("Ship"))
+        public Ship(IGame1 game, Vector2 position) : base(game, TextureLibrary.GetTexture("Ship"))
         {
             Point size                 = new Point(64, 32);
             Rectangle                  = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
@@ -37,8 +37,8 @@ namespace Battleships.Objects
             MaxHealth                  = Health = 30;
             MaxEnergy                  = Energy = 666;
             OnDestroy                 += OnDeath;
-            Name                       = name;
-            NameColor                  = nameColor;
+            Name                       = GetType().Name;
+            NameColor                  = Color.White;
             Collider.OnCollisionEnter += OnCollision;
 
             Energy = 100;
