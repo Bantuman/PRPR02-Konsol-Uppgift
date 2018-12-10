@@ -34,7 +34,7 @@ namespace Battleships.Objects.UI
             spriteBatch.Draw(healthTexture, rectangle, null, Color.LightBlue, Rotation, offset, SpriteEffects.None, Layer + 0.01f);
 
             SpriteFont font = FontLibrary.GetFont("fixedsys");
-            spriteBatch.DrawString(font, $"ENERGY: ({Math.Round(Ship.Energy, MidpointRounding.AwayFromZero)}/{Math.Round(Ship.MaxEnergy, MidpointRounding.AwayFromZero)})", rectangle.Location.ToVector2() + new Vector2(1f, 10f), Ship.NameColor, 0, Vector2.Zero, 0.11f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(font, $"ENERGY: ({Math.Round(Ship.Energy, MidpointRounding.AwayFromZero)}/{Math.Round(Ship.MaxEnergy, MidpointRounding.AwayFromZero)})", rectangle.Location.ToVector2() + new Vector2(1f, 10f), Color.White, 0, Vector2.Zero, 0.11f, SpriteEffects.None, 1f);
         }
     }
 }

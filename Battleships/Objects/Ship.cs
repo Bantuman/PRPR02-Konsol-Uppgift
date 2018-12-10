@@ -16,7 +16,6 @@ namespace Battleships.Objects
         public float Health                     { get; private set; }
         public float MaxHealth                  { get; private set; }
         public string Name                      { get; private set; }
-        public Color NameColor                  { get; private set; }
         public float Energy                     { get; private set; }
         public float MaxEnergy                  { get; private set; }
 
@@ -26,7 +25,7 @@ namespace Battleships.Objects
 
         internal float Damage { get => 10; }
 
-        public Ship(IGame1 game, Vector2 position, Color color) : base(game, TextureLibrary.GetTexture("Ship"))
+        public Ship(IGame1 game, Vector2 position) : base(game, TextureLibrary.GetTexture("Ship"))
         {
             Point size                 = new Point(64, 32);
             Rectangle                  = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
@@ -38,7 +37,6 @@ namespace Battleships.Objects
             MaxEnergy                  = Energy = 666;
             OnDestroy                 += OnDeath;
             Name                       = GetType().Name;
-            NameColor                  = color;
             Collider.OnCollisionEnter += OnCollision;
 
             Energy = 100;
@@ -101,7 +99,7 @@ namespace Battleships.Objects
         {
             SpriteFont font = FontLibrary.GetFont("fixedsys");
             Vector2 origin = font.MeasureString(Name) * 0.5f + Vector2.UnitY * Rectangle.Height * 8;
-            spriteBatch.DrawString(font, Name, Position, NameColor, 0, origin, 0.18f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(font, Name, Position, Color.White, 0, origin, 0.18f, SpriteEffects.None, 1f);
         }
 
         private void DrawTurrets(SpriteBatch spriteBatch)
