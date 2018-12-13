@@ -26,7 +26,6 @@ namespace Battleships.Libraries
             { "Bullet", "Bullet" },
             { "HealthbarFill", "HealthbarFill" },
             { "HealthbarBorder", "HealthbarBorder" },
-            { "Slider", "Slider" },
             { "SliderButton", "SliderButton" }
         };
 

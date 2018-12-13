@@ -11,6 +11,8 @@ namespace Battleships
     /// </summary>
     public static class Program
     {
+        private static Type winnerType;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -35,10 +37,13 @@ namespace Battleships
             WriteInColor("2", ConsoleColor.Yellow);
             Console.Write(": ");
             WriteInColor(typeTwo.Name, ConsoleColor.Magenta);
-            using (Game1 game = new Game1(typeOne, typeTwo))
+            Console.WriteLine();
+            using (Game1 game = new Game1(typeOne, typeTwo, (Type type) => { winnerType = type; }))
             {
                 game.Run();
             }
+            Console.WriteLine($"\n{winnerType.Name} wins!");
+            Console.ReadKey(true);
         }
 
         private static int GetInputTypeIndex(int number, int indexCount)
