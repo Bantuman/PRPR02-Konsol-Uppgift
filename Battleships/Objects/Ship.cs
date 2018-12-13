@@ -16,8 +16,24 @@ namespace Battleships.Objects
         public float Health                     { get; private set; }
         public float MaxHealth                  { get; private set; }
         public string Name                      { get; private set; }
-        public float Energy                     { get; private set; }
         public float MaxEnergy                  { get; private set; }
+        public int ShotsFired                   { get; internal set; }
+        public int ShotsHit                     { get; internal set; }
+        public float EnergySpent                { get; private set; }
+
+        private float energy;
+        public float Energy
+        {
+            get => energy;
+            private set
+            {
+                if (value < energy)
+                {
+                    EnergySpent -= energy - value;
+                }
+                EnergySpent += value; energy = value;
+            }
+        }
 
         private Turret[] turrets;
         private bool initialized;

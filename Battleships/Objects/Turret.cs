@@ -55,9 +55,19 @@ namespace Battleships.Objects
 
         private void Shoot()
         {
+            ++Ship.ShotsFired;
             float rotation = Ship.Rotation + ((FacingLeft) ? (float)Math.PI : 0);
 
-            Game.Instantiate(new Bolt(Game, Ship.Damage, Ship, MathLibrary.ConstructVector(rotation + (float)Math.PI / 2), 1000, RotatedPosition + Ship.Position));
+            Bolt bolt = (Bolt)Game.Instantiate(new Bolt(Game, Ship.Damage, Ship, MathLibrary.ConstructVector(rotation + (float)Math.PI / 2), 1000, RotatedPosition + Ship.Position));
+            bolt.Collider.OnCollisionEnter += Bolt_OnCollisionEnter;
+        }
+
+        private void Bolt_OnCollisionEnter(object sender, Object.Collider.CollisionHitInfo collided)
+        {
+            if(collided.Object is Ship)
+            {
+                ++Ship.ShotsHit;
+            }
         }
 
         public void Fire(float duration)
