@@ -27,7 +27,7 @@ namespace Battleships.Objects
 
         public Ship(IGame1 game, Vector2 position) : base(game, TextureLibrary.GetTexture("Ship"))
         {
-            Point size                 = new Point(64, 32);
+            Point size                 = new Point(32, 16);
             Rectangle                  = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
             Collider                   = new Collider(this, ColliderType.Static);
             Position                   = position;
@@ -133,14 +133,15 @@ namespace Battleships.Objects
             }
 
             turrets = new Turret[turretCount];
-            for(int i = 0; i < turrets.Length; ++i)
+            float shipScale = (Rectangle.CollisionRectangle.Size.X / 64f);
+            for (int i = 0; i < turrets.Length; ++i)
             {
-                Vector2 position = new Vector2(-Rectangle.CollisionRectangle.Size.X / 2 + 28 * (i % (turrets.Length / 2)), 20);
+                Vector2 position = new Vector2(-Rectangle.CollisionRectangle.Size.X / 2 + 28 * shipScale * (i % (turrets.Length / 2)), 20 * shipScale);
                 if (i > (turrets.Length - 1) / 2)
                 {
                     position.X *= -1;
                 }
-                turrets[i] = new Turret(Game, this, position, new Vector2(10, 25));
+                turrets[i] = new Turret(Game, this, position, new Vector2(10, 25) * shipScale);
             }
 
             initialized = true;

@@ -25,7 +25,9 @@ namespace Battleships.Libraries
             { "Turret", "Turret" },
             { "Bullet", "Bullet" },
             { "HealthbarFill", "HealthbarFill" },
-            { "HealthbarBorder", "HealthbarBorder" }
+            { "HealthbarBorder", "HealthbarBorder" },
+            { "Slider", "Slider" },
+            { "SliderButton", "SliderButton" }
         };
 
         public static Texture2D GetTexture(string key)

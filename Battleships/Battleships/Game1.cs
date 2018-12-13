@@ -28,6 +28,8 @@ namespace Battleships
         private Vector2               baseDimension;
         private Texture2D             backgroundTexture;
 
+        private float gameTimeMultiplier;
+
         private const float actionInterval = 0.01f;
         private float elapsedActionTime;
 
@@ -38,12 +40,13 @@ namespace Battleships
             graphics                 = new GraphicsDeviceManager(this);
             Content.RootDirectory    = "Content";
 
-            this.shipTypeOne = shipTypeOne;
-            this.shipTypeTwo = shipTypeTwo;
-            objects          = new List<IObject>();
-            userInterface    = new List<IObject>();
-            camera           = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
-            baseDimension    = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            this.shipTypeOne   = shipTypeOne;
+            this.shipTypeTwo   = shipTypeTwo;
+            objects            = new List<IObject>();
+            userInterface      = new List<IObject>();
+            camera             = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            baseDimension      = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            gameTimeMultiplier = 1f;
 
             Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
@@ -90,6 +93,8 @@ namespace Battleships
                 userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 30)) { Layer = 0.99f });
                 userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45, 60)) { Layer = 0.99f });
                 userInterface.Add(new EnergyBar(this, playerTwo, new Point(100, 10), new Point(650, 60)) { Layer = 0.99f });
+
+                userInterface.Add(new Slider(this, new Vector2(baseDimension.X / 2, 450), new Point(265, 20), (float value) => { gameTimeMultiplier = value; }, new Vector2(0.1f, 2f), 1, "Game time"));
             }
         }
 
