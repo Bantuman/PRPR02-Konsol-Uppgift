@@ -11,15 +11,15 @@ namespace Battleships.Objects
 {
     public abstract class Ship : Object, ICollidable, IAnimated
     {
-        public new Collider Collider            { get; set; }
-        public Animator Animator                { get; set; }
-        public float Health                     { get; private set; }
-        public float MaxHealth                  { get; private set; }
-        public string Name                      { get; private set; }
-        public float MaxEnergy                  { get; private set; }
-        public int ShotsFired                   { get; internal set; }
-        public int ShotsHit                     { get; internal set; }
-        public float EnergySpent                { get; private set; }
+        public new Collider Collider { get; set; }
+        public Animator Animator     { get; set; }
+        public float Health          { get; private set; }
+        public float MaxHealth       { get; private set; }
+        public string Name           { get; private set; }
+        public float MaxEnergy       { get; private set; }
+        public int ShotsFired        { get; internal set; }
+        public int ShotsHit          { get; internal set; }
+        public float EnergySpent     { get; private set; }
 
         private float energy;
         public float Energy

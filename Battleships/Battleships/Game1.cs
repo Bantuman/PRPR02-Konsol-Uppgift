@@ -31,7 +31,11 @@ namespace Battleships
         private Texture2D             backgroundTexture;
         private float                 gameTimeMultiplier;
         private Action<Ship, Ship>    setWinnerAndLoser;
+        private bool                  finish = false;
+        private float                 finishTimeCount = 0.0f;
+        private Type                  winningPlayer;
 
+        private const float finishTime = 5f;
         private const float actionInterval = 0.01f;
         private float elapsedActionTime;
 
@@ -49,6 +53,8 @@ namespace Battleships
             camera             = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
             baseDimension      = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
             gameTimeMultiplier = 1f;
+            finish             = false;
+            finishTimeCount    = 0;
 
             this.setWinnerAndLoser = setWinnerAndLoser;
 
@@ -180,11 +186,6 @@ namespace Battleships
                 }
             }
         }
-
-        bool finish = false;
-        float finishTimeCount = 0.0f;
-        const float finishTime = 5f;
-        Type winningPlayer;
 
         /// <summary>
         /// This is called when the game should draw itself.
