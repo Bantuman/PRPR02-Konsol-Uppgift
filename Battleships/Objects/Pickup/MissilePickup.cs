@@ -15,6 +15,7 @@ namespace Battleships.Objects.Pickup
 
         public override void PickUp(ref Ship obj)
         {
+            obj.GiveMissiles(1);
             Destroy();
         }
     }

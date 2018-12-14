@@ -24,6 +24,7 @@ namespace Battleships.Objects
         
         protected Ship EnemyShip     { get; private set; }
 
+        private int missiles;
         private float energy;
         public float Energy
         {
@@ -77,6 +78,15 @@ namespace Battleships.Objects
                     ship.TakeDamage(10 * (collisionVelocity / 70));
                     Game.Instantiate(new Explosion(Game, Vector2.Lerp(Position, e.Object.Position, 0.5f), 2 * (collisionVelocity / 70), 3));
                 }
+            }
+        }
+
+        protected void LaunchMissile(float rotation)
+        {
+            if (missiles > 0)
+            {
+                --missiles;
+                // fire missile
             }
         }
 
@@ -166,6 +176,11 @@ namespace Battleships.Objects
             initialized = true;
         }
 
+        internal void GiveMissiles(int amount)
+        {
+            missiles += amount;
+        }
+
         internal void GiveHealth(float health)
         {
             Health = Math.Min(MaxHealth, Health + Math.Abs(health));
@@ -186,3 +201,7 @@ namespace Battleships.Objects
         }
     }
 }
+
+
+// theme: https://www.youtube.com/watch?v=e6UCGhc0fi0
+// made by turboautists, for turboautists, go wild
