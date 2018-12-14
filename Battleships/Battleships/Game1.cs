@@ -23,6 +23,8 @@ namespace Battleships
 
         private Type                  shipTypeOne;
         private Type                  shipTypeTwo;
+        private Ship                  playerOne;
+        private Ship                  playerTwo;
         private GraphicsDeviceManager graphics;
         private SpriteBatch           spriteBatch;
         private List<IObject>         objects;
@@ -30,6 +32,8 @@ namespace Battleships
         private Camera                camera;
         private Vector2               baseDimension;
         private Texture2D             backgroundTexture;
+        private float                 gameTimeMultiplier;
+        private Action<Ship, Ship>    setWinnerAndLoser;
 
         private const float pickupInterval = 6;
         private float elapsedPickupTime;
@@ -37,19 +41,22 @@ namespace Battleships
         private const float actionInterval = 0.01f;
         private float elapsedActionTime;
 
-        public Game1(Type shipTypeOne, Type shipTypeTwo)
+        public Game1(Type shipTypeOne, Type shipTypeTwo, Action<Ship, Ship> setWinnerAndLoser)
         {
             Window.AllowUserResizing = true;
             IsMouseVisible           = true;
             graphics                 = new GraphicsDeviceManager(this);
             Content.RootDirectory    = "Content";
 
-            this.shipTypeOne = shipTypeOne;
-            this.shipTypeTwo = shipTypeTwo;
-            objects          = new List<IObject>();
-            userInterface    = new List<IObject>();
-            camera           = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
-            baseDimension    = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            this.shipTypeOne   = shipTypeOne;
+            this.shipTypeTwo   = shipTypeTwo;
+            objects            = new List<IObject>();
+            userInterface      = new List<IObject>();
+            camera             = new Camera(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            baseDimension      = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            gameTimeMultiplier = 1f;
+
+            this.setWinnerAndLoser = setWinnerAndLoser;
 
             Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
@@ -76,8 +83,8 @@ namespace Battleships
             Vector2 playerOneStartPosition = new Vector2(-242, 0),
                     playerTwoStartPosition = new Vector2(242, 0);
 
-            Ship playerOne = (Ship)Activator.CreateInstance(shipTypeOne, playerOneStartPosition, Color.White);
-            Ship playerTwo = (Ship)Activator.CreateInstance(shipTypeTwo, playerTwoStartPosition, Color.Magenta);
+            playerOne = (Ship)Activator.CreateInstance(shipTypeOne, playerOneStartPosition, Color.White);
+            playerTwo = (Ship)Activator.CreateInstance(shipTypeTwo, playerTwoStartPosition, Color.Magenta);
 
             playerOne.Layer = playerTwo.Layer = 0.01f;
             playerOne.Game  = playerTwo.Game = this;
@@ -85,18 +92,19 @@ namespace Battleships
             playerOne.Initialize(playerTwo);
             playerTwo.Initialize(playerOne);
 
+
             objects.Add(playerOne);
             objects.Add(playerTwo);
 
-            { // building UI dont open thx
-                userInterface.Add(new TextLabel(playerOne.Name, new Vector2(45, 10), 0.12f));
-                userInterface.Add(new TextLabel(playerTwo.Name, new Vector2(650, 10), 0.12f));
+            userInterface.Add(new TextLabel(playerOne.Name, new Vector2(45, 10), 0.12f));
+            userInterface.Add(new TextLabel(playerTwo.Name, new Vector2(650, 10), 0.12f));
 
-                userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45, 30)) { Layer = 0.99f });
-                userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 30)) { Layer = 0.99f });
-                userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45, 60)) { Layer = 0.99f });
-                userInterface.Add(new EnergyBar(this, playerTwo, new Point(100, 10), new Point(650, 60)) { Layer = 0.99f });
-            }
+            userInterface.Add(new HealthBar(this, playerOne, new Point(100, 10), new Point(45, 30)) { Layer = 0.99f });
+            userInterface.Add(new HealthBar(this, playerTwo, new Point(100, 10), new Point(650, 30)) { Layer = 0.99f });
+            userInterface.Add(new EnergyBar(this, playerOne, new Point(100, 10), new Point(45, 60)) { Layer = 0.99f });
+            userInterface.Add(new EnergyBar(this, playerTwo, new Point(100, 10), new Point(650, 60)) { Layer = 0.99f });
+
+            userInterface.Add(new Slider(this, new Vector2(baseDimension.X / 2, 450), new Point(265, 20), (float value) => { gameTimeMultiplier = value; }, new Vector2(0.1f, 4f), 1, "Game time", GetUIScale));
         }
 
         /// <summary>
@@ -113,8 +121,6 @@ namespace Battleships
             FontLibrary.LoadFonts(Content);
         }
 
-        float timeMultiplier = 1;
-
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -122,16 +128,8 @@ namespace Battleships
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            gameTime = new GameTime(new TimeSpan((long)(gameTime.TotalGameTime.Ticks * gameTimeMultiplier)), new TimeSpan((long)(gameTime.ElapsedGameTime.Ticks * gameTimeMultiplier)));
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (Keyboard.GetState().IsKeyDown(Keys.E))
-            {
-                timeMultiplier += deltaTime;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
-            {
-                timeMultiplier -= deltaTime;
-            }
-            gameTime = new GameTime(new TimeSpan((long)(gameTime.TotalGameTime.Ticks * timeMultiplier)), new TimeSpan((long)(gameTime.ElapsedGameTime.Ticks * timeMultiplier)));
 
             camera.Update(gameTime);
 
@@ -183,12 +181,45 @@ namespace Battleships
                     ship.Act();
                 }
             }
+
+            for (int i = 0; i < userInterface.Count; ++i)
+            {
+                userInterface[i].Update(gameTime);
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.F))
                 camera.ShakeIntensity = 1;
 
             camera.ShakeIntensity = MathHelper.Lerp(camera.ShakeIntensity, 0, 0.1f);
             base.Update(gameTime);
+
+            if (!objects.Contains(playerTwo))
+            {
+                winningPlayer = playerTwo.GetType();
+                setWinnerAndLoser(playerTwo, playerOne);
+                finish = true;
+            }
+            if (!objects.Contains(playerTwo))
+            {
+                winningPlayer = playerOne.GetType();
+                setWinnerAndLoser(playerOne, playerTwo);
+                finish = true;
+            }
+
+            if (finish)
+            {
+                finishTimeCount += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (finishTimeCount >= finishTime)
+                {
+                    Exit();
+                }
+            }
         }
+
+        bool finish = false;
+        float finishTimeCount = 0.0f;
+        const float finishTime = 5f;
+        Type winningPlayer;
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -210,13 +241,29 @@ namespace Battleships
             }
             spriteBatch.End();
 
-            spriteBatch.Begin(transformMatrix: Matrix.CreateScale(new Vector3(Window.ClientBounds.Width / baseDimension.X, Window.ClientBounds.Height / baseDimension.Y, 1)));
+            spriteBatch.Begin(transformMatrix: Matrix.CreateScale(new Vector3(GetUIScale(), 1)));
             for (int i = userInterface.Count - 1; i >= 0; --i)
             {
                 userInterface[i].Draw(spriteBatch);
             }
+            if (finish)
+            {
+                SpriteFont font = FontLibrary.GetFont("fixedsys");
+                string text = $"{winningPlayer.Name} wins!";
+                Vector2 center = baseDimension * 0.5f;
+                float offset = 10f;
+                int tLeft = (int)Math.Round(finishTime - finishTimeCount);
+                string timeLeft = $"Exiting in: {tLeft} second{(tLeft != 1 ? "s" : "")}";
+                spriteBatch.DrawString(font, text, center - Vector2.UnitY * offset, Color.White, 0, font.MeasureString(text) * 0.5f, 0.2f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(font, timeLeft, center + Vector2.UnitY * offset, Color.White, 0, font.MeasureString(timeLeft) * 0.5f, 0.2f, SpriteEffects.None, 0);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public Vector2 GetUIScale()
+        {
+            return new Vector2(Window.ClientBounds.Width / baseDimension.X, Window.ClientBounds.Height / baseDimension.Y);
         }
 
         public void ShakeCamera(float amount)

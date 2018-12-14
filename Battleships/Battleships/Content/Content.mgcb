@@ -125,6 +125,7 @@
 /build:Consolas.spritefont
 
 #begin EnergyPickup.png
+#begin SliderButton.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -147,4 +148,5 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HealthPickup.png
+/build:SliderButton.png
 

@@ -26,10 +26,10 @@ namespace Battleships.Objects
 
         public override void Act()
         {
-            foreach (Turret turret in Turrets)
+            /*foreach (Turret turret in turrets)
             {
                 turret.IsFiring = true;
-            }
+            }*/
             if (EnemyShip != null)
             {
                 MoveToPoint(EnemyShip.Position);

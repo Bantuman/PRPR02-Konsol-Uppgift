@@ -26,13 +26,15 @@ namespace Battleships.Objects
         public Vector2 Offset             { get; private set; }
         public float RotationOffset       { get; set; }
         public IGame1 Game                { private protected get; set; }
+        public float DistanceTraveled     { get; private set; }
+        public float HighestVelocity      { get; private set; }
+        public Texture2D Texture          { get; private set; }
+
         public virtual float Rotation => MathLibrary.Direction(Acceleration);
         public event EventHandler OnDestroy;
 
-        protected Vector2 Velocity        { get; private protected set; }
-        protected Vector2 Acceleration    { get; set; }
-
-        public Texture2D Texture          { get; private set; }
+        protected Vector2 Velocity     { get; private protected set; }
+        protected Vector2 Acceleration { get; set; }
 
         private Vector2 position;
         private RotatedRectangle rectangle;
@@ -42,6 +44,8 @@ namespace Battleships.Objects
             Game = game;
             Texture = texture;
             Rectangle = rectangle;
+            DistanceTraveled = 0;
+            HighestVelocity = 0;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -63,6 +67,10 @@ namespace Battleships.Objects
 
         public virtual void Update(GameTime gameTime)
         {
+            if(Velocity.Length() > HighestVelocity)
+            {
+                HighestVelocity = Velocity.Length();
+            }
             ApplyAcceleration(gameTime);
             ApplyVelocity(gameTime);
             rectangle.Rotation = Rotation; 
@@ -76,8 +84,10 @@ namespace Battleships.Objects
         }
 
         protected void ApplyVelocity(GameTime gameTime)
-        {
-            Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        { 
+            Vector2 movement = Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            DistanceTraveled += movement.Length();
+            Position += movement;
         }
     }
 }

@@ -72,6 +72,7 @@
     <Compile Include="UI\Frame.cs" />
     <Compile Include="UI\EnergyBar.cs" />
     <Compile Include="UI\HealthBar.cs" />
+    <Compile Include="UI\Slider.cs" />
     <Compile Include="UI\TextLabel.cs" />
   </ItemGroup>
   <ItemGroup>

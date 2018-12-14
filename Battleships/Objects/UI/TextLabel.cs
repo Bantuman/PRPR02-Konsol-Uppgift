@@ -13,16 +13,13 @@ namespace Objects.UI
     public class TextLabel : IObject
     {
         public string Text { get; private set; }
-        public Vector2 Position { get; private set; }
+        public Vector2 Position { get; set; }
         public RotatedRectangle Rectangle { get; set; }
         public float Layer { get; set; }
         public event EventHandler OnDestroy;
 
         private SpriteFont font;
         private float fontSize;
-
-        Vector2 IObject.Position { get; set; }
-
 
         public TextLabel(string text, Vector2 position, float size, string font = "fixedsys")
         {
@@ -37,7 +34,6 @@ namespace Objects.UI
             spriteBatch.DrawString(font, Text, position: Position, Color.White, 0, Vector2.Zero, fontSize, SpriteEffects.None, 1f);
         }
 
-        public void Update(GameTime gameTime)
-        { }
+        public void Update(GameTime gameTime) { }
     }
 }

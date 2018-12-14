@@ -51,6 +51,11 @@ namespace Battleships.Objects
                 ignoreList = ignore ?? new List<ICollidable> { };
             }
 
+            public static void Reset()
+            {
+                colliders = new List<Collider>();
+            }
+
             private void Holder_OnDestroy(object sender, EventArgs e)
             {
                 colliders.Remove(this);
@@ -73,7 +78,7 @@ namespace Battleships.Objects
                 {
                     foreach (Object obj in collidingObjects)
                     {
-                         if (previousCollidingObjects.Contains(obj))
+                        if (previousCollidingObjects.Contains(obj))
                         {
                             continue;
                         }

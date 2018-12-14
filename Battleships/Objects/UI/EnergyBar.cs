@@ -36,5 +36,7 @@ namespace Battleships.Objects.UI
             SpriteFont font = FontLibrary.GetFont("fixedsys");
             spriteBatch.DrawString(font, $"ENERGY: ({Math.Round(Ship.Energy, MidpointRounding.AwayFromZero)}/{Math.Round(Ship.MaxEnergy, MidpointRounding.AwayFromZero)})", rectangle.Location.ToVector2() + new Vector2(1f, 10f), Color.White, 0, Vector2.Zero, 0.11f, SpriteEffects.None, 1f);
         }
+
+        public override void Update(GameTime gameTime) { }
     }
 }
