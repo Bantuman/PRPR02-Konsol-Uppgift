@@ -144,23 +144,23 @@ namespace Battleships
             {
                 elapsedPickupTime -= pickupInterval;
                 Random random = new Random();
-                Vector2 randomPosition = new Vector2((float)random.NextDouble() * 200 - 100, (float)random.NextDouble() * 200 - 100);
+                //Vector2 randomPosition = new Vector2((float)random.NextDouble() * 200 - 100, (float)random.NextDouble() * 200 - 100);
                 /*do
                 {
                     randomPosition = new Vector2((float)random.NextDouble() * 200 - 100, (float)random.NextDouble() * 200 - 100);
                 }  while (objects.Where(x => ((x is Pickup) ? (x.Position - randomPosition).Length() < 10 : false)) != null);
                 */
-
-                switch(random.Next(2))
+                Vector2 pickupPositon = new Vector2(0, -80);
+                switch(random.Next(3))
                 {
                     case 0:
-                        objects.Add(new EnergyPickup(randomPosition, 15, this, TextureLibrary.GetTexture("EnergyPickup")));
+                        objects.Add(new EnergyPickup(pickupPositon, 15, this, TextureLibrary.GetTexture("EnergyPickup")));
                         break;
                     case 1:
-                        objects.Add(new HealthPickup(randomPosition, 15, this, TextureLibrary.GetTexture("HealthPickup")));
+                        objects.Add(new HealthPickup(pickupPositon, 15, this, TextureLibrary.GetTexture("HealthPickup")));
                         break;
                     case 2:
-                        objects.Add(new MissilePickup(randomPosition, 15, this, TextureLibrary.GetTexture("EnergyPickup")));
+                        objects.Add(new MissilePickup(pickupPositon, 15, this, TextureLibrary.GetTexture("EnergyPickup")));
                         break;
                 }
             }

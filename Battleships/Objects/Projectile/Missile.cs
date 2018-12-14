@@ -18,10 +18,13 @@ namespace Battleships.Objects.Projectile
 
         public override float Rotation => rotation;
 
-        public Missile(IGame1 game, Texture2D texture, float rotation) : base(game, 0, texture)
+        public Missile(IGame1 game, float rotation, float damage, Vector2 position) : base(game, 0, TextureLibrary.GetTexture("EnergyPickup"))
         {
-            Rectangle = new RotatedRectangle(new Rectangle(0, 0, 100, 200), rotation);
-            this.rotation = rotation;
+            Rectangle = new RotatedRectangle(new Rectangle(0, 0, 8, 16), rotation);
+            Position = position;
+            targetRotation = this.rotation = rotation;
+            Damage = damage;
+            speed = 60;
         }
 
         public void RotateTo(float rotation)

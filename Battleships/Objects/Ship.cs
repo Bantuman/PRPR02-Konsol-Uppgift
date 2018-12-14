@@ -87,7 +87,7 @@ namespace Battleships.Objects
             if (missiles > 0)
             {
                 --missiles;
-                // fire missile
+                Game.Instantiate(new Missile(Game, rotation, 0, Position));
             }
         }
 
