@@ -21,8 +21,9 @@ namespace Battleships.Objects
         public int ShotsFired        { get; internal set; }
         public int ShotsHit          { get; internal set; }
         public float EnergySpent     { get; private set; }
-           
+        
         public int MissileCount      { get => missiles; }
+        protected Turret[] Turrets   { get => turrets; }
         protected Ship EnemyShip     { get; private set; }
 
         private int missiles;
@@ -190,6 +191,15 @@ namespace Battleships.Objects
         internal void GiveEnergy(float energy)
         {
             Energy = Math.Min(MaxEnergy, Energy + Math.Abs(energy));
+        }
+
+        public void TakeEnergy(float energy)
+        {
+            Energy -= Math.Abs(energy);
+            if (Energy < 0)
+            {
+                Energy = 0;
+            }
         }
 
         public void TakeDamage(float damage)

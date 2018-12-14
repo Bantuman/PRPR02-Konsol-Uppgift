@@ -11,7 +11,7 @@ namespace Battleships.Objects
         private Ship Ship { get; }
         private IGame1 Game { get; }
 
-        private float roundsPerMinute = 100;
+        private float roundsPerMinute = 50;
         private float timeSinceLastShot;
 
         public Vector2 RotatedPosition { get; set; }
@@ -33,11 +33,12 @@ namespace Battleships.Objects
 
         internal void Update(GameTime gameTime)
         {
-            if (IsFiring)
+            if (IsFiring && Ship.Energy > 0)
             {
                 if (timeSinceLastShot > FireInterval)
                 {
                     Shoot();
+                    Ship.TakeEnergy(5);
                     timeSinceLastShot -= FireInterval;
                 }
             }
