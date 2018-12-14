@@ -13,7 +13,6 @@ namespace Battleships.Objects
     {
         public new Collider Collider { get; set; }
         public Animator Animator { get; set; }
-        public Ship EnemyShip { get; private set; }
         public float Health { get; private set; }
         public float MaxHealth { get; private set; }
         public string Name { get; private set; }
@@ -21,6 +20,8 @@ namespace Battleships.Objects
         public int ShotsFired { get; internal set; }
         public int ShotsHit { get; internal set; }
         public float EnergySpent { get; private set; }
+
+        protected Ship EnemyShip { get; private set; }
 
         private float energy;
         public float Energy
@@ -164,14 +165,16 @@ namespace Battleships.Objects
             initialized = true;
         }
 
-        public void GiveHealth(float health)
+        internal void GiveHealth(float health)
         {
-            Health += Math.Abs(health);
+            Health = Math.Min(MaxHealth, Health + Math.Abs(health));
         }
-        public void GiveEnergy(float energy)
+
+        internal void GiveEnergy(float energy)
         {
-            Energy += Math.Abs(energy);
+            Energy = Math.Min(MaxEnergy, Energy + Math.Abs(energy));
         }
+
         public void TakeDamage(float damage)
         {
             Health -= Math.Abs(damage);
