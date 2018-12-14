@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Battleships.Libraries;
 using Battleships.Objects.Animation;
+using Battleships.Objects.Projectile;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
