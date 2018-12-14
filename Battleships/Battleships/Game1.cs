@@ -172,6 +172,7 @@ namespace Battleships
             {
                 elapsedActionTime -= actionInterval;
             }
+
             // Updates all active objects.
             for (int i = objects.Count - 1; i >= 0; --i)
             {
