@@ -11,10 +11,8 @@ namespace Battleships.Objects
 {
     public class AIPlayer : Ship
     {
-        private float rotation = 0;
-
         public AIPlayer(Vector2 position, Color color) : base(null, position)
-        {}
+        { }
 
         private void MoveToPoint(Vector2 targetPosition)
         {
@@ -28,9 +26,14 @@ namespace Battleships.Objects
 
         public override void Act()
         {
-            Shoot(1);
-            MoveToPoint(new Vector2(-100, -100));
-            //AimTowards(Vector2.One, 1);
+            foreach (Turret turret in Turrets)
+            {
+                turret.IsFiring = true;
+            }
+            if (EnemyShip != null)
+            {
+                MoveToPoint(EnemyShip.Position);
+            }
         }
     }
 }
