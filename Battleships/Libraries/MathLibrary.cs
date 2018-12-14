@@ -22,5 +22,15 @@ namespace Battleships.Libraries
         {
             return str.Substring(0, Math.Min(str.Length, length - 2)) + (str.Length > length ? ".." : "");
         }
+
+        public static float LerpAngle(float a, float b, float t)
+        {
+            float dtheta = b - a;
+            if (dtheta > (float)Math.PI)
+                a += 2 * (float)Math.PI;
+            else if (dtheta < -Math.PI) a -= 2 * (float)Math.PI;
+                a += (b - a) * t;
+            return a;
+        }
     }
 }
