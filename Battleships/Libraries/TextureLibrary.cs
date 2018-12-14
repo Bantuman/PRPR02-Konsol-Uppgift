@@ -26,6 +26,8 @@ namespace Battleships.Libraries
             { "Bullet", "Bullet" },
             { "HealthbarFill", "HealthbarFill" },
             { "HealthbarBorder", "HealthbarBorder" },
+            { "HealthPickup", "HealthPickup" },
+            { "EnergyPickup", "EnergyPickup" },
             { "SliderButton", "SliderButton" }
         };
 

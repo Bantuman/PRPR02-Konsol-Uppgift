@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Battleships.Objects.Pickup
 {
-    class EnergyPickup : Pickup
+    public class EnergyPickup : Pickup
     {
-        public EnergyPickup(IGame1 game, Texture2D texture) : base(game, texture)
+        public EnergyPickup(Vector2 position, float lifetime, IGame1 game, Texture2D texture) : base(position, lifetime, game, texture)
         {
         }
 
-        public override void PickUp(ref IObject obj)
+        public override void PickUp(ref Ship obj)
         {
-
+            obj.GiveEnergy(111);
+            Destroy();
         }
     }
 }

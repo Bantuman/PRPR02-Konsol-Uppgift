@@ -1,6 +1,7 @@
 ﻿using Battleships.Libraries;
 using Battleships.Objects;
 using Battleships.Objects.UI;
+using Battleships.Objects.Pickup;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -18,6 +19,8 @@ namespace Battleships
     /// </summary>
     public class Game1 : Game, IGame1
     {
+        public IObject[]              Objects { get => objects.ToArray(); }
+
         private Type                  shipTypeOne;
         private Type                  shipTypeTwo;
         private Ship                  playerOne;
@@ -36,6 +39,8 @@ namespace Battleships
         private Type                  winningPlayer;
 
         private const float finishTime = 5f;
+        private const float pickupInterval = 6;
+        private float elapsedPickupTime;
         private const float actionInterval = 0.01f;
         private float elapsedActionTime;
 
@@ -89,8 +94,9 @@ namespace Battleships
             playerOne.Layer = playerTwo.Layer = 0.01f;
             playerOne.Game  = playerTwo.Game = this;
 
-            playerOne.Initialize();
-            playerTwo.Initialize();
+            playerOne.Initialize(playerTwo);
+            playerTwo.Initialize(playerOne);
+
 
             objects.Add(playerOne);
             objects.Add(playerTwo);
@@ -128,11 +134,39 @@ namespace Battleships
         protected override void Update(GameTime gameTime)
         {
             gameTime = new GameTime(new TimeSpan((long)(gameTime.TotalGameTime.Ticks * gameTimeMultiplier)), new TimeSpan((long)(gameTime.ElapsedGameTime.Ticks * gameTimeMultiplier)));
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             camera.Update(gameTime);
 
+            // Spawns pickups.
+            elapsedPickupTime += deltaTime;
+            if (elapsedPickupTime >= pickupInterval)
+            {
+                elapsedPickupTime -= pickupInterval;
+                Random random = new Random();
+                Vector2 randomPosition = new Vector2((float)random.NextDouble() * 200 - 100, (float)random.NextDouble() * 200 - 100);
+                /*do
+                {
+                    randomPosition = new Vector2((float)random.NextDouble() * 200 - 100, (float)random.NextDouble() * 200 - 100);
+                }  while (objects.Where(x => ((x is Pickup) ? (x.Position - randomPosition).Length() < 10 : false)) != null);
+                */
+
+                switch(random.Next(2))
+                {
+                    case 0:
+                        objects.Add(new EnergyPickup(randomPosition, 15, this, TextureLibrary.GetTexture("EnergyPickup")));
+                        break;
+                    case 1:
+                        objects.Add(new HealthPickup(randomPosition, 15, this, TextureLibrary.GetTexture("HealthPickup")));
+                        break;
+                    case 2:
+                        objects.Add(new MissilePickup(randomPosition, 15, this, TextureLibrary.GetTexture("EnergyPickup")));
+                        break;
+                }
+            }
+
             // Calculates when to run the ships' action.
-            elapsedActionTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            elapsedActionTime += deltaTime;
             bool runAction = elapsedActionTime >= actionInterval;
             if (runAction)
             {

@@ -20,6 +20,8 @@ namespace Battleships.Objects
         public int ShotsFired        { get; internal set; }
         public int ShotsHit          { get; internal set; }
         public float EnergySpent     { get; private set; }
+        
+        protected Ship EnemyShip     { get; private set; }
 
         private float energy;
         public float Energy
@@ -43,16 +45,16 @@ namespace Battleships.Objects
 
         public Ship(IGame1 game, Vector2 position) : base(game, TextureLibrary.GetTexture("Ship"))
         {
-            Point size                 = new Point(32, 16);
-            Rectangle                  = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
-            Collider                   = new Collider(this, ColliderType.Static);
-            Position                   = position;
-            Animator                   = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
-            initialized                = false;
-            MaxHealth                  = Health = 30;
-            MaxEnergy                  = Energy = 666;
-            OnDestroy                 += OnDeath;
-            Name                       = GetType().Name;
+            Point size = new Point(32, 16);
+            Rectangle = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
+            Collider = new Collider(this, ColliderType.Static);
+            Position = position;
+            Animator = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
+            initialized = false;
+            MaxHealth = Health = 30;
+            MaxEnergy = Energy = 666;
+            OnDestroy += OnDeath;
+            Name = GetType().Name;
             Collider.OnCollisionEnter += OnCollision;
 
             Energy = 100;
@@ -76,13 +78,13 @@ namespace Battleships.Objects
                 }
             }
         }
-        
+
         public abstract void Act();
 
-        public sealed override void Update(GameTime gameTime) 
+        public sealed override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            foreach(Turret turret in turrets)
+            foreach (Turret turret in turrets)
             {
                 turret.Update(gameTime);
             }
@@ -137,7 +139,7 @@ namespace Battleships.Objects
             }
         }
 
-        public void Initialize()
+        public void Initialize(Ship enemyShip)
         {
             if (initialized)
             {
@@ -147,7 +149,7 @@ namespace Battleships.Objects
             {
                 throw new Exception("Value of game has not been set.");
             }
-
+            EnemyShip = enemyShip;
             turrets = new Turret[turretCount];
             float shipScale = (Rectangle.CollisionRectangle.Size.X / 64f);
             for (int i = 0; i < turrets.Length; ++i)
@@ -163,12 +165,14 @@ namespace Battleships.Objects
             initialized = true;
         }
 
-        protected void Shoot(float duration)
+        public void GiveHealth(float health)
         {
-            foreach(Turret turret in turrets)
-            {
-                turret.Fire(duration);
-            }
+            Health += Math.Abs(health);
+        }
+
+        public void GiveEnergy(float energy)
+        {
+            Energy += Math.Abs(energy);
         }
 
         public void TakeDamage(float damage)
