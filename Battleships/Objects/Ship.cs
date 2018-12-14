@@ -165,14 +165,14 @@ namespace Battleships.Objects
             initialized = true;
         }
 
-        public void GiveHealth(float health)
+        internal void GiveHealth(float health)
         {
-            Health += Math.Abs(health);
+            Health = Math.Min(MaxHealth, Health + Math.Abs(health));
         }
 
-        public void GiveEnergy(float energy)
+        internal void GiveEnergy(float energy)
         {
-            Energy += Math.Abs(energy);
+            Energy = Math.Min(MaxEnergy, Energy + Math.Abs(energy));
         }
 
         public void TakeDamage(float damage)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -16,8 +17,9 @@ namespace Battleships.Objects.Pickup
         public Pickup(Vector2 position, float lifetime, IGame1 game, Texture2D texture) : base(game, texture)
         {
             this.lifetime = lifetime;
-            Point size = new Point(32, 32);
+            Point size = new Point(16, 16);
             Rectangle = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
+            Position = position;
             Collider = new Collider(this, ColliderType.Trigger);
             Collider.OnCollisionEnter += OnCollision;
         }
@@ -34,6 +36,7 @@ namespace Battleships.Objects.Pickup
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             elapsedLifetime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (elapsedLifetime > lifetime)
             {

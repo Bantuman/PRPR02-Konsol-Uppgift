@@ -39,7 +39,7 @@ namespace Battleships
         private Type                  winningPlayer;
 
         private const float finishTime = 5f;
-        private const float pickupInterval = 6;
+        private const float pickupInterval = 10f;
         private float elapsedPickupTime;
         private const float actionInterval = 0.01f;
         private float elapsedActionTime;
