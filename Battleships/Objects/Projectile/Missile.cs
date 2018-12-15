@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Battleships.Libraries;
+﻿using Battleships.Libraries;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Battleships.Objects.Projectile
 {
+    /// <summary>
+    /// Missile class.
+    /// </summary>
     public class Missile : Projectile, IMissile
     {
-        // In radians.
-        private float targetRotation;
-        private float rotation;
-
-        private float speed;
-        private Action<GameTime, Missile> guideMissile;
-        private Random random;
-        private float timeAlive;
-
-        private const float LIFETIME = 2f;
-        private const float DAMAGE = 200f;
-
         public override float Rotation => rotation;
 
-        public Missile(IGame1 game, float rotation, float damage, Vector2 position, Ship owner, Action<GameTime, Missile> guideMissile) : base(game, 0, TextureLibrary.GetTexture("Missile"), owner)
+        private float                     targetRotation;
+        private float                     rotation;
+        private float                     speed;
+        private Action<GameTime, Missile> guideMissile;
+
+        private Random                    random;
+        private float                     timeAlive;
+
+        private const float               LIFETIME = 2f;
+        private const float               DAMAGE   = 200f;
+
+        public Missile(IGame1 game, float rotation, float damage, Vector2 position, Ship owner, Action<GameTime, Missile> guideMissile) :
+            base(game, 0, TextureLibrary.GetTexture("Missile"), owner)
         {
             Rectangle                  = new RotatedRectangle(new Rectangle(0, 0, 16, 8), rotation);
             Position                   = position;
@@ -32,11 +31,16 @@ namespace Battleships.Objects.Projectile
             Damage                     = damage;
             speed                      = 200;
             this.guideMissile          = guideMissile;
-            Collider.OnCollisionEnter += OnCollisionEnter;
+            Collider.OnCollisionEnter += OnHit;
             random                     = new Random();
         }
 
-        private void OnCollisionEnter(object sender, Collider.CollisionHitInfo collisionHitInfo)
+        /// <summary>
+        /// Handles hits.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="collisionHitInfo">Hit info.</param>
+        private void OnHit(object sender, Collider.CollisionHitInfo collisionHitInfo)
         {
             if (collisionHitInfo.Object == BulletOwner as Object)
             {
@@ -53,17 +57,27 @@ namespace Battleships.Objects.Projectile
             Destroy();
         }
 
+        /// <summary>
+        /// Rotates missile to target rotation.
+        /// </summary>
+        /// <param name="rotation">Target rotation.</param>
         public void RotateTo(float rotation)
         {
             targetRotation = rotation;
         }
 
+        /// <summary>
+        /// Updates object.
+        /// </summary>
+        /// <param name="gameTime">Container for time data such as elapsed time since last update.</param>
         public override void Update(GameTime gameTime)
         {
             timeAlive += (float)gameTime.ElapsedGameTime.TotalSeconds;
             guideMissile?.Invoke(gameTime, this);
+
             rotation = MathLibrary.LerpAngle(rotation, targetRotation, 1 - (float)Math.Pow(0.07f, gameTime.ElapsedGameTime.TotalSeconds));
             Velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * speed;
+
             base.Update(gameTime);
             if (timeAlive >= LIFETIME)
             {

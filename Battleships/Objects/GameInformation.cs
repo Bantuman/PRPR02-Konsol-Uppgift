@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Battleships.Objects
+﻿namespace Battleships.Objects
 {
+    /// <summary>
+    /// Game information container for relaying game information to ships.
+    /// </summary>
     public class GameInformation
     {
         public Pickup.Pickup[] Pickups { get; }

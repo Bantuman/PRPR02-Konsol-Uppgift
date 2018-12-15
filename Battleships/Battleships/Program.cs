@@ -1,9 +1,7 @@
 ﻿using Battleships.Objects;
 using System;
-using System.Collections;
 using System.Linq;
 using System.Reflection;
-using static Battleships.Objects.Object;
 
 namespace Battleships
 {
@@ -23,7 +21,7 @@ namespace Battleships
         {
             while(true)
             {
-                Collider.Reset();
+                Objects.Object.Collider.Reset();
                 Console.WriteLine("Battleships\n");
                 Type[] shipTypes = Assembly.GetAssembly(typeof(AIPlayer)).GetTypes().Where(theType => theType.IsSubclassOf(typeof(Ship))).ToArray();
                 for (int i = 0; i < shipTypes.Length; ++i)
@@ -132,6 +130,12 @@ namespace Battleships
             }
         }
 
+        /// <summary>
+        /// Gets the index for the input type.
+        /// </summary>
+        /// <param name="number">Ship number.</param>
+        /// <param name="indexCount">Number of valid indecies.</param>
+        /// <returns>Index for ship type.</returns>
         private static int GetInputTypeIndex(int number, int indexCount)
         {
             int startTop = Console.CursorTop;
@@ -163,6 +167,11 @@ namespace Battleships
             }
         }
 
+        /// <summary>
+        /// Writes string in color.
+        /// </summary>
+        /// <param name="message">Tring to write.</param>
+        /// <param name="color">Color to write in.</param>
         private static void WriteInColor(string message, ConsoleColor color)
         {
             ConsoleColor startColor = Console.ForegroundColor;

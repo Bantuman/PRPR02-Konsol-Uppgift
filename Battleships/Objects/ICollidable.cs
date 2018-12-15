@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Battleships.Objects
+﻿namespace Battleships.Objects
 {
+    /// <summary>
+    /// Interface for collidable object.
+    /// </summary>
     public interface ICollidable
     {
         Object.Collider Collider { get; }

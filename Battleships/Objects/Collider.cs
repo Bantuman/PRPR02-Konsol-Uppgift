@@ -1,23 +1,31 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace Battleships.Objects
 {
+    /// <summary>
+    /// Collider types.
+    /// </summary>
     public enum ColliderType
     {
         Trigger,
         Static
     }
 
+    /// <summary>
+    /// Base class for objects.
+    /// </summary>
     public abstract partial class Object : IObject
     {
+        /// <summary>
+        /// Collider class for objects to use.
+        /// </summary>
         public class Collider
         {
-            public ColliderType ColliderType { get; set; }
+            /// <summary>
+            /// Event argument class for hit info from collisions.
+            /// </summary>
             public class CollisionHitInfo : EventArgs
             {
                 public Object Object { get; set; }
@@ -28,15 +36,19 @@ namespace Battleships.Objects
                 }
             }
 
+            public delegate void CollisionHandler(object sender, CollisionHitInfo e);
+
             private static List<Collider> colliders = new List<Collider>();
 
-            private Object Holder { get; }
-            private Vector2 previousPosition;
-            private List<Object> previousCollidingObjects;
-            private List<ICollidable> ignoreList;
+            public ColliderType           ColliderType { get; set; }
 
-            public delegate void CollisionHandler(object sender, CollisionHitInfo e);
             public event CollisionHandler OnCollisionEnter;
+
+            private Object                Holder       { get; }
+
+            private Vector2               previousPosition;
+            private List<Object>          previousCollidingObjects;
+            private List<ICollidable>     ignoreList;
 
             public Collider(Object holder, ColliderType type, List<ICollidable> ignore = null)
             {
@@ -44,33 +56,36 @@ namespace Battleships.Objects
                 {
                     colliders.Add(this);
                 }
-                ColliderType = type;
-                Holder = holder;
-                holder.OnDestroy += Holder_OnDestroy;
+
+                ColliderType             = type;
+                Holder                   = holder;
+                holder.OnDestroy        += Holder_OnDestroy;
                 previousCollidingObjects = new List<Object>();
-                ignoreList = ignore ?? new List<ICollidable> { };
+                ignoreList               = ignore ?? new List<ICollidable>();
             }
 
+            /// <summary>
+            /// Resets the static collider container.
+            /// </summary>
             public static void Reset()
             {
                 colliders = new List<Collider>();
             }
 
+            /// <summary>
+            /// Removes this from static collider container on holder destruction.
+            /// </summary>
+            /// <param name="sender">Sender.</param>
+            /// <param name="e">Event arguments.</param>
             private void Holder_OnDestroy(object sender, EventArgs e)
             {
                 colliders.Remove(this);
             }
 
-            private float Cross(Vector2 v1, Vector2 v2)
-            {
-                return (v1.X * v2.Y - v1.Y * v2.X);
-            }
-
-            private Vector2 Cross(float v1, Vector2 v2)
-            {
-                return new Vector2(-v1 * v2.X, v1 * v2.X);
-            }
-
+            /// <summary>
+            /// Updates collider.
+            /// </summary>
+            /// <param name="gameTime">Container for time data such as elapsed time since last update.</param>
             public void Update(GameTime gameTime)
             {
                 List<Object> collidingObjects = GetCollidingObjects(ColliderType.Static);
@@ -108,7 +123,6 @@ namespace Battleships.Objects
                                 {
                                     // Top Collision
                                     nVector = Vector2.UnitY * collision.Rectangle.Height;
-
                                 }
                                 if (aCollision < bCollision && aCollision < cCollision && aCollision < dCollision)
                                 {
@@ -135,6 +149,11 @@ namespace Battleships.Objects
                 previousCollidingObjects = collidingObjects;
             }
             
+            /// <summary>
+            /// Gets all colliding objects.
+            /// </summary>
+            /// <param name="type">Collider type to check for.</param>
+            /// <returns>List of colliding objects.</returns>
             public List<Object> GetCollidingObjects(ColliderType type)
             {
                 List<Object> collidingObjects = new List<Object>();

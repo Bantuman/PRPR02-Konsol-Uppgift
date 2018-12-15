@@ -1,44 +1,58 @@
-﻿using Battleships;
-using Battleships.Libraries;
-using Battleships.Objects;
+﻿using Battleships.Libraries;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships.Objects.UI
 {
-    public class HealthBar : Object
+    /// <summary>
+    /// Health bar class.
+    /// </summary>
+    public class HealthBar : IObject
     {
-        private Ship Ship { get; }
-        private Texture2D healthTexture;
-        private string shipName;
+        public Vector2             Position  { get => Rectangle.CollisionRectangle.Location.ToVector2(); }
+        public RotatedRectangle    Rectangle { get; private set; }
+        public float               Layer     { get; set; }
 
-        public HealthBar(IGame1 game, Ship ship, Point size, Point position) : base(game, TextureLibrary.GetTexture("HealthbarBorder"), new RotatedRectangle(new Rectangle(position, new Point(10, 10)), 0))
+        public event EventHandler  OnDestroy;
+
+        private Ship               Ship      { get; }
+
+        private readonly Texture2D texture;
+        private readonly Texture2D healthTexture;
+        private readonly string    shipName;
+
+        public HealthBar(IGame1 game, Ship ship, Point size, Point position)
         {
-            Ship = ship;
-            shipName = MathLibrary.ClampString(ship.Name, 12);
-            Rectangle = new RotatedRectangle(new Rectangle(position, size), 0);
+            Ship          = ship;
+            shipName      = MathLibrary.ClampString(ship.Name, 12);
+            Rectangle     = new RotatedRectangle(new Rectangle(position, size), 0);
+            texture       = TextureLibrary.GetTexture("HealthbarBorder");
             healthTexture = TextureLibrary.GetTexture("HealthbarFill");
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        /// <summary>
+        /// Draws object.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch for drawing.</param>
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Rectangle.CollisionRectangle, null, Color.White, Rotation, Offset, SpriteEffects.None, Layer);
-
-            Vector2 offset = Vector2.Zero;
+            Vector2 offset      = Vector2.Zero;
+            spriteBatch.Draw(texture, Rectangle.CollisionRectangle, null, Color.White, 0, offset, SpriteEffects.None, Layer);
+            
             Rectangle rectangle = Rectangle.CollisionRectangle;
             rectangle.Width     = (int)(rectangle.Width * (Ship.Health / Ship.MaxHealth));
 
-            spriteBatch.Draw(healthTexture, rectangle, null, Color.White, Rotation, offset, SpriteEffects.None, Layer + 0.01f);
+            spriteBatch.Draw(healthTexture, rectangle, null, Color.White, 0, offset, SpriteEffects.None, Layer + 0.01f);
 
-            SpriteFont font = FontLibrary.GetFont("fixedsys");
+            SpriteFont font     = FontLibrary.GetFont("fixedsys");
             spriteBatch.DrawString(font, $"HEALTH: ({Math.Round(Ship.Health, MidpointRounding.AwayFromZero)}/{Math.Round(Ship.MaxHealth, MidpointRounding.AwayFromZero)})", rectangle.Location.ToVector2() + new Vector2(1f, 10f), Color.White, 0, Vector2.Zero, 0.11f, SpriteEffects.None, 1f);
         }
 
-        public override void Update(GameTime gameTime){}
+        /// <summary>
+        /// Updates object.
+        /// </summary>
+        /// <param name="gameTime">Container for time data such as elapsed time since last update.</param>
+        public void Update(GameTime gameTime){}
     }
 }

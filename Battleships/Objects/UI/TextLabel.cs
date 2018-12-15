@@ -1,39 +1,47 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Battleships.Libraries;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Battleships.Libraries;
 using Microsoft.Xna.Framework;
-using Battleships.Objects;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
-namespace Objects.UI
+namespace Battleships.Objects.UI
 {
+    /// <summary>
+    /// Text label for user interface.
+    /// </summary>
     public class TextLabel : IObject
     {
-        public string Text { get; private set; }
-        public Vector2 Position { get; set; }
-        public RotatedRectangle Rectangle { get; set; }
-        public float Layer { get; set; }
-        public event EventHandler OnDestroy;
+        public Vector2              Position  { get; set; }
+        public RotatedRectangle     Rectangle { get => null; }
+        public float                Layer     { get; set; }
+                                    
+        public string               Text      { get; private set; }
+        
+        public event EventHandler   OnDestroy;
 
-        private SpriteFont font;
-        private float fontSize;
+        private readonly SpriteFont font;
+        private readonly float      fontSize;
 
-        public TextLabel(string text, Vector2 position, float size, string font = "fixedsys")
+        public TextLabel(string text, Vector2 position, float size, SpriteFont font = null)
         {
-            this.font = FontLibrary.GetFont(font);
-            Position = position;
-            this.fontSize = size;
-            Text = text;
+            this.font = font ?? FontLibrary.GetFont("fixedsys");
+            Position  = position;
+            fontSize  = size;
+            Text      = text;
         }
 
+        /// <summary>
+        /// Draws object.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch for drawing.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, Text, position: Position, Color.White, 0, Vector2.Zero, fontSize, SpriteEffects.None, 1f);
         }
 
+        /// <summary>
+        /// Updates object.
+        /// </summary>
+        /// <param name="gameTime">Container for time data such as elapsed time since last update.</param>
         public void Update(GameTime gameTime) { }
     }
 }

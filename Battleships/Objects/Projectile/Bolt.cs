@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Battleships.Libraries;
+﻿using Battleships.Libraries;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Battleships.Objects.Projectile
 {
-    public class Bolt : Projectile
+    /// <summary>
+    /// Regular bullet class.
+    /// </summary>
+    public class Bullet : Projectile
     {
         public override float Rotation => MathLibrary.Direction(Velocity);
         
-        private Random random;
+        private Random        random;
 
-        private const float SPEED = 200;
+        private const float   SPEED    = 200;
 
-        public Bolt(IGame1 game, float damage, Ship owner, Vector2 direction, Vector2 position) : base(game, damage, TextureLibrary.GetTexture("Bullet"), owner)
+        public Bullet(IGame1 game, float damage, Ship owner, Vector2 direction, Vector2 position) :
+            base(game, damage, TextureLibrary.GetTexture("Bullet"), owner)
         {
             random = new Random();
             Rectangle = new RotatedRectangle(new Rectangle(0, 0, 4, 2), MathLibrary.Direction(direction));
@@ -31,14 +31,19 @@ namespace Battleships.Objects.Projectile
             Layer = 0.01f;
         }
 
-        private void OnHit(object sender, Collider.CollisionHitInfo args)
+        /// <summary>
+        /// Handles hits.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="collisionHitInfo">Hit info.</param>
+        private void OnHit(object sender, Collider.CollisionHitInfo collisionHitInfo)
         {
-            if (args.Object == BulletOwner as Object)
+            if (collisionHitInfo.Object == BulletOwner as Object)
             {
                 return;
             }
 
-            if (args.Object is Ship ship)
+            if (collisionHitInfo.Object is Ship ship)
             {
                 ship.TakeDamage(Damage);
             }

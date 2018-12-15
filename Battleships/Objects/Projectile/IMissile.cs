@@ -1,16 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships.Objects.Projectile
 {
+    /// <summary>
+    /// Missile interface.
+    /// </summary>
     public interface IMissile
     {
         Vector2 Position { get; }
 
+        /// <summary>
+        /// Rotates missile to target rotation.
+        /// </summary>
+        /// <param name="rotation">Target rotation.</param>
         void RotateTo(float rotation);
     }
 }

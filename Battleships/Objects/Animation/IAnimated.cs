@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Battleships.Objects.Animation
+﻿namespace Battleships.Objects.Animation
 {
+    /// <summary>
+    /// Interface for animated object.
+    /// </summary>
     interface IAnimated
     {
         Animator Animator { get; }

@@ -38,7 +38,7 @@ namespace Battleships.Objects
                 if (timeSinceLastShot > FireInterval)
                 {
                     Shoot();
-                    Ship.TakeEnergy(5);
+                    Ship.LoseEnergy(5);
                     timeSinceLastShot = 0;
                 }
             }
@@ -50,7 +50,7 @@ namespace Battleships.Objects
             ++Ship.ShotsFired;
             float rotation = Ship.Rotation + ((FacingLeft) ? (float)Math.PI : 0);
 
-            Bolt bolt = (Bolt)Game.Instantiate(new Bolt(Game, Ship.Damage, Ship, MathLibrary.ConstructVector(rotation + (float)Math.PI / 2), RotatedPosition + Ship.Position));
+            Bullet bolt = (Bullet)Game.Instantiate(new Bullet(Game, Ship.Damage, Ship, MathLibrary.ConstructVector(rotation + (float)Math.PI / 2), RotatedPosition + Ship.Position));
             bolt.Collider.OnCollisionEnter += Bolt_OnCollisionEnter;
         }
 
