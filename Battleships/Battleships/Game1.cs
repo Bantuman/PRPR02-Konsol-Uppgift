@@ -16,11 +16,11 @@ namespace Battleships
     public class Game1 : Game, IGame1
     {
         public IObject[]              Objects               => objects.ToArray();
+        public Vector2                BaseDimensions         { get; }
 
         private const float           FINISH_TIME           = 5f;    // Time left before the game exits after one player dies.
         private const float           PICKUP_INTERVAL       = 10f;   // Interval between pickup spawns.
         private const float           ACTION_INTERVAL       = 0.01f; // Interval between ship actions.
-        private const float           SCREEN_LEAVING_DAMAGE = 80f;   // Damage ships take per second for leaving the screen.
 
         private Type                  shipTypeOne;
         private Type                  shipTypeTwo;
@@ -33,11 +33,10 @@ namespace Battleships
         private List<IObject>         userInterface;
 
         private Camera                camera;
-        private Vector2               baseDimension;
         private Texture2D             backgroundTexture;
         private float                 gameTimeMultiplier;
-
         private Action<Ship, Ship>    setWinnerAndLoser; // Function for the game to send the winning and losing ship to the program.
+
         private bool                  finish;
         private float                 finishTimeCount;
         private Type                  winningPlayer;
@@ -63,8 +62,8 @@ namespace Battleships
             objects                   = new List<IObject>();
             userInterface             = new List<IObject>();
                                       
-            baseDimension             = new Vector2(800, 480);
-            camera                    = new Camera((int)baseDimension.X, (int)baseDimension.Y);
+            BaseDimensions             = new Vector2(800, 480);
+            camera                    = new Camera((int)BaseDimensions.X, (int)BaseDimensions.Y);
 
             gameTimeMultiplier        = 1f;
             timeLeft                  = roundDuration;
@@ -80,7 +79,7 @@ namespace Battleships
         private void UpdateCamera(object sender, EventArgs e)
         {
             camera.UpdateViewport(Window.ClientBounds.Width, Window.ClientBounds.Height);
-            camera.Zoom = new Vector2(Window.ClientBounds.Width / baseDimension.X, Window.ClientBounds.Height / baseDimension.Y);
+            camera.Zoom = new Vector2(Window.ClientBounds.Width / BaseDimensions.X, Window.ClientBounds.Height / BaseDimensions.Y);
         }
 
         /// <summary>
@@ -117,7 +116,7 @@ namespace Battleships
             userInterface.Add(new EnergyBar(playerOne, new Point(100, 10), new Point(45, 60))  { Layer = 0.99f });
             userInterface.Add(new EnergyBar(playerTwo, new Point(100, 10), new Point(650, 60)) { Layer = 0.99f });
 
-            userInterface.Add(new Slider(this, new Point((int)baseDimension.X / 2, 450), new Point(265, 20), (float value) => { gameTimeMultiplier = value; }, new Vector2(0.1f, 4f), 1, "Game time", GetUIScale));
+            userInterface.Add(new Slider(this, new Point((int)BaseDimensions.X / 2, 450), new Point(265, 20), (float value) => { gameTimeMultiplier = value; }, new Vector2(0.1f, 4f), 1, "Game time", GetUIScale));
         }
 
         /// <summary>
@@ -127,7 +126,7 @@ namespace Battleships
         /// <returns>Game data.</returns>
         public GameInformation GetGameInformation(Ship ship)
         {
-            return new GameInformation(new Pickup[3], timeLeft, Math.Abs(ship.Position.X) > baseDimension.X * 0.6f || Math.Abs(ship.Position.Y) > baseDimension.Y * 0.6f);
+            return new GameInformation(new Pickup[3], timeLeft, Math.Abs(ship.Position.X) > BaseDimensions.X * 0.6f || Math.Abs(ship.Position.Y) > BaseDimensions.Y * 0.6f);
         }
 
         /// <summary>
@@ -264,13 +263,9 @@ namespace Battleships
             {
                 IObject obj = objects[i];
 
-                if (Math.Abs(obj.Position.X) > baseDimension.X * 0.6f || Math.Abs(obj.Position.Y) > baseDimension.Y * 0.6f)
+                if (Math.Abs(obj.Position.X) > BaseDimensions.X * 0.6f || Math.Abs(obj.Position.Y) > BaseDimensions.Y * 0.6f)
                 {
-                    if (obj is Ship s)
-                    {
-                        s.TakeDamage(SCREEN_LEAVING_DAMAGE * deltaTime);
-                    }
-                    else
+                    if (!(obj is Ship))
                     {
                         Destroy(obj);
                     }
@@ -350,7 +345,7 @@ namespace Battleships
             SpriteFont font = FontLibrary.GetFont("fixedsys");
             string text     = $"{winningPlayer.Name} wins!";
 
-            Vector2 center = baseDimension * 0.5f;
+            Vector2 center = BaseDimensions * 0.5f;
             Vector2 offset = Vector2.UnitY * 10f;
 
             int tLeft       = (int)Math.Round(FINISH_TIME - finishTimeCount);
@@ -368,7 +363,7 @@ namespace Battleships
             SpriteFont font = FontLibrary.GetFont("fixedsys");
             int tLeft = (int)Math.Round(timeLeft);
             string text = $"Time left: {tLeft} second{(tLeft != 1 ? "s" : "")}";
-            Vector2 center = baseDimension * 0.5f;
+            Vector2 center = BaseDimensions * 0.5f;
             spriteBatch.DrawString(font, text, center + Vector2.UnitY * -200, Color.White, 0, font.MeasureString(text) * 0.5f, 0.2f, SpriteEffects.None, 0);
         }
 
@@ -378,7 +373,7 @@ namespace Battleships
         /// <returns>Vector of UI scale in relation to window size.</returns>
         public Vector2 GetUIScale()
         {
-            return new Vector2(Window.ClientBounds.Width / baseDimension.X, Window.ClientBounds.Height / baseDimension.Y);
+            return new Vector2(Window.ClientBounds.Width / BaseDimensions.X, Window.ClientBounds.Height / BaseDimensions.Y);
         }
 
         /// <summary>

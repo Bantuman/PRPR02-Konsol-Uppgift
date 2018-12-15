@@ -1,148 +1,224 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="Battleships.Objects.Ship">
-    <Position X="6.25" Y="0.75" Width="1.5" />
+  <Class Name="Battleships.Objects.Turret" Collapsed="true">
+    <Position X="28" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAQAAACAABAABxQAAAAAAAAQAAAAAAAQAAAAAAQAAEg=</HashCode>
+      <HashCode>QAQQAAACAAAAhAAAAAIAIACAAQiAAAAAAAIAAAAAAIA=</HashCode>
+      <FileName>Turret.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.Ship" Collapsed="true">
+    <Position X="10.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAjAKAghCAGwQAAQA0IIYKEAAAADATIgAggAQASMo=</HashCode>
       <FileName>Ship.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Battleships.Objects.Pickup.Pickup">
-    <Position X="8.25" Y="0.75" Width="1.5" />
+  <Class Name="Battleships.Objects.RotatedRectangle" Collapsed="true">
+    <Position X="29.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAACIAABAAAAIAAAAgAAEIEAAgAAAABAAJQAAgAYIA=</HashCode>
+      <FileName>RotatedRectangle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.Object" Collapsed="true">
+    <Position X="16.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBQAAAAACAAoAwEAEAICAAAAhgAAAEAAIEAAAEgAA=</HashCode>
+      <FileName>Collider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Battleships.Objects.ProjectileInformation" Collapsed="true">
+    <Position X="11.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>IShip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.MissileInformation" Collapsed="true">
+    <Position X="12.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IShip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.BulletInformation" Collapsed="true">
+    <Position X="10.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IShip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.GameInformation" Collapsed="true">
+    <Position X="26.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABEEAAAAAAAAAAAA=</HashCode>
+      <FileName>GameInformation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.Explosion" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQJAAAAAAAQAgAgAAAAAAAAAACgAgAMAAAACAVAAAA=</HashCode>
+      <FileName>Explosion.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Battleships.Objects.Camera" Collapsed="true">
+    <Position X="28" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAIAgECAAABACCAARAABAAAQAAkAAAAA=</HashCode>
+      <FileName>Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.UI.TextLabel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYBAAAAAAAAAgAiAAAAAAAAAAAgAAAEAAAACAAAAAA=</HashCode>
+      <FileName>UI\TextLabel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Battleships.Objects.UI.Slider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQBABAAQAAAAhAgAAIgAgAAAAAgAiAEAAAAgAAACAA=</HashCode>
+      <FileName>UI\Slider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Battleships.Objects.UI.HealthBar" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAAAAgAgAAAAAAADAACgAgAEAAAAAAAAAAA=</HashCode>
+      <FileName>UI\HealthBar.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Battleships.Objects.UI.EnergyBar" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAAAAgAgCAAAAAAAAACgAgAEAAAAAAAAAAA=</HashCode>
+      <FileName>UI\EnergyBar.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Battleships.Objects.Projectile.Projectile" Collapsed="true">
+    <Position X="14" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAACAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Projectile\Projectile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Battleships.Objects.Projectile.Missile" Collapsed="true">
+    <Position X="13" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASEAABAAAAAAIAAAACAAAAAAAAAAQBBAAQAAAAAAgA=</HashCode>
+      <FileName>Projectile\Missile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Battleships.Objects.Projectile.Bullet" Collapsed="true">
+    <Position X="15.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAEAAABAAAQAAAAAAgA=</HashCode>
+      <FileName>Projectile\Bullet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleships.Objects.Pickup.Pickup" Collapsed="true">
+    <Position X="19.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAAAAAAAAAAAAAAAAAAAAAgAAQIAAAAABAAAA=</HashCode>
       <FileName>Pickup\Pickup.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Battleships.Objects.Pickup.HealthPickup">
-    <Position X="8.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pickup\HealthPickup.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Battleships.Objects.Pickup.EnergyPickup">
-    <Position X="12.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pickup\EnergyPickup.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Battleships.Objects.Pickup.MissilePickup">
-    <Position X="10.25" Y="4.5" Width="1.5" />
+  <Class Name="Battleships.Objects.Pickup.MissilePickup" Collapsed="true">
+    <Position X="17.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pickup\MissilePickup.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Battleships.Objects.Projectile.Projectile">
-    <Position X="4" Y="0.75" Width="1.5" />
+  <Class Name="Battleships.Objects.Pickup.HealthPickup" Collapsed="true">
+    <Position X="19.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAgAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Projectile\Projectile.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Battleships.Objects.Projectile.Bolt">
-    <Position X="2.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
-      <FileName>Projectile\Bolt.cs</FileName>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pickup\HealthPickup.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Battleships.Objects.Projectile.Missile">
-    <Position X="4.25" Y="4.5" Width="1.5" />
+  <Class Name="Battleships.Objects.Pickup.EnergyPickup" Collapsed="true">
+    <Position X="22" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Projectile\Missile.cs</FileName>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pickup\EnergyPickup.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Battleships.Objects.AIPlayer">
-    <Position X="6.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
-      <FileName>AIPlayer.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Battleships.Objects.Animation.Animation">
-    <Position X="14.5" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAQAAAAAAABAAAEAIAAAABAAAABAiAAAIAAA=</HashCode>
-      <FileName>Animation\Animation.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Battleships.Objects.Animation.Animator">
-    <Position X="10.5" Y="0.75" Width="1.5" />
+  <Class Name="Battleships.Objects.Animation.Animator" Collapsed="true">
+    <Position X="26.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAgAAAAAAAAAAABAAAAAIAAAAAAAA=</HashCode>
       <FileName>Animation\Animator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Battleships.Objects.Camera">
-    <Position X="16.5" Y="0.75" Width="1.5" />
+  <Class Name="Battleships.Objects.Animation.Animation" Collapsed="true">
+    <Position X="24.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAQAAAAAAAAIAgECAACBACCAIRAABAAAIAAkABAAA=</HashCode>
-      <FileName>Camera.cs</FileName>
+      <HashCode>AAQAAAAAAQAAAAAAAAAAAEAIAAAABAAAABAiAAAIAAA=</HashCode>
+      <FileName>Animation\Animation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Battleships.Objects.Object">
-    <Position X="0.5" Y="0.75" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Nested Types" Collapsed="false" />
-    </Compartments>
-    <NestedTypes>
-      <Class Name="Battleships.Objects.Object.Collider">
-        <NestedTypes>
-          <Struct Name="Battleships.Objects.Object.Collider.CollisionHitInfo" Collapsed="true">
-            <TypeIdentifier>
-              <NewMemberFileName>Objects\Collider.cs</NewMemberFileName>
-            </TypeIdentifier>
-          </Struct>
-          <Delegate Name="Battleships.Objects.Object.Collider.CollisionHandler" Collapsed="true">
-            <TypeIdentifier>
-              <NewMemberFileName>Objects\Collider.cs</NewMemberFileName>
-            </TypeIdentifier>
-          </Delegate>
-        </NestedTypes>
-        <TypeIdentifier>
-          <NewMemberFileName>Objects\Collider.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-    </NestedTypes>
+  <Interface Name="Battleships.Objects.IShip" Collapsed="true">
+    <Position X="26.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQBAAAAAACAAoAwEAAAICAAAAhgAAAEAAIEAAAEgAA=</HashCode>
-      <FileName>Collider.cs</FileName>
+      <HashCode>AAAAiAAAAAAACIAgAQAEIAAIEAAAAAAAAAAAAAAECII=</HashCode>
+      <FileName>IShip.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Battleships.Objects.Turret">
-    <Position X="18.5" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQQAAACAAAAhAAAAAAAIACAAQiEAAAAAAIAAAAAAIA=</HashCode>
-      <FileName>Turret.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Interface Name="Battleships.Objects.IObject">
-    <Position X="20.5" Y="0.75" Width="1.5" />
+  </Interface>
+  <Interface Name="Battleships.Objects.IObject" Collapsed="true">
+    <Position X="24.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQBAAAAAAAAAgAgAAAAAAAAAAAgAAAEAAAAAAAAAAA=</HashCode>
       <FileName>IObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Battleships.Objects.ICollidable">
-    <Position X="22.5" Y="0.75" Width="1.5" />
+  <Interface Name="Battleships.Objects.ICollidable" Collapsed="true">
+    <Position X="26.25" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>ICollidable.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Battleships.Objects.Animation.IAnimated">
-    <Position X="12.5" Y="0.75" Width="1.5" />
+  <Interface Name="Battleships.IGame1" Collapsed="true">
+    <Position X="28" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAEBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IGame1.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Battleships.Objects.Projectile.IMissile" Collapsed="true">
+    <Position X="29.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Projectile\IMissile.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Battleships.Objects.Animation.IAnimated" Collapsed="true">
+    <Position X="24.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Animation\IAnimated.cs</FileName>
     </TypeIdentifier>
   </Interface>
+  <Enum Name="Battleships.Objects.ColliderType" Collapsed="true">
+    <Position X="24.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Collider.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

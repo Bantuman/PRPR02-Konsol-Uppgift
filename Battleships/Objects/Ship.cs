@@ -13,20 +13,22 @@ namespace Battleships.Objects
     /// </summary>
     public abstract class Ship : Object, ICollidable, IAnimated, IShip
     {
-        public new Collider                 Collider           { get; }
-        public Animator                     Animator           { get; }
-        public float                        Health             { get; private set; }
-        public float                        MaxHealth          { get; private set; }
+        public new Collider                 Collider              { get; }
+        public Animator                     Animator              { get; }
+        public float                        Health                { get; private set; }
+        public float                        MaxHealth             { get; private set; }
 
-        public string                       Name               { get; private set; }
-        public float                        MaxEnergy          { get; private set; }
-        public int                          ShotsFired         { get; internal set; }
-        public int                          ShotsHit           { get; internal set; }
+        public string                       Name                  { get; private set; }
+        public float                        MaxEnergy             { get; private set; }
+        public int                          ShotsFired            { get; internal set; }
+        public int                          ShotsHit              { get; internal set; }
 
-        public int                          MissilesFired      { get; private set; }
-        public int                          MissilesHit        { get; internal set; }
-        public float                        EnergySpent        { get; private set; }
-        public int                          MissileCount       { get; private set; }
+        public int                          MissilesFired         { get; private set; }
+        public int                          MissilesHit           { get; internal set; }
+        public float                        EnergySpent           { get; private set; }
+        public int                          MissileCount          { get; private set; }
+
+        private const float                 SCREEN_LEAVING_DAMAGE = 80f; // Damage ships take per second for leaving the screen.
 
         public MissileInformation[]         Missiles
         {
@@ -204,7 +206,13 @@ namespace Battleships.Objects
             {
                 Destroy();
             }
-            RecoverEnergy(10f * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Math.Abs(Position.X) > Game.BaseDimensions.X * 0.6f || Math.Abs(Position.Y) > Game.BaseDimensions.Y * 0.6f)
+            {
+                TakeDamage(SCREEN_LEAVING_DAMAGE * deltaTime);
+            }
+            RecoverEnergy(10f * deltaTime);
         }
 
         /// <summary>
@@ -220,7 +228,6 @@ namespace Battleships.Objects
                 Energy = MaxEnergy;
             }
         }
-
 
         /// <summary>
         /// Draws object.
@@ -333,7 +340,7 @@ namespace Battleships.Objects
         /// Loses energy.
         /// </summary>
         /// <param name="energy">Amount to lose.</param>
-        public void LoseEnergy(float energy)
+        internal void LoseEnergy(float energy)
         {
             Energy -= Math.Abs(energy);
             if (Energy < 0)
@@ -346,7 +353,7 @@ namespace Battleships.Objects
         /// Takes damage.
         /// </summary>
         /// <param name="damage">Amount to take.</param>
-        public void TakeDamage(float damage)
+        internal void TakeDamage(float damage)
         {
             Health -= Math.Abs(damage);
             if (Health < 0)

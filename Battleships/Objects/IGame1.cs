@@ -1,10 +1,14 @@
-﻿namespace Battleships
+﻿using Microsoft.Xna.Framework;
+
+namespace Battleships
 {
     /// <summary>
     /// Main game interface.
     /// </summary>
     public interface IGame1
     {
+        Vector2 BaseDimensions { get; }
+
         /// <summary>
         /// Shakes camera.
         /// </summary>
