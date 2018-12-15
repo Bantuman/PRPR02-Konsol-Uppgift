@@ -9,7 +9,10 @@ namespace Battleships.Objects.Projectile
     /// </summary>
     public class Missile : Projectile, IMissile
     {
-        public override float Rotation => rotation;
+        public override float             Rotation => rotation;
+
+        public const float                DAMAGE   = 200f;
+        public const float                LIFETIME = 2f;
 
         private float                     targetRotation;
         private float                     rotation;
@@ -17,10 +20,7 @@ namespace Battleships.Objects.Projectile
         private Action<GameTime, Missile> guideMissile;
 
         private Random                    random;
-        private float                     timeAlive;
-
-        private const float               LIFETIME = 2f;
-        private const float               DAMAGE   = 200f;
+        internal float                    TimeAlive { get; set; }
 
         public Missile(IGame1 game, float rotation, float damage, Vector2 position, Ship owner, Action<GameTime, Missile> guideMissile) :
             base(game, 0, TextureLibrary.GetTexture("Missile"), owner)
@@ -72,14 +72,14 @@ namespace Battleships.Objects.Projectile
         /// <param name="gameTime">Container for time data such as elapsed time since last update.</param>
         public override void Update(GameTime gameTime)
         {
-            timeAlive += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TimeAlive += (float)gameTime.ElapsedGameTime.TotalSeconds;
             guideMissile?.Invoke(gameTime, this);
 
             rotation = MathLibrary.LerpAngle(rotation, targetRotation, 1 - (float)Math.Pow(0.07f, gameTime.ElapsedGameTime.TotalSeconds));
             Velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * speed;
 
             base.Update(gameTime);
-            if (timeAlive >= LIFETIME)
+            if (TimeAlive >= LIFETIME)
             {
                 Destroy();
             }

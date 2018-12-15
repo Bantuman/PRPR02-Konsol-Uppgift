@@ -63,7 +63,7 @@
     <Compile Include="Pickup\HealthPickup.cs" />
     <Compile Include="Pickup\MissilePickup.cs" />
     <Compile Include="Pickup\Pickup.cs" />
-    <Compile Include="Projectile\Bolt.cs" />
+    <Compile Include="Projectile\Bullet.cs" />
     <Compile Include="Projectile\IMissile.cs" />
     <Compile Include="Projectile\Missile.cs" />
     <Compile Include="Projectile\Projectile.cs" />

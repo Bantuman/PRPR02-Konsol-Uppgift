@@ -10,13 +10,15 @@ namespace Battleships.Objects.Projectile
     public class Bullet : Projectile
     {
         public override float Rotation => MathLibrary.Direction(Velocity);
-        
+
+        public const float    DAMAGE   = 10;
+
         private Random        random;
 
-        private const float   SPEED    = 200;
+        private const float SPEED = 200;
 
-        public Bullet(IGame1 game, float damage, Ship owner, Vector2 direction, Vector2 position) :
-            base(game, damage, TextureLibrary.GetTexture("Bullet"), owner)
+        public Bullet(IGame1 game, Ship owner, Vector2 direction, Vector2 position) :
+            base(game, DAMAGE, TextureLibrary.GetTexture("Bullet"), owner)
         {
             random = new Random();
             Rectangle = new RotatedRectangle(new Rectangle(0, 0, 4, 2), MathLibrary.Direction(direction));

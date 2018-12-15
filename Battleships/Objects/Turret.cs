@@ -31,6 +31,10 @@ namespace Battleships.Objects
             Texture = TextureLibrary.GetTexture("Turret");
         }
 
+        /// <summary>
+        /// Updates object.
+        /// </summary>
+        /// <param name="gameTime">Container for time data such as elapsed time since last update.</param>
         internal void Update(GameTime gameTime)
         {
             if (IsFiring && Ship.Energy > 0)
@@ -45,15 +49,23 @@ namespace Battleships.Objects
             timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
+        /// <summary>
+        /// Shoots.
+        /// </summary>
         private void Shoot()
         {
             ++Ship.ShotsFired;
             float rotation = Ship.Rotation + ((FacingLeft) ? (float)Math.PI : 0);
 
-            Bullet bolt = (Bullet)Game.Instantiate(new Bullet(Game, Ship.Damage, Ship, MathLibrary.ConstructVector(rotation + (float)Math.PI / 2), RotatedPosition + Ship.Position));
+            Bullet bolt = (Bullet)Game.Instantiate(new Bullet(Game, Ship, MathLibrary.ConstructVector(rotation + (float)Math.PI / 2), RotatedPosition + Ship.Position));
             bolt.Collider.OnCollisionEnter += Bolt_OnCollisionEnter;
         }
 
+        /// <summary>
+        /// If the collided object is a ship, adds one to shots hit.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="collided">Hit info.</param>
         private void Bolt_OnCollisionEnter(object sender, Object.Collider.CollisionHitInfo collided)
         {
             if(collided.Object is Ship)

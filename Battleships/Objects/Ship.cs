@@ -13,20 +13,49 @@ namespace Battleships.Objects
     /// </summary>
     public abstract class Ship : Object, ICollidable, IAnimated, IShip
     {
-        public new Collider                 Collider        { get; }
-        public Animator                     Animator        { get; }
-        public float                        Health          { get; private set; }
-        public float                        MaxHealth       { get; private set; }
+        public new Collider                 Collider           { get; }
+        public Animator                     Animator           { get; }
+        public float                        Health             { get; private set; }
+        public float                        MaxHealth          { get; private set; }
 
-        public string                       Name            { get; private set; }
-        public float                        MaxEnergy       { get; private set; }
-        public int                          ShotsFired      { get; internal set; }
-        public int                          ShotsHit        { get; internal set; }
+        public string                       Name               { get; private set; }
+        public float                        MaxEnergy          { get; private set; }
+        public int                          ShotsFired         { get; internal set; }
+        public int                          ShotsHit           { get; internal set; }
 
-        public int                          MissilesFired   { get; private set; }
-        public int                          MissilesHit     { get; internal set; }
-        public float                        EnergySpent     { get; private set; }
-        public int                          MissileCount    { get; private set; }
+        public int                          MissilesFired      { get; private set; }
+        public int                          MissilesHit        { get; internal set; }
+        public float                        EnergySpent        { get; private set; }
+        public int                          MissileCount       { get; private set; }
+
+        public MissileInformation[]         Missiles
+        {
+            get
+            {
+                MissileInformation[] missileInformation = new MissileInformation[missiles.Count];
+
+                for(int i = 0; i < missiles.Count; ++i)
+                {
+                    missileInformation[i] = new MissileInformation(missiles[i].Position, missiles[i].Velocity, missiles[i].TimeAlive);
+                }
+
+                return missileInformation;
+            }
+        }
+        public BulletInformation[]          Bullets
+        {
+            get
+            {
+                BulletInformation[] bulletInformation = new BulletInformation[missiles.Count];
+
+                for (int i = 0; i < missiles.Count; ++i)
+                {
+                    bulletInformation[i] = new BulletInformation(Bullets[i].Position, Bullets[i].Velocity);
+                }
+
+                return bulletInformation;
+            }
+        }
 
         public float Energy
         {

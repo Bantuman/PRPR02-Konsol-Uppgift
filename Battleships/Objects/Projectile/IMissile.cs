@@ -8,6 +8,7 @@ namespace Battleships.Objects.Projectile
     public interface IMissile
     {
         Vector2 Position { get; }
+        Vector2 Velocity { get; }
 
         /// <summary>
         /// Rotates missile to target rotation.
