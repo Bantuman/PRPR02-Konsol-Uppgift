@@ -10,23 +10,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Battleships.Objects
 {
-    public abstract class Ship : Object, ICollidable, IAnimated
+    public abstract class Ship : Object, ICollidable, IAnimated, IShip
     {
-        public new Collider Collider { get; set; }
-        public Animator Animator     { get; set; }
-        public float Health          { get; private set; }
-        public float MaxHealth       { get; private set; }
-        public string Name           { get; private set; }
-        public float MaxEnergy       { get; private set; }
-        public int ShotsFired        { get; internal set; }
-        public int ShotsHit          { get; internal set; }
-        public float EnergySpent     { get; private set; }
-        
-        public int MissileCount      { get => missiles; }
-        protected Turret[] Turrets   { get => turrets; }
-        protected Ship EnemyShip     { get; private set; }
+        public new Collider Collider              { get; }
+        public Animator Animator                  { get; }
+        public float Health                       { get; private set; }
+        public float MaxHealth                    { get; private set; }
+        public string Name                        { get; private set; }
+        public float MaxEnergy                    { get; private set; }
+        public int ShotsFired                     { get; internal set; }
+        public int ShotsHit                       { get; internal set; }
+        public int MissilesFired                  { get; private set; }
+        public int MissilesHit                    { get; internal set; }
+        public float EnergySpent                  { get; private set; }
+        public int MissileCount                   { get; private set; }
 
-        private int missiles;
+        protected IShip EnemyShip                 { get; private set; }
+        protected GameInformation GameInformation { get => getGameInformation(this); }
+        protected int TurretCount                 { get => turrets.Length; }
+
         private float energy;
         public float Energy
         {
@@ -42,26 +44,43 @@ namespace Battleships.Objects
         }
 
         private Turret[] turrets;
+        private List<Missile> missiles;
         private bool initialized;
         private const int turretCount = 6;
-
+        private Action<GameTime, IMissile> guideMissile;
+        private Func<Ship, GameInformation> getGameInformation;
+        
         internal float Damage { get => 10; }
 
         public Ship(IGame1 game, Vector2 position) : base(game, TextureLibrary.GetTexture("Ship"))
         {
-            Point size = new Point(32, 16);
-            Rectangle = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
-            Collider = new Collider(this, ColliderType.Static);
-            Position = position;
-            Animator = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
-            initialized = false;
-            MaxHealth = Health = 30;
-            MaxEnergy = Energy = 666;
-            OnDestroy += OnDeath;
-            Name = GetType().Name;
+            Point size                 = new Point(32, 16);
+            Rectangle                  = new RotatedRectangle(new Rectangle(position.ToPoint(), size), 0);
+            Collider                   = new Collider(this, ColliderType.Static);
+            Position                   = position;
+            Animator                   = new Animator(new Animation.Animation(Texture, new Point(64, 32), new Point(3, 1), 5f));
+            initialized                = false;
+            MaxHealth                  = Health = 500;
+            MaxEnergy                  = Energy = 600;
+            OnDestroy                 += OnDeath;
+            Name                       = GetType().Name;
             Collider.OnCollisionEnter += OnCollision;
+            guideMissile               = null;
+            missiles                   = new List<Missile>();
+        }
 
-            Energy = 100;
+        private protected sealed override void ApplyAcceleration(Vector2 accelerationAmount)
+        {
+            if(energy >= accelerationAmount.Length())
+            {
+                TakeEnergy(accelerationAmount.Length());
+                base.ApplyAcceleration(accelerationAmount);
+            }
+        }
+
+        protected void SetMissileGuideAI(Action<GameTime, IMissile> guideMissile)
+        {
+            this.guideMissile = guideMissile;
         }
 
         private void OnDeath(object sender, EventArgs e)
@@ -85,11 +104,20 @@ namespace Battleships.Objects
 
         protected void LaunchMissile(float rotation)
         {
-            if (missiles > 0)
+            if (MissileCount <= 0)
             {
-                --missiles;
-                Game.Instantiate(new Missile(Game, rotation, 0, Position));
+                return;
             }
+            ++MissilesFired;
+            --MissileCount;
+            Missile missile = (Missile)Game.Instantiate(new Missile(Game, rotation, 0, Position, this, guideMissile));
+            missiles.Add(missile);
+            missile.OnDestroy += Missile_OnDestroy;
+        }
+
+        private void Missile_OnDestroy(object sender, EventArgs e)
+        {
+            missiles.Remove((Missile)sender);
         }
 
         public abstract void Act();
@@ -152,7 +180,7 @@ namespace Battleships.Objects
             }
         }
 
-        public void Initialize(Ship enemyShip)
+        public void Initialize(Ship enemyShip, Func<Ship, GameInformation> getGameInformation)
         {
             if (initialized)
             {
@@ -162,7 +190,10 @@ namespace Battleships.Objects
             {
                 throw new Exception("Value of game has not been set.");
             }
+
+            this.getGameInformation = getGameInformation;
             EnemyShip = enemyShip;
+
             turrets = new Turret[turretCount];
             float shipScale = (Rectangle.CollisionRectangle.Size.X / 64f);
             for (int i = 0; i < turrets.Length; ++i)
@@ -180,7 +211,7 @@ namespace Battleships.Objects
 
         internal void GiveMissiles(int amount)
         {
-            missiles += amount;
+            MissileCount += amount;
         }
 
         internal void GiveHealth(float health)
@@ -210,9 +241,17 @@ namespace Battleships.Objects
                 Health = 0;
             }
         }
+
+        protected void SetShooting(bool value)
+        {
+            for(int i = 0; i < TurretCount; ++i)
+            {
+                turrets[i].IsFiring = value;
+            }
+        }
+        protected void SetShooting(int turretIndex, bool value)
+        {
+            turrets[turretIndex].IsFiring = value;
+        }
     }
 }
-
-
-// theme: https://www.youtube.com/watch?v=e6UCGhc0fi0
-// made by turboautists, for turboautists, go wild

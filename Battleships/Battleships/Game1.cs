@@ -37,6 +37,7 @@ namespace Battleships
         private bool                  finish = false;
         private float                 finishTimeCount = 0.0f;
         private Type                  winningPlayer;
+        private float                 timeLeft;
 
         private const float finishTime = 5f;
         private const float pickupInterval = 10f;
@@ -44,7 +45,7 @@ namespace Battleships
         private const float actionInterval = 0.01f;
         private float elapsedActionTime;
 
-        public Game1(Type shipTypeOne, Type shipTypeTwo, Action<Ship, Ship> setWinnerAndLoser)
+        public Game1(Type shipTypeOne, Type shipTypeTwo, Action<Ship, Ship> setWinnerAndLoser, float roundDuration)
         {
             Window.AllowUserResizing = true;
             IsMouseVisible           = true;
@@ -60,6 +61,7 @@ namespace Battleships
             gameTimeMultiplier = 1f;
             finish             = false;
             finishTimeCount    = 0;
+            timeLeft           = roundDuration;
 
             this.setWinnerAndLoser = setWinnerAndLoser;
 
@@ -94,9 +96,8 @@ namespace Battleships
             playerOne.Layer = playerTwo.Layer = 0.01f;
             playerOne.Game  = playerTwo.Game = this;
 
-            playerOne.Initialize(playerTwo);
-            playerTwo.Initialize(playerOne);
-
+            playerOne.Initialize(playerTwo, GetGameInformation);
+            playerTwo.Initialize(playerOne, GetGameInformation);
 
             objects.Add(playerOne);
             objects.Add(playerTwo);
@@ -110,6 +111,11 @@ namespace Battleships
             userInterface.Add(new EnergyBar(this, playerTwo, new Point(100, 10), new Point(650, 60)) { Layer = 0.99f });
 
             userInterface.Add(new Slider(this, new Vector2(baseDimension.X / 2, 450), new Point(265, 20), (float value) => { gameTimeMultiplier = value; }, new Vector2(0.1f, 4f), 1, "Game time", GetUIScale));
+        }
+
+        public GameInformation GetGameInformation(Ship ship)
+        {
+            return new GameInformation(new Pickup[3], timeLeft, Math.Abs(ship.Position.X) > baseDimension.X * 0.6f || Math.Abs(ship.Position.Y) > baseDimension.Y * 0.6f);
         }
 
         /// <summary>
@@ -137,6 +143,21 @@ namespace Battleships
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             camera.Update(gameTime);
+            if (!finish)
+            {
+                if (timeLeft > 0)
+                {
+                    timeLeft -= deltaTime;
+                    if (timeLeft < 0)
+                    {
+                        timeLeft = 0;
+                    }
+                }
+                else
+                {
+                    Exit();
+                }
+            }
 
             // Spawns pickups.
             elapsedPickupTime += deltaTime;
@@ -144,23 +165,17 @@ namespace Battleships
             {
                 elapsedPickupTime -= pickupInterval;
                 Random random = new Random();
-                //Vector2 randomPosition = new Vector2((float)random.NextDouble() * 200 - 100, (float)random.NextDouble() * 200 - 100);
-                /*do
-                {
-                    randomPosition = new Vector2((float)random.NextDouble() * 200 - 100, (float)random.NextDouble() * 200 - 100);
-                }  while (objects.Where(x => ((x is Pickup) ? (x.Position - randomPosition).Length() < 10 : false)) != null);
-                */
                 Vector2 pickupPositon = new Vector2(0, -80);
                 switch(random.Next(3))
                 {
                     case 0:
-                        objects.Add(new EnergyPickup(pickupPositon, 15, this, TextureLibrary.GetTexture("EnergyPickup")));
+                        objects.Add(new EnergyPickup(pickupPositon, 15, this));
                         break;
                     case 1:
-                        objects.Add(new HealthPickup(pickupPositon, 15, this, TextureLibrary.GetTexture("HealthPickup")));
+                        objects.Add(new HealthPickup(pickupPositon, 15, this));
                         break;
                     case 2:
-                        objects.Add(new MissilePickup(pickupPositon, 15, this, TextureLibrary.GetTexture("EnergyPickup")));
+                        objects.Add(new MissilePickup(pickupPositon, 15, this));
                         break;
                 }
             }
@@ -177,10 +192,19 @@ namespace Battleships
             for (int i = objects.Count - 1; i >= 0; --i)
             {
                 IObject obj = objects[i];
+
                 if (Math.Abs(obj.Position.X) > baseDimension.X * 0.6f || Math.Abs(obj.Position.Y) > baseDimension.Y * 0.6f)
                 {
-                    Destroy(obj);
+                    if (obj is Ship s)
+                    {
+                        s.TakeDamage(80 * deltaTime);
+                    }
+                    else
+                    {
+                        Destroy(obj);
+                    }
                 }
+
                 obj.Update(gameTime);
                 if (runAction && obj is Ship ship)
                 {
@@ -194,12 +218,14 @@ namespace Battleships
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.F))
+            {
                 camera.ShakeIntensity = 1;
+            }
 
             camera.ShakeIntensity = MathHelper.Lerp(camera.ShakeIntensity, 0, 0.1f);
             base.Update(gameTime);
 
-            if (!objects.Contains(playerTwo))
+            if (!objects.Contains(playerOne))
             {
                 winningPlayer = playerTwo.GetType();
                 setWinnerAndLoser(playerTwo, playerOne);
@@ -258,6 +284,14 @@ namespace Battleships
                 spriteBatch.DrawString(font, text, center - Vector2.UnitY * offset, Color.White, 0, font.MeasureString(text) * 0.5f, 0.2f, SpriteEffects.None, 0);
                 spriteBatch.DrawString(font, timeLeft, center + Vector2.UnitY * offset, Color.White, 0, font.MeasureString(timeLeft) * 0.5f, 0.2f, SpriteEffects.None, 0);
             }
+            else
+            {
+                SpriteFont font = FontLibrary.GetFont("fixedsys");
+                int tLeft = (int)Math.Round(timeLeft);
+                string text = $"Time left: {tLeft} second{(tLeft != 1 ? "s" : "")}";
+                Vector2 center = baseDimension * 0.5f;
+                spriteBatch.DrawString(font, text, center + Vector2.UnitY * -200, Color.White, 0, font.MeasureString(text) * 0.5f, 0.2f, SpriteEffects.None, 0);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -275,7 +309,9 @@ namespace Battleships
         public void Destroy(IObject obj)
         {
             if(!objects.Remove(obj))
+            {
                 userInterface.Remove(obj);
+            }
         }
 
         public IObject Instantiate(IObject obj)

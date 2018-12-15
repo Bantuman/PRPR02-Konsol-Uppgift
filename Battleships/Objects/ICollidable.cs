@@ -7,6 +7,6 @@ namespace Battleships.Objects
 {
     public interface ICollidable
     {
-        Object.Collider Collider { get; set; }
+        Object.Collider Collider { get; }
     }
 }

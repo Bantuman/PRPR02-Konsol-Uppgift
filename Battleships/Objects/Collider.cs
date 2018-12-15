@@ -18,7 +18,7 @@ namespace Battleships.Objects
         public class Collider
         {
             public ColliderType ColliderType { get; set; }
-            public struct CollisionHitInfo
+            public class CollisionHitInfo : EventArgs
             {
                 public Object Object { get; set; }
 
@@ -35,7 +35,7 @@ namespace Battleships.Objects
             private List<Object> previousCollidingObjects;
             private List<ICollidable> ignoreList;
 
-            public delegate void CollisionHandler(object sender, CollisionHitInfo collided);
+            public delegate void CollisionHandler(object sender, CollisionHitInfo e);
             public event CollisionHandler OnCollisionEnter;
 
             public Collider(Object holder, ColliderType type, List<ICollidable> ignore = null)

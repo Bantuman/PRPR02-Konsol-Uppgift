@@ -28,7 +28,8 @@ namespace Battleships.Libraries
             { "HealthbarBorder", "HealthbarBorder" },
             { "HealthPickup", "HealthPickup" },
             { "EnergyPickup", "EnergyPickup" },
-            { "SliderButton", "SliderButton" }
+            { "SliderButton", "SliderButton" },
+            { "missile", "Missile" }
         };
 
         public static Texture2D GetTexture(string key)

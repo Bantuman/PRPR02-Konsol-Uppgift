@@ -11,10 +11,9 @@ using System.Diagnostics;
 
 namespace Battleships.Objects
 {
-    public class Explosion : Battleships.Objects.Object, Battleships.Objects.Animation.IAnimated
+    public class Explosion : Object, IAnimated
     {
         public Animator Animator { get; set; }
-        public Animation.Animation[] Animations { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private Rectangle explosionRectangle;
         private Texture2D glowTexture;

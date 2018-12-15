@@ -9,7 +9,7 @@ namespace Battleships.Objects
 {
     public interface IObject
     {
-        Vector2 Position            { get; set; }
+        Vector2 Position            { get; }
         RotatedRectangle Rectangle  { get; }
         float Layer                 { get; set; }
 

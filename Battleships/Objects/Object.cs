@@ -15,7 +15,7 @@ namespace Battleships.Objects
         public Vector2 Position
         {
             get => position;
-            set
+            private protected set
             {
                 position = value;
                 rectangle.CollisionRectangle.Location = position.ToPoint();
@@ -29,11 +29,11 @@ namespace Battleships.Objects
         public float DistanceTraveled     { get; private set; }
         public float HighestVelocity      { get; private set; }
         public Texture2D Texture          { get; private set; }
+        public Vector2 Velocity           { get; private protected set; }
 
         public virtual float Rotation => MathLibrary.Direction(Acceleration);
         public event EventHandler OnDestroy;
-
-        protected Vector2 Velocity     { get; private protected set; }
+        
         protected Vector2 Acceleration { get; set; }
 
         private Vector2 position;
@@ -71,19 +71,19 @@ namespace Battleships.Objects
             {
                 HighestVelocity = Velocity.Length();
             }
-            ApplyAcceleration(gameTime);
+            ApplyAcceleration(Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds);
             ApplyVelocity(gameTime);
             rectangle.Rotation = Rotation; 
             (this as ICollidable)?.Collider.Update(gameTime);
             (this as IAnimated)?.Animator.Update(gameTime);
         }
 
-        protected void ApplyAcceleration(GameTime gameTime)
+        private protected virtual void ApplyAcceleration(Vector2 accelerationAmount)
         {
-            Velocity += Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Velocity += accelerationAmount;
         }
 
-        protected void ApplyVelocity(GameTime gameTime)
+        private protected void ApplyVelocity(GameTime gameTime)
         { 
             Vector2 movement = Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             DistanceTraveled += movement.Length();

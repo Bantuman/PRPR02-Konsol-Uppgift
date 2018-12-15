@@ -7,6 +7,6 @@ namespace Battleships.Objects.Animation
 {
     interface IAnimated
     {
-        Animator Animator      { get; set; }
+        Animator Animator { get; }
     }
 }

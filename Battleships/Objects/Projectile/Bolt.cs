@@ -8,24 +8,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Battleships.Objects.Projectile
 {
-    class Bolt : Projectile
+    public class Bolt : Projectile
     {
         public override float Rotation => MathLibrary.Direction(Velocity);
-        private Ship BulletOwner { get; }
+        
         private Random random;
 
-        public Bolt(IGame1 game, float damage, Ship owner, Vector2 direction, float speed, Vector2 position) : base(game, damage, TextureLibrary.GetTexture("Bullet"))
+        private const float SPEED = 200;
+
+        public Bolt(IGame1 game, float damage, Ship owner, Vector2 direction, Vector2 position) : base(game, damage, TextureLibrary.GetTexture("Bullet"), owner)
         {
             random = new Random();
-            Rectangle = new RotatedRectangle(new Rectangle(0, 0, 8, 4), MathLibrary.Direction(direction));
+            Rectangle = new RotatedRectangle(new Rectangle(0, 0, 4, 2), MathLibrary.Direction(direction));
             Position  = position;
-            BulletOwner = owner;
             if (direction.Length() == 0)
             {
                 direction = Vector2.One;
             }
             direction.Normalize();
-            Velocity = direction * speed;
+            Velocity = direction * SPEED;
             Collider.OnCollisionEnter += OnHit;
             Layer = 0.01f;
         }
