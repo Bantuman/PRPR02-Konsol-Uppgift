@@ -10,14 +10,12 @@ namespace Battleships.Objects
     /// </summary>
     public class RotatedRectangle
     {
-        public Rectangle CollisionRectangle { get => collisionRectangle; set => collisionRectangle = value; }
-        public float     Rotation           { get; set; }
-        public Vector2   Origin             { get; set; }
-
-        public int       X                  { get => CollisionRectangle.X; }
-        public int       Y                  { get => CollisionRectangle.Y; }
-        public int       Width              { get => CollisionRectangle.Width; }
-        public int       Height             { get => CollisionRectangle.Height; }
+        public Rectangle  CollisionRectangle { get => collisionRectangle; set => collisionRectangle = value; }
+        public float      Rotation           { get; set; }
+        public Vector2    Origin             { get; set; }
+                          
+        public int        Width              { get => CollisionRectangle.Width; }
+        public int        Height             { get => CollisionRectangle.Height; }
 
         private Rectangle collisionRectangle;
 
@@ -29,26 +27,6 @@ namespace Battleships.Objects
             Origin             = new Vector2(theRectangle.Width / 2, theRectangle.Height / 2);
         }
 
-        /// <summary>
-        /// Changes the position of the rectangle.
-        /// </summary>
-        /// <param name="xPositionAdjustment">Adjustment i x position.</param>
-        /// <param name="yPositionAdjustment">Adjustment i y position.</param>
-        public void ChangePosition(int xPositionAdjustment, int yPositionAdjustment)
-        {
-            collisionRectangle.X += xPositionAdjustment;
-            collisionRectangle.Y += yPositionAdjustment;
-        }
-
-        /// <summary>
-        /// Checks if the rectangle intersects another rectangle.
-        /// </summary>
-        /// <param name="rectangle">The rectangle.</param>
-        /// <returns>If the rectangles intersect.</returns>
-        public bool Intersects(Rectangle rectangle)
-        {
-            return Intersects(new RotatedRectangle(rectangle, 0.0f));
-        }
         /// <summary>
         /// Checks if the rectangle intersects another rectangle.
         /// </summary>

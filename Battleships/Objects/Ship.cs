@@ -72,8 +72,6 @@ namespace Battleships.Objects
             }
         }
 
-        internal float Damage { get => 10; }
-
         protected IShip                     EnemyShip       { get; private set; }
         protected GameInformation           GameInformation { get => getGameInformation(this); }
         protected int                       TurretCount     { get => turrets.Length; }

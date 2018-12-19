@@ -18,8 +18,6 @@ namespace Battleships.Objects
 
         public event EventHandler  OnDestroy;
                                    
-        private Ship               Ship      { get; }
-        
         private Texture2D          texture;
         private Rectangle          explosionRectangle;
         private Texture2D          glowTexture;

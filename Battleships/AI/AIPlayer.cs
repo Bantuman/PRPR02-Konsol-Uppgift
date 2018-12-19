@@ -8,9 +8,6 @@ namespace Battleships.Objects
             base(null, position)
         {}
 
-        public override void Act()
-        {
-            Acceleration = Vector2.One * 10000;
-        }
+        public override void Act() {}
     }
 }

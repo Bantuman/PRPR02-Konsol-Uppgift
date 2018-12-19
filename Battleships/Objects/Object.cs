@@ -13,14 +13,11 @@ namespace Battleships.Objects
     {
         public RotatedRectangle   Rectangle        { get => rectangle; protected set => rectangle = value; }
         public float              Layer            { get; set; }
-        public Vector2            Offset           { get; private set; }
-        public float              RotationOffset   { get; set; }
-                                  
         public IGame1             Game             { private protected get; set; }
         public float              DistanceTraveled { get; private set; }
+
         public float              HighestVelocity  { get; private set; }
         public Texture2D          Texture          { get; private set; }
-                                  
         public Vector2            Velocity         { get; private protected set; }
         public Vector2            Position
         {

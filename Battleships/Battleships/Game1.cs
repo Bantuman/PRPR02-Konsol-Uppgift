@@ -15,7 +15,6 @@ namespace Battleships
     /// </summary>
     public class Game1 : Game, IGame1
     {
-        public IObject[]              Objects               => objects.ToArray();
         public Vector2                BaseDimensions         { get; }
 
         private const float           FINISH_TIME           = 5f;    // Time left before the game exits after one player dies.
